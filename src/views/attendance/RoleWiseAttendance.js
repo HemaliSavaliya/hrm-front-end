@@ -104,7 +104,7 @@ const RoleWiseAttendance = () => {
   // Fetch data
   const fetchTimer = async () => {
     try {
-      const response = await axios.get("http://localhost:9000/api/timer-list-role", {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/timer-list-role`, {
         headers: {
           Authorization: `Bearer ${authToken?.token}`,
         },

@@ -1,49 +1,62 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button, DialogContentText, Grid, Divider, TextField, Typography, CardContent, CardActions, MenuItem, InputLabel, FormControl, Select } from '@mui/material';
-import { useEffect, useRef, useState } from 'react';
-import LeaveRequestFormLogic from './LeaveRequestFormLogic';
-import axios from 'axios';
+import {
+  Button,
+  DialogContentText,
+  Grid,
+  Divider,
+  TextField,
+  Typography,
+  CardContent,
+  CardActions,
+  MenuItem,
+  InputLabel,
+  FormControl,
+  Select
+} from '@mui/material'
+import { useEffect, useRef, useState } from 'react'
+import LeaveRequestFormLogic from './LeaveRequestFormLogic'
+import axios from 'axios'
 
 const LeaveRequestForm = ({ handleClose, setOpen, addLeaveRequest }) => {
-  const { formData, handleInputChange, errors, validateForm, setFormData, initialFormValue } = LeaveRequestFormLogic();
+  const { formData, handleInputChange, errors, validateForm, setFormData, initialFormValue } = LeaveRequestFormLogic()
 
-  const [selectedTotalDays, setSelectedTotalDays] = useState('');
+  const [selectedTotalDays, setSelectedTotalDays] = useState('')
 
-  const [leaveType, setLeaveType] = useState([]);
-  const authToken = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('login-details')) : null;
+  const [leaveType, setLeaveType] = useState([])
+  const authToken = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('login-details')) : null
 
   const fetchLeaveRequest = async () => {
     try {
-      const response = await axios.get("http://localhost:9000/api/leaveTypeList", {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/leaveTypeList`, {
         headers: {
-          Authorization: `Bearer ${authToken?.token}`,
-        },
-      });
+          Authorization: `Bearer ${authToken?.token}`
+        }
+      })
 
-      const activeLeaveTypes = response.data.filter(leave => leave.leaveStatus === 'Active' && leave.deleted === 0);
+      const activeLeaveTypes = response.data.filter(leave => leave.leaveStatus === 'Active' && leave.deleted === 0)
 
-      setLeaveType(activeLeaveTypes);
+      setLeaveType(activeLeaveTypes)
     } catch (error) {
-      console.error("Error fetching leave request", error);
+      console.error('Error fetching leave request', error)
     }
-  };
+  }
 
   useEffect(() => {
-    fetchLeaveRequest();
-  }, [authToken?.token]);
+    fetchLeaveRequest()
+  }, [authToken?.token])
 
-  const handleFormSubmit = (event) => {
-    event.preventDefault();
+  const handleFormSubmit = event => {
+    event.preventDefault()
 
     if (!validateForm()) {
-      return; // If the form is not valid, don't submit
+      return // If the form is not valid, don't submit
     }
 
-    addLeaveRequest(formData);
+    addLeaveRequest(formData)
 
-    setFormData(initialFormValue);
-    setOpen(false);
-  };
+    setFormData(initialFormValue)
+    setOpen(false)
+  }
 
   // const descriptionElementRef = useRef(null);
 
@@ -57,7 +70,7 @@ const LeaveRequestForm = ({ handleClose, setOpen, addLeaveRequest }) => {
   return (
     <>
       <div>
-        <form onSubmit={handleFormSubmit} autoComplete="off">
+        <form onSubmit={handleFormSubmit} autoComplete='off'>
           <CardContent>
             <Grid container spacing={5}>
               <Grid item xs={12} sm={6}>
@@ -67,23 +80,25 @@ const LeaveRequestForm = ({ handleClose, setOpen, addLeaveRequest }) => {
                     label='Leave Type'
                     defaultValue=''
                     labelId='form-layouts-separator-select-label'
-                    id="leaveName"
-                    name="leaveName"
+                    id='leaveName'
+                    name='leaveName'
                     value={formData.leaveName}
                     onChange={handleInputChange}
                   >
-                    {leaveType.length === 0 ?
+                    {leaveType.length === 0 ? (
                       <MenuItem disabled>No Leave Type</MenuItem>
-                      :
-                      leaveType.map((leave) => (
+                    ) : (
+                      leaveType.map(leave => (
                         <MenuItem key={leave.id} value={leave.leaveName}>
                           {leave.leaveName}
                         </MenuItem>
                       ))
-                    }
+                    )}
                   </Select>
                 </FormControl>
-                {errors.leaveName && <Typography sx={{ color: "#FF4433", fontSize: "13px", fontWeight: "lighter", pt: 1 }}>{errors.leaveName}</Typography>}
+                {errors.leaveName && (
+                  <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.leaveName}</Typography>
+                )}
               </Grid>
               {/* <Grid item xs={12} sm={6}>
                 <TextField
@@ -101,7 +116,7 @@ const LeaveRequestForm = ({ handleClose, setOpen, addLeaveRequest }) => {
                     placeholder: '',
                   }}
                 />
-                {errors.applyingDate && <Typography sx={{ color: "#FF4433", fontSize: "13px", fontWeight: "lighter", pt: 1 }}>{errors.applyingDate}</Typography>}
+                {errors.applyingDate && <Typography sx={{ color: "#FF4433", fontSize: "13px", pt: 1 }}>{errors.applyingDate}</Typography>}
               </Grid> */}
               <Grid item xs={12} sm={6}>
                 <FormControl fullWidth>
@@ -110,84 +125,90 @@ const LeaveRequestForm = ({ handleClose, setOpen, addLeaveRequest }) => {
                     label='Total Days'
                     defaultValue=''
                     labelId='form-layouts-separator-select-label'
-                    id="leaveType"
-                    name="leaveType"
+                    id='leaveType'
+                    name='leaveType'
                     value={formData.leaveType}
-                    onChange={(e) => {
-                      handleInputChange(e);
-                      setSelectedTotalDays(e.target.value);
+                    onChange={e => {
+                      handleInputChange(e)
+                      setSelectedTotalDays(e.target.value)
                     }}
                   >
                     <MenuItem value='Half Day'>Half Day</MenuItem>
                     <MenuItem value='Full Day'>Full Day</MenuItem>
                   </Select>
                 </FormControl>
-                {errors.leaveType && <Typography sx={{ color: "#FF4433", fontSize: "13px", fontWeight: "lighter", pt: 1 }}>{errors.leaveType}</Typography>}
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                {selectedTotalDays === "Full Day" && (
-                  <>
-                    <TextField
-                      fullWidth
-                      type="date"
-                      label='Start Date'
-                      id="startDate"
-                      name="startDate"
-                      value={formData.startDate}
-                      onChange={handleInputChange}
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      inputProps={{
-                        placeholder: '',
-                      }}
-                    />
-
-                    {errors.startDate && <Typography sx={{ color: "#FF4433", fontSize: "13px", fontWeight: "lighter", pt: 1 }}>{errors.startDate}</Typography>}
-                  </>
-                )}
-                {selectedTotalDays === "Half Day" && (
-                  <>
-                    <TextField
-                      fullWidth
-                      type="date"
-                      label='Start Date'
-                      id="startDate"
-                      name="startDate"
-                      value={formData.startDate}
-                      onChange={handleInputChange}
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      inputProps={{
-                        placeholder: '',
-                      }}
-                    />
-
-                    {errors.startDate && <Typography sx={{ color: "#FF4433", fontSize: "13px", fontWeight: "lighter", pt: 1 }}>{errors.startDate}</Typography>}
-                  </>
+                {errors.leaveType && (
+                  <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.leaveType}</Typography>
                 )}
               </Grid>
               <Grid item xs={12} sm={6}>
-                {selectedTotalDays === "Full Day" && (
+                {selectedTotalDays === 'Full Day' && (
                   <>
                     <TextField
                       fullWidth
-                      type="date"
+                      type='date'
+                      label='Start Date'
+                      id='startDate'
+                      name='startDate'
+                      value={formData.startDate}
+                      onChange={handleInputChange}
+                      InputLabelProps={{
+                        shrink: true
+                      }}
+                      inputProps={{
+                        placeholder: ''
+                      }}
+                    />
+
+                    {errors.startDate && (
+                      <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.startDate}</Typography>
+                    )}
+                  </>
+                )}
+                {selectedTotalDays === 'Half Day' && (
+                  <>
+                    <TextField
+                      fullWidth
+                      type='date'
+                      label='Start Date'
+                      id='startDate'
+                      name='startDate'
+                      value={formData.startDate}
+                      onChange={handleInputChange}
+                      InputLabelProps={{
+                        shrink: true
+                      }}
+                      inputProps={{
+                        placeholder: ''
+                      }}
+                    />
+
+                    {errors.startDate && (
+                      <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.startDate}</Typography>
+                    )}
+                  </>
+                )}
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                {selectedTotalDays === 'Full Day' && (
+                  <>
+                    <TextField
+                      fullWidth
+                      type='date'
                       label='End Date'
-                      id="endDate"
-                      name="endDate"
+                      id='endDate'
+                      name='endDate'
                       value={formData.endDate}
                       onChange={handleInputChange}
                       InputLabelProps={{
-                        shrink: true,
+                        shrink: true
                       }}
                       inputProps={{
-                        placeholder: '',
+                        placeholder: ''
                       }}
                     />
 
-                    {/* {errors.endDate && <Typography sx={{ color: "#FF4433", fontSize: "13px", fontWeight: "lighter", pt: 1 }}>{errors.endDate}</Typography>} */}
+                    {/* {errors.endDate && <Typography sx={{ color: "#FF4433", fontSize: "13px", pt: 1 }}>{errors.endDate}</Typography>} */}
                   </>
                 )}
               </Grid>
@@ -197,12 +218,14 @@ const LeaveRequestForm = ({ handleClose, setOpen, addLeaveRequest }) => {
                   multiline
                   rows={3}
                   label='Description'
-                  id="description"
-                  name="description"
+                  id='description'
+                  name='description'
                   value={formData.description}
                   onChange={handleInputChange}
                 />
-                {errors.description && <Typography sx={{ color: "#FF4433", fontSize: "13px", fontWeight: "lighter", pt: 1 }}>{errors.description}</Typography>}
+                {errors.description && (
+                  <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.description}</Typography>
+                )}
               </Grid>
             </Grid>
           </CardContent>
@@ -221,4 +244,4 @@ const LeaveRequestForm = ({ handleClose, setOpen, addLeaveRequest }) => {
   )
 }
 
-export default LeaveRequestForm;
+export default LeaveRequestForm

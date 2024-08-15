@@ -1,33 +1,49 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button, DialogContentText, Grid, Divider, TextField, Typography, CardContent, CardActions, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
-import { useEffect, useRef, useState } from 'react';
-import JobFormLogic from './JobFormLogic';
-import axios from 'axios';
+import {
+  Button,
+  DialogContentText,
+  Grid,
+  Divider,
+  TextField,
+  Typography,
+  CardContent,
+  CardActions,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem
+} from '@mui/material'
+import { useEffect, useRef, useState } from 'react'
+import JobFormLogic from './JobFormLogic'
+import axios from 'axios'
 
 const JobForm = ({ handleClose, editJobId, setOpen, jobData, addJobs, editJobs }) => {
-  const { formData, handleInputChange, errors, validateForm, setFormData, initialFormValue } = JobFormLogic(jobData, editJobId);
-  const authToken = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('login-details')) : null;
+  const { formData, handleInputChange, errors, validateForm, setFormData, initialFormValue } = JobFormLogic(
+    jobData,
+    editJobId
+  )
+  const authToken = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('login-details')) : null
 
-  const handleFormSubmit = (event) => {
-    event.preventDefault();
+  const handleFormSubmit = event => {
+    event.preventDefault()
 
     if (!validateForm()) {
-      return; // If the form is not valid, don't submit
+      return // If the form is not valid, don't submit
     }
 
     if (editJobId) {
-      editJobs(formData, editJobId);
+      editJobs(formData, editJobId)
     } else {
-      addJobs(formData);
+      addJobs(formData)
     }
 
-    setFormData(initialFormValue);
-    setOpen(false);
-  };
+    setFormData(initialFormValue)
+    setOpen(false)
+  }
 
-  const isInEditMode = !!editJobId;
+  const isInEditMode = !!editJobId
 
-  const descriptionElementRef = useRef(null);
+  const descriptionElementRef = useRef(null)
 
   // useEffect(() => {
   //   const { current: descriptionElement } = descriptionElementRef;
@@ -37,55 +53,59 @@ const JobForm = ({ handleClose, editJobId, setOpen, jobData, addJobs, editJobs }
   // }, []);
 
   // Fetch department data
-  const [departmentData, setDepartmentData] = useState([]);
+  const [departmentData, setDepartmentData] = useState([])
 
   const fetchDepartment = async () => {
     try {
-      const response = await axios.get("http://localhost:9000/api/department-list", {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/department-list`, {
         headers: {
-          Authorization: `Bearer ${authToken?.token}`,
-        },
-      });
+          Authorization: `Bearer ${authToken?.token}`
+        }
+      })
 
-      const filterData = response.data.filter(data => data.status === "Active");
+      const filterData = response.data.filter(data => data.status === 'Active')
 
-      setDepartmentData(filterData);
+      setDepartmentData(filterData)
     } catch (error) {
-      console.error("Error fetching department:", error);
+      console.error('Error fetching department:', error)
     }
   }
 
   useEffect(() => {
-    fetchDepartment();
-  }, []);
+    fetchDepartment()
+  }, [])
 
   return (
     <>
       <div>
-        <form onSubmit={handleFormSubmit} autoComplete="off">
+        <form onSubmit={handleFormSubmit} autoComplete='off'>
           <CardContent>
             <Grid container spacing={5}>
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
                   label='Job Title'
-                  id="jobTitle"
-                  name="jobTitle"
+                  id='jobTitle'
+                  name='jobTitle'
                   value={formData.jobTitle}
                   onChange={handleInputChange}
                 />
-                {errors.jobTitle && <Typography sx={{ color: "#FF4433", fontSize: "13px", fontWeight: "lighter", pt: 1 }}>{errors.jobTitle}</Typography>}
+                {errors.jobTitle && (
+                  <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.jobTitle}</Typography>
+                )}
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
                   label='Position'
-                  id="position"
-                  name="position"
+                  id='position'
+                  name='position'
                   value={formData.position}
                   onChange={handleInputChange}
                 />
-                {errors.position && <Typography sx={{ color: "#FF4433", fontSize: "13px", fontWeight: "lighter", pt: 1 }}>{errors.position}</Typography>}
+                {errors.position && (
+                  <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.position}</Typography>
+                )}
               </Grid>
               <Grid item xs={12} sm={6}>
                 <FormControl fullWidth>
@@ -94,34 +114,38 @@ const JobForm = ({ handleClose, editJobId, setOpen, jobData, addJobs, editJobs }
                     label='Department'
                     defaultValue=''
                     labelId='form-layouts-separator-select-label'
-                    id="department"
-                    name="department"
+                    id='department'
+                    name='department'
                     value={formData.department}
                     onChange={handleInputChange}
                   >
-                    {departmentData.length === 0 ?
+                    {departmentData.length === 0 ? (
                       <MenuItem disabled>No Department</MenuItem>
-                      :
-                      departmentData.map((department) => (
+                    ) : (
+                      departmentData.map(department => (
                         <MenuItem key={department.id} value={department.departmentName}>
                           {department.departmentName}
                         </MenuItem>
                       ))
-                    }
+                    )}
                   </Select>
                 </FormControl>
-                {errors.department && <Typography sx={{ color: "#FF4433", fontSize: "13px", fontWeight: "lighter", pt: 1 }}>{errors.department}</Typography>}
+                {errors.department && (
+                  <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.department}</Typography>
+                )}
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
                   label='No. of position'
-                  id="noOfPosition"
-                  name="noOfPosition"
+                  id='noOfPosition'
+                  name='noOfPosition'
                   value={formData.noOfPosition}
                   onChange={handleInputChange}
                 />
-                {errors.noOfPosition && <Typography sx={{ color: "#FF4433", fontSize: "13px", fontWeight: "lighter", pt: 1 }}>{errors.noOfPosition}</Typography>}
+                {errors.noOfPosition && (
+                  <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.noOfPosition}</Typography>
+                )}
               </Grid>
               <Grid item xs={12} sm={12}>
                 <TextField
@@ -129,19 +153,21 @@ const JobForm = ({ handleClose, editJobId, setOpen, jobData, addJobs, editJobs }
                   multiline
                   rows={4}
                   label='Job jobDescription'
-                  id="jobDescription"
-                  name="jobDescription"
+                  id='jobDescription'
+                  name='jobDescription'
                   value={formData.jobDescription}
                   onChange={handleInputChange}
                 />
-                {errors.jobDescription && <Typography sx={{ color: "#FF4433", fontSize: "13px", fontWeight: "lighter", pt: 1 }}>{errors.jobDescription}</Typography>}
+                {errors.jobDescription && (
+                  <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.jobDescription}</Typography>
+                )}
               </Grid>
             </Grid>
           </CardContent>
           <Divider sx={{ margin: 0 }} />
           <CardActions>
             <Button size='large' type='submit' sx={{ mr: 2 }} variant='contained'>
-              {isInEditMode ? "Update" : "Save"}
+              {isInEditMode ? 'Update' : 'Save'}
             </Button>
             <Button size='large' color='secondary' variant='outlined' onClick={handleClose}>
               Cancel
@@ -153,4 +179,4 @@ const JobForm = ({ handleClose, editJobId, setOpen, jobData, addJobs, editJobs }
   )
 }
 
-export default JobForm;
+export default JobForm

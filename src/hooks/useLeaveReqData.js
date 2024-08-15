@@ -23,7 +23,7 @@ const useLeaveReqData = () => {
 
     const updateLeaveRequestStatus = async (leaveRequestId, newStatus) => {
         try {
-            const response = await axios.put("http://localhost:9000/api/update-leave-status", {
+            const response = await axios.put(`${process.env.NEXT_PUBLIC_URL}/update-leave-status`, {
                 leaveRequestId,
                 newStatus
             }, {
@@ -70,7 +70,7 @@ const useLeaveReqData = () => {
 
     const fetchLeaveRequest = async () => {
         try {
-            const response = await axios.get("http://localhost:9000/api/leaveRequestList", {
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/leaveRequestList`, {
                 headers: {
                     Authorization: `Bearer ${authToken?.token}`,
                 },
@@ -90,7 +90,7 @@ const useLeaveReqData = () => {
     const addLeaveRequest = async (newLeaveReq) => {
         console.log("leave request", newLeaveReq);
         try {
-            const response = await axios.post("http://localhost:9000/api/add-leaveRequest", {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_URL}/add-leaveRequest`, {
                 ...newLeaveReq, companyId: authToken.companyId
             }, {
                 headers: {

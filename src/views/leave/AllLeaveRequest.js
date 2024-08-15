@@ -38,7 +38,7 @@ function stableSort(array, comparator) {
 
 const headCells = [
   { id: 'no', label: 'No' },
-  { id: 'id', label: 'ID' },
+  // { id: 'id', label: 'ID' },
   { id: 'name', label: 'Employee Name' },
   { id: 'date', label: 'Applying Date' },
   { id: 'type', label: 'Leave Type' },
@@ -170,7 +170,7 @@ const LeaveRequest = () => {
                             sx={{ cursor: 'pointer' }}
                           >
                             <TableCell align="left">{index + 1 + page * rowsPerPage}</TableCell>
-                            <TableCell align="left">{row.userId}</TableCell>
+                            {/* <TableCell align="left">{row.userId}</TableCell> */}
                             <TableCell align="left">{row.userName}</TableCell>
                             <TableCell align="left">{row.applyingDate}</TableCell>
                             <TableCell align="left">{row.leaveName}</TableCell>

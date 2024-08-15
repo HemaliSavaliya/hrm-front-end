@@ -1,15 +1,31 @@
-import { Button, DialogContentText, Grid, Divider, MenuItem, TextField, InputLabel, Typography, CardContent, CardActions, FormControl, Select } from '@mui/material';
-import { useEffect, useRef } from 'react';
-import ClientFormLogic from './ClientFormLogic';
+import {
+  Button,
+  DialogContentText,
+  Grid,
+  Divider,
+  MenuItem,
+  TextField,
+  InputLabel,
+  Typography,
+  CardContent,
+  CardActions,
+  FormControl,
+  Select
+} from '@mui/material'
+import { useEffect, useRef } from 'react'
+import ClientFormLogic from './ClientFormLogic'
 
 const ClientForm = ({ handleClose, editClientId, setOpen, clientData }) => {
-  const { formData, handleInputChange, errors, validateForm, setFormData, initialFormValue } = ClientFormLogic(clientData, editClientId);
+  const { formData, handleInputChange, errors, validateForm, setFormData, initialFormValue } = ClientFormLogic(
+    clientData,
+    editClientId
+  )
 
-  const handleFormSubmit = (event) => {
-    event.preventDefault();
+  const handleFormSubmit = event => {
+    event.preventDefault()
 
     if (!validateForm()) {
-      return; // If the form is not valid, don't submit
+      return // If the form is not valid, don't submit
     }
 
     // if (editEmployeeId) {
@@ -17,49 +33,47 @@ const ClientForm = ({ handleClose, editClientId, setOpen, clientData }) => {
     // } else {
     //   addEmployee(formData);
     // }
-    setFormData(initialFormValue);
-    setOpen(false);
-  };
+    setFormData(initialFormValue)
+    setOpen(false)
+  }
 
-  const isInEditMode = !!editClientId;
+  const isInEditMode = !!editClientId
 
-  const descriptionElementRef = useRef(null);
+  const descriptionElementRef = useRef(null)
 
   useEffect(() => {
-    const { current: descriptionElement } = descriptionElementRef;
+    const { current: descriptionElement } = descriptionElementRef
     if (descriptionElement !== null) {
-      descriptionElement.focus();
+      descriptionElement.focus()
     }
-  }, []);
+  }, [])
 
   return (
     <>
-      <DialogContentText
-        id="scroll-dialog-description"
-        ref={descriptionElementRef}
-        tabIndex={-1}
-      >
-        <form onSubmit={handleFormSubmit} autoComplete="off">
+      <DialogContentText id='scroll-dialog-description' ref={descriptionElementRef} tabIndex={-1}>
+        <form onSubmit={handleFormSubmit} autoComplete='off'>
           <CardContent>
             <Grid container spacing={5}>
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
                   label='Client Name'
-                  id="client_name"
-                  name="client_name"
+                  id='client_name'
+                  name='client_name'
                   value={formData.client_name}
                   onChange={handleInputChange}
                 />
-                {errors.client_name && <Typography sx={{ color: "#FF4433", fontSize: "13px", fontWeight: "lighter", pt: 1 }}>{errors.client_name}</Typography>}
+                {errors.client_name && (
+                  <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.client_name}</Typography>
+                )}
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
-                  type="email"
+                  type='email'
                   label='Client Email'
-                  id="client_email"
-                  name="client_email"
+                  id='client_email'
+                  name='client_email'
                   value={formData.client_email}
                   onChange={handleInputChange}
                 />
@@ -68,63 +82,73 @@ const ClientForm = ({ handleClose, editClientId, setOpen, clientData }) => {
                 <TextField
                   fullWidth
                   label='Organization'
-                  id="organization"
-                  name="organization"
+                  id='organization'
+                  name='organization'
                   value={formData.organization}
                   onChange={handleInputChange}
                 />
-                {errors.organization && <Typography sx={{ color: "#FF4433", fontSize: "13px", fontWeight: "lighter", pt: 1 }}>{errors.organization}</Typography>}
+                {errors.organization && (
+                  <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.organization}</Typography>
+                )}
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
                   label='Mobile No'
-                  id="phone_no"
-                  name="phone_no"
+                  id='phone_no'
+                  name='phone_no'
                   value={formData.phone_no}
                   onChange={handleInputChange}
                 />
-                {errors.phone_no && <Typography sx={{ color: "#FF4433", fontSize: "13px", fontWeight: "lighter", pt: 1 }}>{errors.phone_no}</Typography>}
+                {errors.phone_no && (
+                  <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.phone_no}</Typography>
+                )}
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
                   label='Website'
-                  id="website"
-                  name="website"
+                  id='website'
+                  name='website'
                   value={formData.website}
                   onChange={handleInputChange}
                 />
-                {errors.website && <Typography sx={{ color: "#FF4433", fontSize: "13px", fontWeight: "lighter", pt: 1 }}>{errors.website}</Typography>}
+                {errors.website && (
+                  <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.website}</Typography>
+                )}
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
                   label='Address'
-                  id="address"
-                  name="address"
+                  id='address'
+                  name='address'
                   value={formData.address}
                   onChange={handleInputChange}
                 />
-                {errors.address && <Typography sx={{ color: "#FF4433", fontSize: "13px", fontWeight: "lighter", pt: 1 }}>{errors.address}</Typography>}
+                {errors.address && (
+                  <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.address}</Typography>
+                )}
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
                   label='Country'
-                  id="country"
-                  name="country"
+                  id='country'
+                  name='country'
                   value={formData.country}
                   onChange={handleInputChange}
                 />
-                {errors.country && <Typography sx={{ color: "#FF4433", fontSize: "13px", fontWeight: "lighter", pt: 1 }}>{errors.country}</Typography>}
+                {errors.country && (
+                  <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.country}</Typography>
+                )}
               </Grid>
             </Grid>
           </CardContent>
           <Divider sx={{ margin: 0 }} />
           <CardActions>
             <Button size='large' type='submit' sx={{ mr: 2 }} variant='contained'>
-              {isInEditMode ? "Update" : "Save"}
+              {isInEditMode ? 'Update' : 'Save'}
             </Button>
             <Button size='large' color='secondary' variant='outlined' onClick={handleClose}>
               Cancel
@@ -136,4 +160,4 @@ const ClientForm = ({ handleClose, editClientId, setOpen, clientData }) => {
   )
 }
 
-export default ClientForm;
+export default ClientForm

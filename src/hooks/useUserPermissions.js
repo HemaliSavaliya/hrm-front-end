@@ -7,7 +7,7 @@ const useUserPermissions = (authToken, role) => {
     useEffect(() => {
         const fetchPermissions = async () => {
             try {
-                const response = await axios.get("http://localhost:9000/api/get-permission", {
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/get-permission`, {
                     params: { role },
                     headers: {
                         Authorization: `Bearer ${authToken}`

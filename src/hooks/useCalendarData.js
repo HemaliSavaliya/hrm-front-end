@@ -41,7 +41,7 @@ const useCalendarData = () => {
     // Fetch events from the backend when the component is mounted
     const fetchEvents = async () => {
         try {
-            const response = await axios.get("http://localhost:9000/api/calendar-event-list", {
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/calendar-event-list`, {
                 headers: {
                     Authorization: `Bearer ${authToken?.token}`,
                 },
@@ -86,7 +86,7 @@ const useCalendarData = () => {
         e.preventDefault();
 
         if (editedEventData) {
-            const response = await axios.put(`http://localhost:9000/api/update-calendar-event/${currentEvent.id}`, { ...eventFormData }, {
+            const response = await axios.put(`${process.env.NEXT_PUBLIC_URL}/update-calendar-event/${currentEvent.id}`, { ...eventFormData }, {
                 headers: {
                     Authorization: `Bearer ${authToken?.token}`,
                 },
@@ -119,7 +119,7 @@ const useCalendarData = () => {
             }, 1000); // 1000 milliseconds = 1 seconds
 
         } else {
-            const response = await axios.post("http://localhost:9000/api/add-calendar-event", {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_URL}/add-calendar-event`, {
                 ...eventFormData,
                 companyId: authToken.companyId,
                 start: currentEvent?.start,
@@ -184,7 +184,7 @@ const useCalendarData = () => {
         };
 
         try {
-            const response = await axios.post("http://localhost:9000/api/add-calendar-event", {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_URL}/add-calendar-event`, {
                 ...datePickerEventFormData,
                 companyId: authToken.companyId,
                 start: setMinToZero(datePickerEventFormData.start),
@@ -237,7 +237,7 @@ const useCalendarData = () => {
 
     const onDeleteEvent = async () => {
         try {
-            await axios.delete(`http://localhost:9000/api/delete-calendar-event/${currentEvent.id}`, {
+            await axios.delete(`${process.env.NEXT_PUBLIC_URL}/delete-calendar-event/${currentEvent.id}`, {
                 headers: {
                     Authorization: `Bearer ${authToken?.token}`,
                 }

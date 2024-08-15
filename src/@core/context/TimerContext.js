@@ -29,7 +29,7 @@ export function TimerProvider({ children }) {
 
   const fetchTimer = async () => {
     try {
-      const response = await axios.get("http://localhost:9000/api/timer-list", {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/timer-list`, {
         headers: {
           Authorization: `Bearer ${authToken?.token}`,
         },
@@ -156,7 +156,7 @@ export function TimerProvider({ children }) {
 
       try {
         // Make the API call to save the project and timer data
-        const response = await axios.post("http://localhost:9000/api/add-timer", newProject, {
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_URL}/add-timer`, newProject, {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${authToken?.token}`
@@ -176,14 +176,26 @@ export function TimerProvider({ children }) {
         });
 
         setTimeout(() => {
-          setSavedProjects(response.data);
+          // Since the response is an object, directly set it to savedProjects
+          setSavedProjects(prevProjects => [...prevProjects, response.data]);
+          fetchTimer();
         }, 1000); // 1000 milliseconds = 1 seconds
+
+        setProjectName("");
+        setDescription("");
+        setTimeElapsedInSeconds(0);
+        setShowConfirm(false);
+        setIsTimerRunning(false);
+        setStartTime(null);
+        setResumeTime(null);
+        setPauseTime(null);
+        setStopTime(null);
       } catch (error) {
         console.error("Error saving timer data", error);
         toast.error('Error Adding Timer Data. Please try again.', {
           duration: 2000,
           position: 'top-center',
-  
+
           // Styling
           style: {
             background: theme.palette.background.paper,
@@ -192,16 +204,6 @@ export function TimerProvider({ children }) {
           },
         });
       }
-
-      setProjectName("");
-      setDescription("");
-      setTimeElapsedInSeconds(0);
-      setShowConfirm(false);
-      setIsTimerRunning(false);
-      setStartTime(null);
-      setResumeTime(null);
-      setPauseTime(null);
-      setStopTime(null);
     }
   };
 

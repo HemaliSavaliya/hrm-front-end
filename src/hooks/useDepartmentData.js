@@ -32,7 +32,7 @@ const useDepartmentData = () => {
     // Function for toggle status
     const updateDepartmentStatus = async (id, newStatus) => {
         try {
-            const response = await axios.put(`http://localhost:9000/api/department-update-status/${id}`, { status: newStatus }, {
+            const response = await axios.put(`${process.env.NEXT_PUBLIC_URL}/department-update-status/${id}`, { status: newStatus }, {
                 headers: {
                     Authorization: `Bearer ${authToken?.token}`,
                 },
@@ -80,7 +80,7 @@ const useDepartmentData = () => {
 
     const fetchDepartment = async () => {
         try {
-            const response = await axios.get("http://localhost:9000/api/department-list", {
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/department-list`, {
                 headers: {
                     Authorization: `Bearer ${authToken?.token}`,
                 },
@@ -99,7 +99,7 @@ const useDepartmentData = () => {
     // Function to add from data to localStorage
     const addDepartments = async (newDepartment) => {
         try {
-            const response = await axios.post("http://localhost:9000/api/add-department", {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_URL}/add-department`, {
                 ...newDepartment, companyId: authToken.companyId
             }, {
                 headers: {
@@ -152,7 +152,7 @@ const useDepartmentData = () => {
     // Function to update from data to localStorage
     const editDepartments = async (updatedData, departId) => {
         try {
-            const response = await axios.put(`http://localhost:9000/api/update-department/${departId}`, updatedData, {
+            const response = await axios.put(`${process.env.NEXT_PUBLIC_URL}/update-department/${departId}`, updatedData, {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${authToken?.token}`

@@ -1,21 +1,37 @@
-import { Button, CardActions, CardContent, DialogContentText, Divider, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
-import React, { useEffect, useRef } from 'react';
-import RoleFormLogic from './RoleFormLogic';
+import {
+  Button,
+  CardActions,
+  CardContent,
+  DialogContentText,
+  Divider,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+  Typography
+} from '@mui/material'
+import React, { useEffect, useRef } from 'react'
+import RoleFormLogic from './RoleFormLogic'
 
 const RoleForm = ({ handleClose, editRoleId, roleData, setOpen, addRole }) => {
-  const { handleInputChange, formData, errors, validateForm, setFormData, initialFormValue } = RoleFormLogic(roleData, editRoleId);
+  const { handleInputChange, formData, errors, validateForm, setFormData, initialFormValue } = RoleFormLogic(
+    roleData,
+    editRoleId
+  )
 
-  const handleFormSubmit = (event) => {
-    event.preventDefault();
+  const handleFormSubmit = event => {
+    event.preventDefault()
 
     if (!validateForm()) {
-      return; // If the form is not valid, don't submit
+      return // If the form is not valid, don't submit
     }
 
-    addRole(formData);
+    addRole(formData)
 
-    setFormData(initialFormValue);
-    setOpen(false);
+    setFormData(initialFormValue)
+    setOpen(false)
   }
 
   // const descriptionElementRef = useRef(null);
@@ -29,28 +45,30 @@ const RoleForm = ({ handleClose, editRoleId, roleData, setOpen, addRole }) => {
 
   return (
     <div>
-      <form onSubmit={handleFormSubmit} autoComplete="off">
+      <form onSubmit={handleFormSubmit} autoComplete='off'>
         <CardContent>
           <Grid container spacing={5}>
             <Grid item xs={12} sm={12}>
               <TextField
                 fullWidth
                 label='Role Name'
-                id="roleName"
-                name="roleName"
+                id='roleName'
+                name='roleName'
                 value={formData.roleName}
                 onChange={handleInputChange}
               />
-              {errors.roleName && <Typography sx={{ color: "#FF4433", fontSize: "13px", fontWeight: "lighter", pt: 1 }}>{errors.roleName}</Typography>}
+              {errors.roleName && (
+                <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.roleName}</Typography>
+              )}
             </Grid>
             <Grid item xs={12} sm={12}>
               <FormControl fullWidth>
                 <InputLabel>Status</InputLabel>
                 <Select
                   label='Status'
-                  defaultValue="Enable"
-                  id="status"
-                  name="status"
+                  defaultValue='Enable'
+                  id='status'
+                  name='status'
                   value={formData.status}
                   onChange={handleInputChange}
                 >
@@ -75,4 +93,4 @@ const RoleForm = ({ handleClose, editRoleId, roleData, setOpen, addRole }) => {
   )
 }
 
-export default RoleForm;
+export default RoleForm

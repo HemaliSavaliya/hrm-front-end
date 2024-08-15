@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 import {
   TextField,
   Dialog,
@@ -11,10 +11,12 @@ import {
   Box,
   Typography,
   Divider,
-  Grid,
-} from "@mui/material";
-import { LocalizationProvider, DateTimePicker } from "@mui/x-date-pickers";
+  Grid
+} from '@mui/material'
+import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers'
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+
+// import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3'
 
 const AddDatePickerEventModal = ({
   open,
@@ -22,21 +24,20 @@ const AddDatePickerEventModal = ({
   datePickerEventFormData,
   setDatePickerEventFormData,
   onAddEvent,
-  todos,
+  todos
 }) => {
-
-  const { description, start, end, allDay } = datePickerEventFormData;
+  const { description, start, end, allDay } = datePickerEventFormData
 
   const onClose = () => {
-    handleClose();
-  };
+    handleClose()
+  }
 
-  const onChange = (event) => {
-    setDatePickerEventFormData((prevState) => ({
+  const onChange = event => {
+    setDatePickerEventFormData(prevState => ({
       ...prevState,
-      [event.target.name]: event.target.value,
-    }));
-  };
+      [event.target.name]: event.target.value
+    }))
+  }
 
   // const handleCheckboxChange = (event) => {
   //   setDatePickerEventFormData((prevState) => ({
@@ -46,72 +47,71 @@ const AddDatePickerEventModal = ({
   // };
 
   const handleTodoChange = (e, value) => {
-    setDatePickerEventFormData((prevState) => ({
+    setDatePickerEventFormData(prevState => ({
       ...prevState,
-      todoId: value?.id,
-    }));
-  };
+      todoId: value?.id
+    }))
+  }
 
   const isDisabled = () => {
     const checkEnd = () => {
       if (!allDay && end === null) {
-        return true;
+        return true
       }
-    };
-    if (description === "" || start === null || checkEnd()) {
-      return true;
+    }
+    if (description === '' || start === null || checkEnd()) {
+      return true
     }
 
-    return false;
-  };
+    return false
+  }
 
   return (
     <Dialog
       open={open}
       onClose={onClose}
-      aria-labelledby="scroll-dialog-title"
-      aria-describedby="scroll-dialog-description"
+      aria-labelledby='scroll-dialog-title'
+      aria-describedby='scroll-dialog-description'
     >
-      <DialogTitle id="scroll-dialog-title">
-        <Typography variant='h6' fontWeight={600}>Add Event</Typography>
+      <DialogTitle id='scroll-dialog-title'>
+        <Typography variant='h6' fontWeight={600}>
+          Add Event
+        </Typography>
         <Typography variant='caption' fontWeight={600}>
           To add an event, please fill in the information below.
         </Typography>
       </DialogTitle>
       <Divider sx={{ margin: 0 }} />
       <DialogContent>
-        <DialogContentText
-          id="scroll-dialog-description"
-          tabIndex={-1}
-        >
-          <Box component="form" autoComplete="off">
+        <DialogContentText id='scroll-dialog-description' tabIndex={-1}>
+          <Box component='form' autoComplete='off'>
             <Grid container spacing={5}>
               <Grid item xs={12} sm={12}>
                 <TextField
-                  name="description"
+                  name='description'
                   value={description}
-                  margin="dense"
-                  id="description"
-                  label="Description"
-                  type="text"
+                  margin='dense'
+                  id='description'
+                  label='Description'
+                  type='text'
                   fullWidth
-                  variant="outlined"
+                  variant='outlined'
                   onChange={onChange}
                 />
               </Grid>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <Grid item xs={12} sm={6}>
                   <DateTimePicker
-                    label="Start date"
+                    label='Start date'
                     value={start}
                     ampm={true}
-                    onChange={(newValue) =>
-                      setDatePickerEventFormData((prevState) => ({
+                    onChange={newValue =>
+                      setDatePickerEventFormData(prevState => ({
                         ...prevState,
-                        start: newValue ? new Date(newValue) : null,
+                        start: newValue ? new Date(newValue) : null
                       }))
                     }
-                    renderInput={(params) => <TextField {...params} />}
+                    renderInput={params => <TextField {...params} />}
                   />
                   {/* <Box>
                     <Typography variant="caption" color="text" component={"span"}>
@@ -122,18 +122,18 @@ const AddDatePickerEventModal = ({
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <DateTimePicker
-                    label="End date"
+                    label='End date'
                     disabled={allDay}
                     minDate={start}
                     ampm={true}
                     value={allDay ? null : end}
-                    onChange={(newValue) =>
-                      setDatePickerEventFormData((prevState) => ({
+                    onChange={newValue =>
+                      setDatePickerEventFormData(prevState => ({
                         ...prevState,
-                        end: newValue ? new Date(newValue) : null,
+                        end: newValue ? new Date(newValue) : null
                       }))
                     }
-                    renderInput={(params) => <TextField {...params} />}
+                    renderInput={params => <TextField {...params} />}
                   />
                 </Grid>
               </LocalizationProvider>
@@ -141,10 +141,10 @@ const AddDatePickerEventModal = ({
                 <Autocomplete
                   onChange={handleTodoChange}
                   disablePortal
-                  id="combo-box-demo"
+                  id='combo-box-demo'
                   options={todos}
-                  getOptionLabel={(option) => option.name}
-                  renderInput={(params) => <TextField {...params} label="Todo" />}
+                  getOptionLabel={option => option.name}
+                  renderInput={params => <TextField {...params} label='Todo' />}
                 />
               </Grid>
             </Grid>
@@ -168,7 +168,7 @@ const AddDatePickerEventModal = ({
         </Button>
       </DialogActions>
     </Dialog>
-  );
-};
+  )
+}
 
-export default AddDatePickerEventModal;
+export default AddDatePickerEventModal

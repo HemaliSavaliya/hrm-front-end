@@ -1,15 +1,14 @@
 import { Box, Button, Divider, TextField, InputLabel, Typography, IconButton, CardContent, FormControl, OutlinedInput, InputAdornment } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import MuiCard from '@mui/material/Card';
-import MuiFormControlLabel from '@mui/material/FormControlLabel';
 import EyeOutline from 'mdi-material-ui/EyeOutline';
 import EyeOffOutline from 'mdi-material-ui/EyeOffOutline';
 import themeConfig from 'src/configs/themeConfig';
 import BlankLayout from 'src/@core/layouts/BlankLayout';
 import FooterIllustrationsV1 from 'src/views/pages/auth/FooterIllustration';
-import useAuth from '../../../hooks/useAuth';
 import { motion } from "framer-motion";
 import { Toaster } from 'react-hot-toast';
+import useAuth from 'src/hooks/useAuth';
 
 // ** Styled Components
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -99,14 +98,14 @@ const LoginPage = () => {
               <Button fullWidth size='large' variant='contained' sx={{ marginTop: 7 }} onClick={handleSubmit}>
                 Login
               </Button>
-              <Divider sx={{ my: 5 }} />
-              <Box
+              {/* <Divider sx={{ my: 5 }} /> */}
+              {/* <Box
                 sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'flex-end' }}
               >
                 <LinkStyled passHref href='/' onClick={(e) => e.preventDefault()}>
                   Forgot Password?
                 </LinkStyled>
-              </Box>
+              </Box> */}
             </form>
           </CardContent>
         </Card>

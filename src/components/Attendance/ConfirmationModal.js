@@ -14,7 +14,7 @@ const ConfirmationModal = ({ showConfirm, setShowConfirm, onSaveProject, onCance
 
   const fetchProjects = async () => {
     try {
-      const response = await axios.get('http://localhost:9000/api/projects-list', {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/projects-list`, {
         headers: {
           Authorization: `Bearer ${authToken?.token}`,
         },

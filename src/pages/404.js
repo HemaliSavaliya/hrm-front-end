@@ -38,7 +38,7 @@ const Error404 = () => {
           <Typography pt={3} fontSize={18}>We couldn&prime;t find the page you are looking for.</Typography>
         </BoxWrapper>
         <Img alt='error-illustration' src='/images/pages/not-found.png' />
-        <Link passHref href='/'>
+        <Link passHref href='/login'>
           <Button variant='contained' sx={{ px: 5.5 }}>
             Back to Home
           </Button>

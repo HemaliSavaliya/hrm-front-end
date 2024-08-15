@@ -60,7 +60,7 @@ const useTabSecurityData = () => {
     const handlePasswordChange = async (e) => {
         e.preventDefault();
         try {
-            await axios.post("http://localhost:9000/api/update-password", values, {
+            await axios.post(`${process.env.NEXT_PUBLIC_URL}/update-password`, values, {
                 headers: {
                     Authorization: `Bearer ${authToken?.token}`,
                 },

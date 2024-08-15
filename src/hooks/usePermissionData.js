@@ -9,7 +9,7 @@ const usePermissionData = () => {
     useEffect(() => {
         const fetchRoles = async () => {
             try {
-                const response = await axios.get("http://localhost:9000/api/get-role-name", {
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/get-role-name`, {
                     headers: {
                         Authorization: `Bearer ${authToken?.token}`,
                     },
@@ -26,7 +26,7 @@ const usePermissionData = () => {
 
         const fetchPermissions = async (roles) => {
             try {
-                const promise = roles.map(role => axios.get("http://localhost:9000/api/get-permission", {
+                const promise = roles.map(role => axios.get(`${process.env.NEXT_PUBLIC_URL}/get-permission`, {
                     params: { role },
                     headers: {
                         Authorization: `Bearer ${authToken?.token}`,
@@ -66,7 +66,7 @@ const usePermissionData = () => {
         try {
             const action = currentPermissions.includes(menuItemTitle) ? 'delete' : 'add';
 
-            const response = await axios.post(`http://localhost:9000/api/${action}-permission`, {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_URL}/${action}-permission`, {
                 role,
                 option_name: menuItemTitle,
                 status: action === 'add' ? 'Yes' : 'No'

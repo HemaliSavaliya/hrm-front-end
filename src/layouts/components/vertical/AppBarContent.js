@@ -21,7 +21,7 @@ const AppBarContent = props => {
   useEffect(() => {
     const fetchCompanyLogos = async () => {
       try {
-        const response = await axios.get(`http://localhost:9000/api/company-logo/${authToken?.companyId}`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/company-logo/${authToken?.companyId}`, {
           responseType: 'arraybuffer',
         });
 

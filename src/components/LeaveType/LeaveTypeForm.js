@@ -1,28 +1,44 @@
-import { Button, DialogContentText, Grid, Divider, TextField, Typography, CardContent, CardActions, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
-import { useEffect, useRef } from 'react';
-import LeaveTypeFormLogic from './LeaveTypeFormLogic';
+import {
+  Button,
+  DialogContentText,
+  Grid,
+  Divider,
+  TextField,
+  Typography,
+  CardContent,
+  CardActions,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem
+} from '@mui/material'
+import { useEffect, useRef } from 'react'
+import LeaveTypeFormLogic from './LeaveTypeFormLogic'
 
 const LeaveTypeForm = ({ handleClose, leaveTypeData, editLeaveTypeId, setOpen, addLeaveType, editLeaveType }) => {
-  const { formData, handleInputChange, errors, validateForm, setFormData, initialFormValue } = LeaveTypeFormLogic(leaveTypeData, editLeaveTypeId);
+  const { formData, handleInputChange, errors, validateForm, setFormData, initialFormValue } = LeaveTypeFormLogic(
+    leaveTypeData,
+    editLeaveTypeId
+  )
 
-  const handleFormSubmit = (event) => {
-    event.preventDefault();
+  const handleFormSubmit = event => {
+    event.preventDefault()
 
     if (!validateForm()) {
-      return; // If the form is not valid, don't submit
+      return // If the form is not valid, don't submit
     }
 
     if (editLeaveTypeId) {
-      editLeaveType(formData, editLeaveTypeId);
+      editLeaveType(formData, editLeaveTypeId)
     } else {
-      addLeaveType(formData);
+      addLeaveType(formData)
     }
 
-    setFormData(initialFormValue);
-    setOpen(false);
-  };
+    setFormData(initialFormValue)
+    setOpen(false)
+  }
 
-  const isInEditMode = !!editLeaveTypeId;
+  const isInEditMode = !!editLeaveTypeId
 
   // const descriptionElementRef = useRef(null);
 
@@ -36,30 +52,34 @@ const LeaveTypeForm = ({ handleClose, leaveTypeData, editLeaveTypeId, setOpen, a
   return (
     <>
       <div>
-        <form onSubmit={handleFormSubmit} autoComplete="off">
+        <form onSubmit={handleFormSubmit} autoComplete='off'>
           <CardContent>
             <Grid container spacing={5}>
               <Grid item xs={12} sm={12}>
                 <TextField
                   fullWidth
                   label='Leave Type Name'
-                  id="leaveName"
-                  name="leaveName"
+                  id='leaveName'
+                  name='leaveName'
                   value={formData.leaveName}
                   onChange={handleInputChange}
                 />
-                {errors.leaveName && <Typography sx={{ color: "#FF4433", fontSize: "13px", fontWeight: "lighter", pt: 1 }}>{errors.leaveName}</Typography>}
+                {errors.leaveName && (
+                  <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.leaveName}</Typography>
+                )}
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
                   label='Leave Type Balance'
-                  id="leaveBalance"
-                  name="leaveBalance"
+                  id='leaveBalance'
+                  name='leaveBalance'
                   value={formData.leaveBalance}
                   onChange={handleInputChange}
                 />
-                {errors.leaveBalance && <Typography sx={{ color: "#FF4433", fontSize: "13px", fontWeight: "lighter", pt: 1 }}>{errors.leaveBalance}</Typography>}
+                {errors.leaveBalance && (
+                  <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.leaveBalance}</Typography>
+                )}
               </Grid>
               <Grid item xs={12} sm={6}>
                 <FormControl fullWidth>
@@ -68,8 +88,8 @@ const LeaveTypeForm = ({ handleClose, leaveTypeData, editLeaveTypeId, setOpen, a
                     label='Leave Status'
                     defaultValue=''
                     labelId='form-layouts-separator-select-label'
-                    id="leaveStatus"
-                    name="leaveStatus"
+                    id='leaveStatus'
+                    name='leaveStatus'
                     value={formData.leaveStatus}
                     onChange={handleInputChange}
                   >
@@ -94,14 +114,14 @@ const LeaveTypeForm = ({ handleClose, leaveTypeData, editLeaveTypeId, setOpen, a
                     placeholder: '', // Set an empty string as the placeholder
                   }}
                 />
-                {errors.leaveAddingDate && <Typography sx={{ color: "#FF4433", fontSize: "13px", fontWeight: "lighter", pt: 1 }}>{errors.leaveAddingDate}</Typography>}
+                {errors.leaveAddingDate && <Typography sx={{ color: "#FF4433", fontSize: "13px",  pt: 1 }}>{errors.leaveAddingDate}</Typography>}
               </Grid> */}
             </Grid>
           </CardContent>
           <Divider sx={{ margin: 0 }} />
           <CardActions>
             <Button size='large' type='submit' sx={{ mr: 2 }} variant='contained'>
-              {isInEditMode ? "Update" : "Save"}
+              {isInEditMode ? 'Update' : 'Save'}
             </Button>
             <Button size='large' color='secondary' variant='outlined' onClick={handleClose}>
               Cancel
@@ -113,4 +133,4 @@ const LeaveTypeForm = ({ handleClose, leaveTypeData, editLeaveTypeId, setOpen, a
   )
 }
 
-export default LeaveTypeForm;
+export default LeaveTypeForm

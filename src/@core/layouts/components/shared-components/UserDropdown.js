@@ -48,7 +48,7 @@ const UserDropdown = () => {
     const fetchProfileImage = async () => {
       if (authToken) {
         try {
-          const response = await axios.get(`http://localhost:9000/api/get-profile-image/${authToken.id}/${authToken.role}`, {
+          const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/get-profile-image/${authToken.id}/${authToken.role}`, {
             responseType: 'arraybuffer',
           });
           const imageData = new Uint8Array(response.data);
@@ -91,13 +91,13 @@ const UserDropdown = () => {
 
   const handleSignOut = async () => {
     try {
-      await axios.post('http://localhost:9000/api/logout', {});
+      await axios.post(`${process.env.NEXT_PUBLIC_URL}/logout`, {});
 
       // Remove the login-details object from local storage
       localStorage.removeItem('login-details');
 
       // Redirect to the sign-in page
-      router.push('/pages/login');
+      router.push('/login');
     } catch (error) {
       // Handle any errors that occur during the logout API call
       console.error('Logout failed:', error);

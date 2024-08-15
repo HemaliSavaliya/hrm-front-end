@@ -54,7 +54,7 @@ const useForgotPasswordData = () => {
     useEffect(() => {
         const fetchUserList = async () => {
             try {
-                const response = await axios.get("http://localhost:9000/api/empList", {
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/empList`, {
                     headers: {
                         Authorization: `Bearer ${authToken?.token}`,
                     },
@@ -81,7 +81,7 @@ const useForgotPasswordData = () => {
 
     const handleChangePassword = async () => {
         try {
-            await axios.post("http://localhost:9000/api/forgot-password", {
+            await axios.post(`${process.env.NEXT_PUBLIC_URL}/forgot-password`, {
                 id: values.employeeId, // Send the selected user's ID
                 newPassword: values.newPassword,
                 confirmPassword: values.confirmPassword

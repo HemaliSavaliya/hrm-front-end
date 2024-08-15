@@ -25,7 +25,7 @@ const useRoleData = () => {
 
   const fetchRole = async () => {
     try {
-      const response = await axios.get("http://localhost:9000/api/role-list", {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/role-list`, {
         headers: {
           Authorization: `Bearer ${authToken?.token}`,
         },
@@ -44,7 +44,7 @@ const useRoleData = () => {
   // Function to add from data to localStorage
   const addRole = async (newRole) => {
     try {
-      const response = await axios.post("http://localhost:9000/api/add-role", {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_URL}/add-role`, {
         ...newRole, companyId: authToken.companyId
       }, {
         headers: {
@@ -94,7 +94,7 @@ const useRoleData = () => {
   // Function for toggle status
   const updateRoleStatus = async (id, newStatus) => {
     try {
-      const response = await axios.put(`http://localhost:9000/api/update-role-status/${id}`, { status: newStatus }, {
+      const response = await axios.put(`${process.env.NEXT_PUBLIC_URL}/update-role-status/${id}`, { status: newStatus }, {
         headers: {
           Authorization: `Bearer ${authToken?.token}`,
         },

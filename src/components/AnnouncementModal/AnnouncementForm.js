@@ -1,49 +1,79 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button, DialogContentText, Grid, Divider, MenuItem, TextField, InputLabel, Typography, CardContent, CardActions, FormControl, Select } from '@mui/material';
-import { DropFiles } from 'src/@core/DropFile/DropFiles';
-import { useEffect, useRef, useState } from 'react';
-import AnnouncementFormLogic from './AnnouncementFormLogic';
+import {
+  Button,
+  DialogContentText,
+  Grid,
+  Divider,
+  MenuItem,
+  TextField,
+  InputLabel,
+  Typography,
+  CardContent,
+  CardActions,
+  FormControl,
+  Select
+} from '@mui/material'
+import { DropFiles } from 'src/@core/DropFile/DropFiles'
+import { useEffect, useRef, useState } from 'react'
+import AnnouncementFormLogic from './AnnouncementFormLogic'
 
-const AnnouncementForm = ({ handleClose, editAnnoId, announcementData, setOpen, addAnnouncement, editAnnouncement }) => {
-  const { formData, handleImageChange, handleInputChange, errors, validateForm, setFormData, initialFormValue, fetchDepartment, departmentData } = AnnouncementFormLogic(announcementData, editAnnoId);
+const AnnouncementForm = ({
+  handleClose,
+  editAnnoId,
+  announcementData,
+  setOpen,
+  addAnnouncement,
+  editAnnouncement
+}) => {
+  const {
+    formData,
+    handleImageChange,
+    handleInputChange,
+    errors,
+    validateForm,
+    setFormData,
+    initialFormValue,
+    fetchDepartment,
+    departmentData
+  } = AnnouncementFormLogic(announcementData, editAnnoId)
 
-  const [isSaving, setIsSaving] = useState(false);
+  const [isSaving, setIsSaving] = useState(false)
 
-  const handleFormSubmit = async (event) => {
-    event.preventDefault();
+  const handleFormSubmit = async event => {
+    event.preventDefault()
 
     if (!validateForm()) {
-      return; // If the form is not valid, don't submit
+      return // If the form is not valid, don't submit
     }
 
     if (editAnnoId) {
       // Disable the save button to prevent multiple submissions
-      setIsSaving(true);
+      setIsSaving(true)
       try {
-        await editAnnouncement(formData, editAnnoId);
+        await editAnnouncement(formData, editAnnoId)
       } catch (error) {
-        console.error("Error");
+        console.error('Error')
       } finally {
         // Ensure to re-enable the save button even if an error occurs
-        setIsSaving(false);
-        setOpen(false);
+        setIsSaving(false)
+        setOpen(false)
       }
     } else {
       // Disable the save button to prevent multiple submissions
-      setIsSaving(true);
+      setIsSaving(true)
       try {
-        await addAnnouncement(formData);
-        setFormData(initialFormValue);
+        await addAnnouncement(formData)
+        setFormData(initialFormValue)
       } catch (error) {
-        console.error("Error");
+        console.error('Error')
       } finally {
         // Ensure to re-enable the save button even if an error occurs
-        setIsSaving(false);
+        setIsSaving(false)
       }
     }
-  };
+  }
 
-  const isInEditMode = !!editAnnoId;
+  const isInEditMode = !!editAnnoId
 
   // const descriptionElementRef = useRef(null);
 
@@ -55,36 +85,42 @@ const AnnouncementForm = ({ handleClose, editAnnoId, announcementData, setOpen, 
   // }, []);
 
   useEffect(() => {
-    fetchDepartment();
-  }, []);
+    fetchDepartment()
+  }, [])
 
   return (
     <>
       <div>
-        <form onSubmit={handleFormSubmit} autoComplete="off">
+        <form onSubmit={handleFormSubmit} autoComplete='off'>
           <CardContent>
             <Grid container spacing={5}>
               <Grid item xs={12} sm={12}>
                 <TextField
                   fullWidth
                   label='Announcement Title'
-                  id="announcementTitle"
-                  name="announcementTitle"
+                  id='announcementTitle'
+                  name='announcementTitle'
                   value={formData.announcementTitle}
                   onChange={handleInputChange}
                 />
-                {errors.announcementTitle && <Typography sx={{ color: "#FF4433", fontSize: "13px", fontWeight: "lighter", pt: 1 }}>{errors.announcementTitle}</Typography>}
+                {errors.announcementTitle && (
+                  <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.announcementTitle}</Typography>
+                )}
               </Grid>
               <Grid item xs={12} sm={12}>
                 <TextField
                   fullWidth
                   label='Announcement Details'
-                  id="announcementDetails"
-                  name="announcementDetails"
+                  id='announcementDetails'
+                  name='announcementDetails'
                   value={formData.announcementDetails}
                   onChange={handleInputChange}
                 />
-                {errors.announcementDetails && <Typography sx={{ color: "#FF4433", fontSize: "13px", fontWeight: "lighter", pt: 1 }}>{errors.announcementDetails}</Typography>}
+                {errors.announcementDetails && (
+                  <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>
+                    {errors.announcementDetails}
+                  </Typography>
+                )}
               </Grid>
               <Grid item xs={12} sm={12}>
                 <FormControl fullWidth>
@@ -92,41 +128,45 @@ const AnnouncementForm = ({ handleClose, editAnnoId, announcementData, setOpen, 
                   <Select
                     label='Department'
                     labelId='form-layouts-separator-select-label'
-                    id="selectDepartment"
-                    name="selectDepartment"
+                    id='selectDepartment'
+                    name='selectDepartment'
                     value={formData.selectDepartment}
                     onChange={handleInputChange}
                   >
-                    {departmentData.length === 0 ?
+                    {departmentData.length === 0 ? (
                       <MenuItem disabled>No Department</MenuItem>
-                      :
-                      departmentData.map((department) => (
+                    ) : (
+                      departmentData.map(department => (
                         <MenuItem key={department.id} value={department.departmentName}>
                           {department.departmentName}
                         </MenuItem>
                       ))
-                    }
+                    )}
                   </Select>
                 </FormControl>
-                {errors.selectDepartment && <Typography sx={{ color: "#FF4433", fontSize: "13px", fontWeight: "lighter", pt: 1 }}>{errors.selectDepartment}</Typography>}
+                {errors.selectDepartment && (
+                  <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.selectDepartment}</Typography>
+                )}
               </Grid>
               <Grid item xs={12} sm={12}>
                 <div
-                  id="document"
-                  name="document"
+                  id='document'
+                  name='document'
                   style={{
-                    marginBottom: "10px",
-                    padding: "20px",
-                    border: "dashed",
-                    borderColor: "currentColor",
-                    borderWidth: "thin",
-                    borderRadius: "6px",
-                    textAlign: "center"
+                    marginBottom: '10px',
+                    padding: '20px',
+                    border: 'dashed',
+                    borderColor: 'currentColor',
+                    borderWidth: 'thin',
+                    borderRadius: '6px',
+                    textAlign: 'center'
                   }}
                 >
                   <DropFiles handleImageChange={handleImageChange} />
                 </div>
-                {errors.document && <Typography sx={{ color: "#FF4433", fontSize: "13px", fontWeight: "lighter", pt: 1 }}>{errors.document}</Typography>}
+                {errors.document && (
+                  <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.document}</Typography>
+                )}
               </Grid>
             </Grid>
           </CardContent>
@@ -135,13 +175,19 @@ const AnnouncementForm = ({ handleClose, editAnnoId, announcementData, setOpen, 
             <Button
               size='large'
               type='submit'
-              sx={{ mr: 2, lineHeight: 0, padding: "20px 25px !important" }}
+              sx={{ mr: 2, lineHeight: 0, padding: '20px 25px !important' }}
               variant='contained'
               disabled={isSaving} // Disable button while uploading or saving
             >
-              {isSaving ? "Saving..." : (isInEditMode ? "Update" : "Save")}
+              {isSaving ? 'Saving...' : isInEditMode ? 'Update' : 'Save'}
             </Button>
-            <Button size='large' color='secondary' variant='outlined' onClick={handleClose} sx={{ lineHeight: 0, padding: "20px 25px !important" }}>
+            <Button
+              size='large'
+              color='secondary'
+              variant='outlined'
+              onClick={handleClose}
+              sx={{ lineHeight: 0, padding: '20px 25px !important' }}
+            >
               Cancel
             </Button>
           </CardActions>
@@ -151,4 +197,4 @@ const AnnouncementForm = ({ handleClose, editAnnoId, announcementData, setOpen, 
   )
 }
 
-export default AnnouncementForm;
+export default AnnouncementForm
