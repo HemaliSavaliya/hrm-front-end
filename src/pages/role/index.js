@@ -93,7 +93,7 @@ const statusObj = {
 }
 
 const Role = () => {
-  const { roleData, editRoleId, open, setOpen, scroll, handleClickOpen, handleClose, addRole, updateRoleStatus } = useRoleData();
+  const { loading, roleData, editRoleId, open, setOpen, scroll, handleClickOpen, handleClose, addRole, updateRoleStatus } = useRoleData();
 
   // for table 
   const [order, setOrder] = useState('asc');
@@ -130,6 +130,10 @@ const Role = () => {
     const newStatus = currentStatus === 'Enable' ? 'Disable' : 'Enable';
     updateRoleStatus(id, newStatus);
   };
+
+  if (loading) {
+    return <div>Loading...</div>
+  }
 
   return (
     <>

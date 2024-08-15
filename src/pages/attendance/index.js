@@ -40,13 +40,17 @@ const Attendance = () => {
   }))
 
   // ** State
-  const [value, setValue] = useState(() => {
-    if (role !== "HR" || role !== "Employee") {
-      return 'role-attendance';
-    } else {
-      return 'tracker';
+  const [value, setValue] = useState("");
+
+  useEffect(() => {
+    if (role) {
+      if (role === "HR" || role === "Employee") {
+        setValue('tracker');
+      } else {
+        setValue('role-attendance');
+      }
     }
-  });
+  }, [role]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue)

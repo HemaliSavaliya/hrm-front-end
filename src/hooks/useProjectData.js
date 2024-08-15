@@ -11,6 +11,7 @@ const useProjectData = () => {
   const [scroll, setScroll] = useState('body')
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
   const [deleteTargetId, setDeleteTargetId] = useState(null)
+  const [loading, setLoading] = useState(true)
   const authToken = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('login-details')) : null
   const theme = useTheme()
 
@@ -83,6 +84,7 @@ const useProjectData = () => {
   }
 
   const fetchProjects = async () => {
+    setLoading(true);
     try {
       const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/projects-list`, {
         headers: {
@@ -96,6 +98,8 @@ const useProjectData = () => {
       setProjectData(activeProjects, response.data)
     } catch (error) {
       console.error('Error fetching projects:', error)
+    }finally {
+      setLoading(false);
     }
   }
 
@@ -311,6 +315,7 @@ const useProjectData = () => {
   }
 
   return {
+    loading,
     projectData,
     editProjectId,
     open,

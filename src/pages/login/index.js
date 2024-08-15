@@ -22,7 +22,7 @@ const LinkStyled = styled('a')(({ theme }) => ({
 }));
 
 const LoginPage = () => {
-  const { values, handleChange, handleClickShowPassword, handleMouseDownPassword, handleRadioChange, handleSubmit } = useAuth();
+  const { values,handleKeyDown, handleChange, handleClickShowPassword, handleMouseDownPassword, handleRadioChange, handleSubmit, isSaving } = useAuth();
 
   return (
     <Box className='content-center'>
@@ -68,6 +68,7 @@ const LoginPage = () => {
                   id='auth-login-password'
                   onChange={handleChange('password')}
                   type={values.showPassword ? 'text' : 'password'}
+                  onKeyDown={handleKeyDown}
                   endAdornment={
                     <InputAdornment position='end'>
                       <IconButton
@@ -95,8 +96,8 @@ const LoginPage = () => {
                   <FormControlLabel value='Admin' control={<Radio />} label='Admin' />
                 </RadioGroup>
               </FormControl> */}
-              <Button fullWidth size='large' variant='contained' sx={{ marginTop: 7 }} onClick={handleSubmit}>
-                Login
+              <Button fullWidth size='large' variant='contained' sx={{ marginTop: 7 }} onClick={handleSubmit} disabled={isSaving}>
+                {isSaving ? 'Login...' : 'Login'}
               </Button>
               {/* <Divider sx={{ my: 5 }} /> */}
               {/* <Box

@@ -43,13 +43,17 @@ const LeaveManagement = () => {
     }
   }, []);
 
-  const [value, setValue] = useState(() => {
-    if (role !== "HR" || role !== "Admin") {
-      return 'leave-request';
-    } else {
-      return 'add-request';
+  const [value, setValue] = useState('');
+
+  useEffect(() => {
+    if (role) {
+      if (role === "HR" || role === "Admin") {
+        setValue('leave-request');
+      } else {
+        setValue('add-request');
+      }
     }
-  });
+  }, [role]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue)

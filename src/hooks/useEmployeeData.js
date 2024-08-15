@@ -7,12 +7,11 @@ import { useTheme } from '@mui/material/styles'
 const useEmployeeData = () => {
   const [employeeData, setEmployeeData] = useState([])
   const [editEmployeeId, setEditEmployeeId] = useState(null)
-  // const [deleteDocumentModalOpen, setDeleteDocumentModalOpen] = useState(false)
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
   const [deleteTargetId, setDeleteTargetId] = useState(null)
-  // const [deleteTargetDocument, setDeleteTargetDocument] = useState(null)
   const [open, setOpen] = useState(false)
   const [scroll, setScroll] = useState('body')
+  const [loading, setLoading] = useState(true);
   const authToken = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('login-details')) : null
   const theme = useTheme()
 
@@ -33,6 +32,7 @@ const useEmployeeData = () => {
   }
 
   const fetchData = async () => {
+    setLoading(true);
     try {
       const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/empList`, {
         headers: {
@@ -46,6 +46,8 @@ const useEmployeeData = () => {
       setEmployeeData(activeEmployee, response.data)
     } catch (error) {
       console.error('Error fetching Employee', error)
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -170,18 +172,6 @@ const useEmployeeData = () => {
     }
   }
 
-  // const handleDeleteDocument = (fileName, empId) => {
-  //   setDeleteTargetDocument(fileName, empId)
-  //   setDeleteDocumentModalOpen(true)
-  // }
-
-  // const confirmDeleteDocument = () => {
-  //   if (deleteTargetDocument) {
-  //     deleteDocumentData(deleteTargetDocument)
-  //     setDeleteDocumentModalOpen(false)
-  //   }
-  // }
-
   const deleteEmployee = async id => {
     try {
       const response = await axios.delete(`${process.env.NEXT_PUBLIC_URL}/delete-emp/${id}`, {
@@ -272,6 +262,7 @@ const useEmployeeData = () => {
   }
 
   return {
+    loading,
     employeeData,
     editEmployeeId,
     addEmployee,
@@ -284,15 +275,10 @@ const useEmployeeData = () => {
     handleClose,
     handleEdit,
     deleteDocumentData,
-    // deleteDocumentModalOpen,
     deleteModalOpen,
-    // deleteTargetDocument,
     setDeleteModalOpen,
-    // setDeleteDocumentModalOpen,
     confirmDeleteEmployee,
-    // confirmDeleteDocument,
     handleDeleteEmployee,
-    // handleDeleteDocument
   }
 }
 

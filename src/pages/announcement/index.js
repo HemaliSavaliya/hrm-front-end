@@ -118,6 +118,7 @@ EnhancedTableHead.propTypes = {
 
 const Announcement = () => {
   const {
+    loading,
     announcementData,
     editAnnoId,
     open,
@@ -126,7 +127,6 @@ const Announcement = () => {
     handleClickOpen,
     handleClose,
     handleEdit,
-    deleteAnnouncement,
     addAnnouncement,
     editAnnouncement,
     deleteDocumentData,
@@ -235,6 +235,10 @@ const Announcement = () => {
       newLoadingStates[loadingIndex] = false
       setLoadingStates(newLoadingStates)
     }
+  }
+
+  if (loading) {
+    return <div>Loading...</div>
   }
 
   return (

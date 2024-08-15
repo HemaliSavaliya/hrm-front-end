@@ -99,10 +99,10 @@ function EnhancedTableHead(props) {
             sx={
               headCell.id === 'action'
                 ? {
-                    position: 'sticky',
-                    left: 0,
-                    zIndex: 6
-                  }
+                  position: 'sticky',
+                  left: 0,
+                  zIndex: 6
+                }
                 : null
             }
           >
@@ -133,6 +133,7 @@ EnhancedTableHead.propTypes = {
 
 const Employee = () => {
   const {
+    loading,
     addEmployee,
     editEmployee,
     editEmployeeId,
@@ -270,6 +271,10 @@ const Employee = () => {
     }
   }
 
+  if (loading) {
+    return <div>Loading...</div>
+  }
+
   return (
     <>
       <Toaster />
@@ -361,17 +366,11 @@ const Employee = () => {
                                 zIndex: 1
                               }}
                             >
-                              {/* {isRowInFilteredData ? (
-                                <> */}
-                                  <PencilOutline onClick={() => handleEdit(row.id)} sx={{ mr: 2, color: '#9155FD' }} />
-                                  <DeleteOutline
-                                    onClick={() => handleDeleteEmployee(row.id)}
-                                    sx={{ color: '#9155FD' }}
-                                  />
-                                {/* </>
-                              ) : (
-                                <DeleteOutline onClick={() => handleDeleteEmployee(row.id)} sx={{ color: '#9155FD' }} />
-                              )} */}
+                              <PencilOutline onClick={() => handleEdit(row.id)} sx={{ mr: 2, color: '#9155FD' }} />
+                              <DeleteOutline
+                                onClick={() => handleDeleteEmployee(row.id)}
+                                sx={{ color: '#9155FD' }}
+                              />
                             </TableCell>
                             <TableCell align='left'>{index + 1 + page * rowsPerPage}</TableCell>
                             {/* <TableCell align='left'>{row.id}</TableCell> */}

@@ -128,6 +128,7 @@ const statusObj = {
 
 const Project = () => {
   const {
+    loading,
     projectData,
     editProjectId,
     open,
@@ -257,6 +258,10 @@ const Project = () => {
       newLoadingStates[loadingIndex] = false
       setLoadingStates(newLoadingStates)
     }
+  }
+
+  if (loading) {
+    return <div>Loading...</div>
   }
 
   return (

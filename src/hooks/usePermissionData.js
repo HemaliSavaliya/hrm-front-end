@@ -4,10 +4,12 @@ import { useEffect, useState } from 'react';
 const usePermissionData = () => {
     const [roles, setRoles] = useState([]);
     const [rolePermissions, setRolePermissions] = useState({});
+    const [loading, setLoading] = useState(true);
     const authToken = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('login-details')) : null;
 
     useEffect(() => {
         const fetchRoles = async () => {
+            setLoading(true);
             try {
                 const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/get-role-name`, {
                     headers: {
@@ -21,10 +23,13 @@ const usePermissionData = () => {
                 }
             } catch (error) {
                 console.error("Error fetching roles:", error);
-            }
+            }finally {
+                setLoading(false);
+              }
         };
 
         const fetchPermissions = async (roles) => {
+            setLoading(true);
             try {
                 const promise = roles.map(role => axios.get(`${process.env.NEXT_PUBLIC_URL}/get-permission`, {
                     params: { role },
@@ -46,7 +51,9 @@ const usePermissionData = () => {
                 setRolePermissions(permissions);
             } catch (error) {
                 console.error(`Error fetching ${roles} permissions:`, error);
-            }
+            }finally {
+                setLoading(false);
+              }
         };
 
         if (authToken?.token) {
@@ -85,6 +92,7 @@ const usePermissionData = () => {
     };
 
     return {
+        loading,
         roles,
         handleToggleChange,
         rolePermissions

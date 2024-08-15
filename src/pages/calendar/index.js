@@ -54,8 +54,13 @@ const EventCalendar = () => {
     events,
     generateId,
     setOpenDatepickerModal,
-    setEventInfoModal
+    setEventInfoModal, 
+    loading
   } = useCalendarData()
+
+  if (loading) {
+    return <div>Loading...</div>
+  }
 
   return (
     <Box component='main' sx={{ flexGrow: 1 }}>
@@ -145,7 +150,7 @@ const EventCalendar = () => {
                 onNavigate={handleNavigate}
                 eventPropGetter={event => {
                   const hasTodo = todos.find(todo => todo.id === event.todoId)
-                  
+
                   return {
                     style: {
                       backgroundColor: hasTodo ? hasTodo.color : '#b64fc8',

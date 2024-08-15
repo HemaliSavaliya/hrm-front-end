@@ -20,6 +20,7 @@ export function TimerProvider({ children }) {
   const [pauseTime, setPauseTime] = useState(null);
   const [stopTime, setStopTime] = useState(null);
   const [userIP, setUserIP] = useState("");
+  const [loading, setLoading] = useState(true);
   const theme = useTheme();
   const SECONDS_IN_AN_HOUR = 3600;
 
@@ -28,6 +29,7 @@ export function TimerProvider({ children }) {
   const role = authToken?.role;
 
   const fetchTimer = async () => {
+    setLoading(true);
     try {
       const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/timer-list`, {
         headers: {
@@ -43,6 +45,8 @@ export function TimerProvider({ children }) {
       setSavedProjects(response.data);
     } catch (error) {
       console.error("Error fetching Timer", error);
+    }finally {
+      setLoading(false);
     }
   }
 
@@ -227,6 +231,7 @@ export function TimerProvider({ children }) {
 
   return (
     <TimerContext.Provider value={{
+      loading,
       isTimerRunning,
       setIsTimerRunning,
       onCancelConfirm,

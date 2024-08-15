@@ -115,6 +115,7 @@ EnhancedTableHead.propTypes = {
 
 const Awards = () => {
   const {
+    loading,
     awardsData,
     editAwardId,
     open,
@@ -161,6 +162,10 @@ const Awards = () => {
     page * rowsPerPage,
     page * rowsPerPage + rowsPerPage
   )
+
+  if (loading) {
+    return <div>Loading...</div>
+  }
 
   return (
     <>

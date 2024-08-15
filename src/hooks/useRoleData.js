@@ -9,6 +9,7 @@ const useRoleData = () => {
   const [editRoleId, setEditRoleId] = useState(null);
   const [open, setOpen] = useState(false);
   const [scroll, setScroll] = useState('body');
+  const [loading, setLoading] = useState(true);
   const authToken = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('login-details')) : null;
   const theme = useTheme();
 
@@ -24,6 +25,7 @@ const useRoleData = () => {
   };
 
   const fetchRole = async () => {
+    setLoading(true);
     try {
       const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/role-list`, {
         headers: {
@@ -34,6 +36,8 @@ const useRoleData = () => {
       setRoleData(response.data);
     } catch (error) {
       console.error("Error fetching department:", error);
+    }finally {
+      setLoading(false);
     }
   }
 
@@ -141,6 +145,7 @@ const useRoleData = () => {
   };
 
   return {
+    loading,
     roleData,
     editRoleId,
     open,

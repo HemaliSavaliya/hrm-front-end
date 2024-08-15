@@ -4,7 +4,11 @@ import navigation from 'src/navigation/vertical';
 import usePermissionData from 'src/hooks/usePermissionData';
 
 const Permission = () => {
-  const { roles, handleToggleChange, rolePermissions } = usePermissionData();
+  const {loading, roles, handleToggleChange, rolePermissions } = usePermissionData();
+
+  if (loading) {
+    return <div>Loading...</div>
+  }
 
   return (
     <Grid container spacing={5}>
