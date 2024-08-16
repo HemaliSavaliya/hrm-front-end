@@ -2,7 +2,6 @@ import { useState } from 'react'
 
 const LeaveRequestFormLogic = () => {
   const initialFormValue = {
-    // applyingDate: "",
     leaveName: '',
     startDate: '',
     endDate: '',
@@ -15,11 +14,6 @@ const LeaveRequestFormLogic = () => {
 
   const validateField = (name, value) => {
     switch (name) {
-      // case "applyingDate":
-      //   if (value.trim() === "") {
-      //     return "Applying date is required";
-      //   }
-      //   break;
       case 'leaveName':
         if (value.trim() === '') {
           return 'Leave Type is required'

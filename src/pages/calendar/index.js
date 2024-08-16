@@ -28,6 +28,7 @@ const localizer = dateFnsLocalizer({
 
 const EventCalendar = () => {
   const [loading, setLoading] = useState(true)
+  
   const {
     openSlot,
     openDatepickerModal,
