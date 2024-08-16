@@ -1,15 +1,7 @@
-import { Box, Card, Avatar, IconButton, Typography, CardContent } from '@mui/material';
-import DotsVertical from 'mdi-material-ui/DotsVertical';
+import { Box, Card, Avatar, IconButton, Typography, CardContent } from '@mui/material'
+import DotsVertical from 'mdi-material-ui/DotsVertical'
 
-const CardStatsVertical = ({
-  title,
-  subtitle,
-  color = 'primary',
-  icon,
-  stats,
-  trend = 'positive',
-  trendNumber
-}) => {
+const CardStatsVertical = ({ title, subtitle, color = 'primary', icon, stats, trend = 'positive', trendNumber }) => {
   return (
     <Card>
       <CardContent>
@@ -40,4 +32,4 @@ const CardStatsVertical = ({
   )
 }
 
-export default CardStatsVertical;
+export default CardStatsVertical

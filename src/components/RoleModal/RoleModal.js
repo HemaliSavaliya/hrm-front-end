@@ -1,7 +1,7 @@
-import { Box, Button, Dialog, DialogContent, DialogTitle, Typography } from '@mui/material';
-import React from 'react';
-import { motion } from "framer-motion";
-import RoleForm from './RoleForm';
+import { Box, Button, Dialog, DialogContent, DialogTitle, Typography } from '@mui/material'
+import React from 'react'
+import { motion } from 'framer-motion'
+import RoleForm from './RoleForm'
 
 const RoleModal = ({ editRoleId, roleData, open, setOpen, scroll, handleClickOpen, handleClose, addRole }) => {
   return (
@@ -18,7 +18,7 @@ const RoleModal = ({ editRoleId, roleData, open, setOpen, scroll, handleClickOpe
         transition={{ delay: 0.25 }}
         variant='contained'
         onClick={handleClickOpen('body')}
-        sx={{ lineHeight: 0, padding: "20px 25px" }}
+        sx={{ lineHeight: 0, padding: '20px 25px' }}
       >
         Add Role
       </Button>
@@ -27,20 +27,24 @@ const RoleModal = ({ editRoleId, roleData, open, setOpen, scroll, handleClickOpe
         open={open}
         onClose={handleClose}
         scroll={scroll}
-        aria-labelledby="scroll-dialog-title"
-        aria-describedby="scroll-dialog-description"
+        aria-labelledby='scroll-dialog-title'
+        aria-describedby='scroll-dialog-description'
       >
-        <DialogTitle id="scroll-dialog-title">
-          <Typography fontWeight={600}>
-            {editRoleId ? 'Edit Role' : 'Add Role'}
-          </Typography>
+        <DialogTitle id='scroll-dialog-title'>
+          <Typography fontWeight={600}>{editRoleId ? 'Edit Role' : 'Add Role'}</Typography>
         </DialogTitle>
-        <DialogContent dividers={scroll === 'body'} sx={{ borderBottom: "0" }}>
-          <RoleForm handleClose={handleClose} editRoleId={editRoleId} roleData={roleData} setOpen={setOpen} addRole={addRole} />
+        <DialogContent dividers={scroll === 'body'} sx={{ borderBottom: '0' }}>
+          <RoleForm
+            handleClose={handleClose}
+            editRoleId={editRoleId}
+            roleData={roleData}
+            setOpen={setOpen}
+            addRole={addRole}
+          />
         </DialogContent>
       </Dialog>
     </>
   )
 }
 
-export default RoleModal;
+export default RoleModal

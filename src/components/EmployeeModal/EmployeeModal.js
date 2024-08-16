@@ -1,12 +1,30 @@
-import { Dialog, DialogContent, DialogTitle, Typography, Button, TextField, InputAdornment, Box } from '@mui/material';
-import EmployeeForm from './EmployeeForm';
-import { motion } from "framer-motion";
-import { Magnify } from 'mdi-material-ui';
+import { Dialog, DialogContent, DialogTitle, Typography, Button, TextField, InputAdornment, Box } from '@mui/material'
+import EmployeeForm from './EmployeeForm'
+import { motion } from 'framer-motion'
+import { Magnify } from 'mdi-material-ui'
 
-const EmployeeModal = ({ editEmployeeId, employeeData, open, setOpen, scroll, handleClickOpen, handleClose, handleSearch, addEmployee, editEmployee }) => {
+const EmployeeModal = ({
+  editEmployeeId,
+  employeeData,
+  open,
+  setOpen,
+  scroll,
+  handleClickOpen,
+  handleClose,
+  handleSearch,
+  addEmployee,
+  editEmployee
+}) => {
   return (
     <>
-      <Box sx={{ width: '100%', display: { xs: "grid", sm: "flex", lg: "flex" }, alignItems: 'center', justifyContent: "space-between" }}>
+      <Box
+        sx={{
+          width: '100%',
+          display: { xs: 'grid', sm: 'flex', lg: 'flex' },
+          alignItems: 'center',
+          justifyContent: 'space-between'
+        }}
+      >
         <Button
           component={motion.div}
           whileHover={{
@@ -19,7 +37,7 @@ const EmployeeModal = ({ editEmployeeId, employeeData, open, setOpen, scroll, ha
           transition={{ delay: 0.25 }}
           variant='contained'
           onClick={handleClickOpen('body')}
-          sx={{ lineHeight: 0, padding: "20px 25px" }}
+          sx={{ lineHeight: 0, padding: '20px 25px' }}
         >
           Add Employees
         </Button>
@@ -44,18 +62,25 @@ const EmployeeModal = ({ editEmployeeId, employeeData, open, setOpen, scroll, ha
         open={open}
         onClose={handleClose}
         scroll={scroll}
-        aria-labelledby="scroll-dialog-title"
-        aria-describedby="scroll-dialog-description"
+        aria-labelledby='scroll-dialog-title'
+        aria-describedby='scroll-dialog-description'
       >
-        <DialogTitle id="scroll-dialog-title">
+        <DialogTitle id='scroll-dialog-title'>
           <Typography fontWeight={600}>{editEmployeeId ? 'Edit Employee' : 'Add Employee'}</Typography>
         </DialogTitle>
-        <DialogContent dividers={scroll === 'body'} sx={{ borderBottom: "0" }}>
-          <EmployeeForm handleClose={handleClose} editEmployeeId={editEmployeeId} employeeData={employeeData} setOpen={setOpen} addEmployee={addEmployee} editEmployee={editEmployee} />
+        <DialogContent dividers={scroll === 'body'} sx={{ borderBottom: '0' }}>
+          <EmployeeForm
+            handleClose={handleClose}
+            editEmployeeId={editEmployeeId}
+            employeeData={employeeData}
+            setOpen={setOpen}
+            addEmployee={addEmployee}
+            editEmployee={editEmployee}
+          />
         </DialogContent>
       </Dialog>
     </>
   )
 }
 
-export default EmployeeModal;
+export default EmployeeModal

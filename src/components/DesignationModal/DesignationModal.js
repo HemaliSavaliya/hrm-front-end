@@ -1,12 +1,21 @@
-import { Box, Button, Dialog, DialogContent, DialogTitle, Typography } from '@mui/material';
-import React from 'react';
-import DesignationForm from './DesignationForm';
-import { motion } from "framer-motion";
+import { Box, Button, Dialog, DialogContent, DialogTitle, Typography } from '@mui/material'
+import React from 'react'
+import DesignationForm from './DesignationForm'
+import { motion } from 'framer-motion'
 
-const DesignationModal = ({ editDesignationId, designationData, open, setOpen, scroll, handleClickOpen, handleClose, addDesignation }) => {
+const DesignationModal = ({
+  editDesignationId,
+  designationData,
+  open,
+  setOpen,
+  scroll,
+  handleClickOpen,
+  handleClose,
+  addDesignation
+}) => {
   return (
     <>
-      <Box sx={{ mt: 3, textAlign: "end" }}>
+      <Box sx={{ mt: 3, textAlign: 'end' }}>
         <Button
           component={motion.div}
           whileHover={{
@@ -19,7 +28,7 @@ const DesignationModal = ({ editDesignationId, designationData, open, setOpen, s
           transition={{ delay: 0.25 }}
           variant='contained'
           onClick={handleClickOpen('body')}
-          sx={{ lineHeight: 0, padding: "20px 25px" }}
+          sx={{ lineHeight: 0, padding: '20px 25px' }}
         >
           Add Designations
         </Button>
@@ -28,20 +37,24 @@ const DesignationModal = ({ editDesignationId, designationData, open, setOpen, s
         open={open}
         onClose={handleClose}
         scroll={scroll}
-        aria-labelledby="scroll-dialog-title"
-        aria-describedby="scroll-dialog-description"
+        aria-labelledby='scroll-dialog-title'
+        aria-describedby='scroll-dialog-description'
       >
-        <DialogTitle id="scroll-dialog-title">
-          <Typography fontWeight={600}>
-            {editDesignationId ? 'Edit Designation' : 'Add Designation'}
-          </Typography>
+        <DialogTitle id='scroll-dialog-title'>
+          <Typography fontWeight={600}>{editDesignationId ? 'Edit Designation' : 'Add Designation'}</Typography>
         </DialogTitle>
-        <DialogContent dividers={scroll === 'body'} sx={{ borderBottom: "0" }}>
-          <DesignationForm handleClose={handleClose} editDesignationId={editDesignationId} designationData={designationData} setOpen={setOpen} addDesignation={addDesignation} />
+        <DialogContent dividers={scroll === 'body'} sx={{ borderBottom: '0' }}>
+          <DesignationForm
+            handleClose={handleClose}
+            editDesignationId={editDesignationId}
+            designationData={designationData}
+            setOpen={setOpen}
+            addDesignation={addDesignation}
+          />
         </DialogContent>
       </Dialog>
     </>
   )
 }
 
-export default DesignationModal;
+export default DesignationModal

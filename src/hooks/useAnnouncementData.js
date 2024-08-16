@@ -11,7 +11,7 @@ const useAnnouncementData = () => {
   const [scroll, setScroll] = useState('body')
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
   const [deleteTargetId, setDeleteTargetId] = useState(null)
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true)
   const authToken = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('login-details')) : null
   const theme = useTheme()
 
@@ -33,7 +33,7 @@ const useAnnouncementData = () => {
   }
 
   const fetchAnnouncement = async () => {
-    setLoading(true);
+    setLoading(true)
     try {
       const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/announcementList`, {
         headers: {
@@ -47,8 +47,8 @@ const useAnnouncementData = () => {
       setAnnouncementData(announcementData, response.data)
     } catch (error) {
       console.error('Error fetching announcement:', error)
-    }finally {
-      setLoading(false);
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -168,7 +168,7 @@ const useAnnouncementData = () => {
 
   const confirmDeleteAnnouncement = () => {
     if (deleteTargetId) {
-        deleteAnnouncement(deleteTargetId)
+      deleteAnnouncement(deleteTargetId)
       setDeleteModalOpen(false)
     }
   }

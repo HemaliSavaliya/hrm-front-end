@@ -1,12 +1,37 @@
-import { Box, Grid, Button, Divider, InputLabel, IconButton, CardContent, FormControl, OutlinedInput, InputAdornment, Select, MenuItem } from '@mui/material';
-import EyeOutline from 'mdi-material-ui/EyeOutline';
-import EyeOffOutline from 'mdi-material-ui/EyeOffOutline';
-import { motion } from "framer-motion";
-import { Toaster } from 'react-hot-toast';
-import useForgotPasswordData from 'src/hooks/useForgotPasswordData';
+import {
+  Box,
+  Grid,
+  Button,
+  Divider,
+  InputLabel,
+  IconButton,
+  CardContent,
+  FormControl,
+  OutlinedInput,
+  InputAdornment,
+  Select,
+  MenuItem
+} from '@mui/material'
+import EyeOutline from 'mdi-material-ui/EyeOutline'
+import EyeOffOutline from 'mdi-material-ui/EyeOffOutline'
+import { motion } from 'framer-motion'
+import { Toaster } from 'react-hot-toast'
+import useForgotPasswordData from 'src/hooks/useForgotPasswordData'
 
 const TabForgotPassword = () => {
-  const { handleNewPasswordChange, handleClickShowNewPassword, handleMouseDownNewPassword, handleConfirmNewPasswordChange, handleClickShowConfirmNewPassword, handleMouseDownConfirmNewPassword, handleEmployeeName, handleChangePassword, values, setValues, userPassword } = useForgotPasswordData();
+  const {
+    handleNewPasswordChange,
+    handleClickShowNewPassword,
+    handleMouseDownNewPassword,
+    handleConfirmNewPasswordChange,
+    handleClickShowConfirmNewPassword,
+    handleMouseDownConfirmNewPassword,
+    handleEmployeeName,
+    handleChangePassword,
+    values,
+    setValues,
+    userPassword
+  } = useForgotPasswordData()
 
   return (
     <motion.form
@@ -27,20 +52,20 @@ const TabForgotPassword = () => {
                     label='Employee'
                     defaultValue=''
                     labelId='form-layouts-separator-select-label'
-                    id="employeeName"
-                    name="employeeName"
+                    id='employeeName'
+                    name='employeeName'
                     value={values.employeeName}
                     onChange={handleEmployeeName('employeeName')}
                   >
-                    {userPassword.length === 0 ?
+                    {userPassword.length === 0 ? (
                       <MenuItem disabled>No Employee</MenuItem>
-                      :
-                      userPassword.map((user) => (
+                    ) : (
+                      userPassword.map(user => (
                         <MenuItem key={user.id} value={user.name}>
                           {user.name}
                         </MenuItem>
                       ))
-                    }
+                    )}
                   </Select>
                 </FormControl>
               </Grid>
@@ -129,4 +154,4 @@ const TabForgotPassword = () => {
   )
 }
 
-export default TabForgotPassword;
+export default TabForgotPassword

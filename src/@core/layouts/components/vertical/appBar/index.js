@@ -1,8 +1,8 @@
 // ** MUI Imports
-import { styled } from '@mui/material/styles';
-import MuiAppBar from '@mui/material/AppBar';
-import MuiToolbar from '@mui/material/Toolbar';
-import { motion } from "framer-motion";
+import { styled } from '@mui/material/styles'
+import MuiAppBar from '@mui/material/AppBar'
+import MuiToolbar from '@mui/material/Toolbar'
+import { motion } from 'framer-motion'
 
 const AppBar = styled(MuiAppBar)(({ theme }) => ({
   transition: 'none',
@@ -10,9 +10,9 @@ const AppBar = styled(MuiAppBar)(({ theme }) => ({
   justifyContent: 'center',
   padding: theme.spacing(0, 6),
   backgroundColor: theme.palette.background.default,
-  position: "fixed",
+  position: 'fixed',
   zIndex: 20,
-  width: "-webkit-fill-available",
+  width: '-webkit-fill-available',
   color: theme.palette.text.primary,
   minHeight: theme.mixins.toolbar.minHeight,
   borderBottom: `1px solid ${theme.palette.action.focus}`,
@@ -42,14 +42,8 @@ const LayoutAppBar = props => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.2, duration: 0.5 }}
     >
-      <AppBar
-        elevation={0}
-        className='layout-navbar'
-        position='static'
-      >
-        <Toolbar
-          className='navbar-content-container'
-        >
+      <AppBar elevation={0} className='layout-navbar' position='static'>
+        <Toolbar className='navbar-content-container'>
           {(userVerticalAppBarContent && userVerticalAppBarContent(props)) || null}
         </Toolbar>
       </AppBar>
@@ -57,4 +51,4 @@ const LayoutAppBar = props => {
   )
 }
 
-export default LayoutAppBar;
+export default LayoutAppBar

@@ -1,13 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
-import { useState, Fragment, useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { Box, Menu, Badge, Avatar, Divider, MenuItem, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import LogoutVariant from 'mdi-material-ui/LogoutVariant';
-import AccountOutline from 'mdi-material-ui/AccountOutline';
-import axios from 'axios';
-import Link from 'next/link';
+import { useState, Fragment, useEffect } from 'react'
+import { useRouter } from 'next/router'
+import { Box, Menu, Badge, Avatar, Divider, MenuItem, Typography } from '@mui/material'
+import { styled } from '@mui/material/styles'
+import LogoutVariant from 'mdi-material-ui/LogoutVariant'
+import AccountOutline from 'mdi-material-ui/AccountOutline'
+import axios from 'axios'
+import Link from 'next/link'
 
 // ** Styled Components
 const BadgeContentSpan = styled('span')(({ theme }) => ({
@@ -26,7 +26,7 @@ const AvatarStyled = styled(Box)(({ theme }) => ({
   height: 40,
   borderRadius: '50%',
   backgroundColor: theme.palette.primary.main,
-  color: "#fff",
+  color: '#fff',
   fontSize: '20px',
   [theme.breakpoints.down('sm')]: {
     marginRight: 0
@@ -34,35 +34,38 @@ const AvatarStyled = styled(Box)(({ theme }) => ({
 }))
 
 const UserDropdown = () => {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [imgSrc, setImgSrc] = useState(null);
-  const [authToken, setAuthToken] = useState(null);
-  const router = useRouter();
+  const [anchorEl, setAnchorEl] = useState(null)
+  const [imgSrc, setImgSrc] = useState(null)
+  const [authToken, setAuthToken] = useState(null)
+  const router = useRouter()
 
   useEffect(() => {
-    const storedAuthToken = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('login-details')) : null;
-    setAuthToken(storedAuthToken);
-  }, []);
+    const storedAuthToken = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('login-details')) : null
+    setAuthToken(storedAuthToken)
+  }, [])
 
   useEffect(() => {
     const fetchProfileImage = async () => {
       if (authToken) {
         try {
-          const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/get-profile-image/${authToken.id}/${authToken.role}`, {
-            responseType: 'arraybuffer',
-          });
-          const imageData = new Uint8Array(response.data);
-          const blob = new Blob([imageData], { type: 'image/png' });
-          const dataURL = URL.createObjectURL(blob);
-          setImgSrc(dataURL);
+          const response = await axios.get(
+            `${process.env.NEXT_PUBLIC_URL}/get-profile-image/${authToken.id}/${authToken.role}`,
+            {
+              responseType: 'arraybuffer'
+            }
+          )
+          const imageData = new Uint8Array(response.data)
+          const blob = new Blob([imageData], { type: 'image/png' })
+          const dataURL = URL.createObjectURL(blob)
+          setImgSrc(dataURL)
         } catch (error) {
-          console.error("Error fetching profile image:", error);
+          console.error('Error fetching profile image:', error)
         }
       }
-    };
+    }
 
-    fetchProfileImage();
-  }, [authToken]);
+    fetchProfileImage()
+  }, [authToken])
 
   const handleDropdownOpen = event => {
     setAnchorEl(event.currentTarget)
@@ -91,21 +94,21 @@ const UserDropdown = () => {
 
   const handleSignOut = async () => {
     try {
-      await axios.post(`${process.env.NEXT_PUBLIC_URL}/logout`, {});
+      await axios.post(`${process.env.NEXT_PUBLIC_URL}/logout`, {})
 
       // Remove the login-details object from local storage
-      localStorage.removeItem('login-details');
+      localStorage.removeItem('login-details')
 
       // Redirect to the sign-in page
-      router.push('/login');
+      router.push('/login')
     } catch (error) {
       // Handle any errors that occur during the logout API call
-      console.error('Logout failed:', error);
+      console.error('Logout failed:', error)
     }
-  };
+  }
 
   if (!authToken) {
-    return null; // or a loading spinner
+    return null // or a loading spinner
   }
 
   return (
@@ -118,23 +121,16 @@ const UserDropdown = () => {
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       >
         {imgSrc ? (
-          <Avatar
-            alt='John Doe'
-            onClick={handleDropdownOpen}
-            sx={{ width: 40, height: 40 }}
-            src={imgSrc}
-          />
+          <Avatar alt='John Doe' onClick={handleDropdownOpen} sx={{ width: 40, height: 40 }} src={imgSrc} />
         ) : (
-          <AvatarStyled>
-            {authToken?.name.charAt(0).toUpperCase()}
-          </AvatarStyled>
+          <AvatarStyled>{authToken?.name.charAt(0).toUpperCase()}</AvatarStyled>
         )}
       </Badge>
       <Menu
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={() => handleDropdownClose()}
-        sx={{ '& .MuiMenu-paper': { width: "auto", marginTop: 4 } }}
+        sx={{ '& .MuiMenu-paper': { width: 'auto', marginTop: 4 } }}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
@@ -148,9 +144,7 @@ const UserDropdown = () => {
               {imgSrc ? (
                 <Avatar alt='John Doe' src={imgSrc} sx={{ width: '2.5rem', height: '2.5rem' }} />
               ) : (
-                <AvatarStyled>
-                  {authToken?.name.charAt(0).toUpperCase()}
-                </AvatarStyled>
+                <AvatarStyled>{authToken?.name.charAt(0).toUpperCase()}</AvatarStyled>
               )}
             </Badge>
             <Box sx={{ display: 'flex', marginLeft: 3, alignItems: 'flex-start', flexDirection: 'column' }}>
@@ -162,7 +156,7 @@ const UserDropdown = () => {
           </Box>
         </Box>
         <Divider sx={{ mt: 0, mb: 1 }} />
-        <Link href={"/account-settings"} style={{ textDecoration: "none" }}>
+        <Link href={'/account-settings'} style={{ textDecoration: 'none' }}>
           <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
             <Box sx={styles}>
               <AccountOutline sx={{ marginRight: 2 }} />
@@ -179,4 +173,4 @@ const UserDropdown = () => {
   )
 }
 
-export default UserDropdown;
+export default UserDropdown

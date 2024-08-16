@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'
 import { Box, Card } from '@mui/material'
 import { TabList, TabPanel, TabContext } from '@mui/lab'
 import { styled } from '@mui/material/styles'
@@ -7,11 +7,11 @@ import ListStatus from 'mdi-material-ui/ListStatus'
 import ScaleBalance from 'mdi-material-ui/ScaleBalance'
 import ApplicationImport from 'mdi-material-ui/ApplicationImport'
 import NoteEditOutline from 'mdi-material-ui/NoteEditOutline'
-import LeaveRequest from 'src/views/leave/LeaveRequest';
-import AllLeaveRequest from 'src/views/leave/AllLeaveRequest';
-import LeaveBalance from 'src/views/leave/LeaveBalance';
-import LeaveType from 'src/views/leave/LeaveType';
-import { motion } from "framer-motion";
+import LeaveRequest from 'src/views/leave/LeaveRequest'
+import AllLeaveRequest from 'src/views/leave/AllLeaveRequest'
+import LeaveBalance from 'src/views/leave/LeaveBalance'
+import LeaveType from 'src/views/leave/LeaveType'
+import { motion } from 'framer-motion'
 
 const LeaveManagement = () => {
   const Tab = styled(MuiTab)(({ theme }) => ({
@@ -30,30 +30,30 @@ const LeaveManagement = () => {
     [theme.breakpoints.down('md')]: {
       display: 'none'
     }
-  }));
+  }))
 
-  const [role, setRole] = useState(null);
+  const [role, setRole] = useState(null)
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const authToken = JSON.parse(localStorage.getItem('login-details'));
+      const authToken = JSON.parse(localStorage.getItem('login-details'))
       if (authToken) {
-        setRole(authToken?.role);
+        setRole(authToken?.role)
       }
     }
-  }, []);
+  }, [])
 
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState('')
 
   useEffect(() => {
     if (role) {
-      if (role === "HR" || role === "Admin") {
-        setValue('leave-request');
+      if (role === 'HR' || role === 'Admin') {
+        setValue('leave-request')
       } else {
-        setValue('add-request');
+        setValue('add-request')
       }
     }
-  }, [role]);
+  }, [role])
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
@@ -74,7 +74,7 @@ const LeaveManagement = () => {
               aria-label='account-settings tabs'
               sx={{ borderBottom: theme => `1px solid ${theme.palette.divider}` }}
             >
-              {(role !== "Employee") && (
+              {role !== 'Employee' && (
                 <Tab
                   value='leave-request'
                   label={
@@ -85,7 +85,7 @@ const LeaveManagement = () => {
                   }
                 />
               )}
-              {(role !== "Admin") && (
+              {role !== 'Admin' && (
                 <Tab
                   value='add-request'
                   label={
@@ -96,7 +96,7 @@ const LeaveManagement = () => {
                   }
                 />
               )}
-              {(role !== "Admin") && (
+              {role !== 'Admin' && (
                 <Tab
                   value='leave-balance'
                   label={
@@ -107,7 +107,7 @@ const LeaveManagement = () => {
                   }
                 />
               )}
-              {(role !== "Employee") && (
+              {role !== 'Employee' && (
                 <Tab
                   value='leave-type'
                   label={
@@ -122,25 +122,25 @@ const LeaveManagement = () => {
           </Card>
         </motion.div>
 
-        {(role !== "Employee") && (
+        {role !== 'Employee' && (
           <TabPanel sx={{ p: 0 }} value='leave-request'>
             <AllLeaveRequest />
           </TabPanel>
         )}
 
-        {(role !== "Admin") && (
+        {role !== 'Admin' && (
           <TabPanel sx={{ p: 0 }} value='add-request'>
             <LeaveRequest />
           </TabPanel>
         )}
 
-        {(role !== "Admin") && (
+        {role !== 'Admin' && (
           <TabPanel sx={{ p: 0 }} value='leave-balance'>
             <LeaveBalance />
           </TabPanel>
         )}
 
-        {(role !== "Employee") && (
+        {role !== 'Employee' && (
           <TabPanel sx={{ p: 0 }} value='leave-type'>
             <LeaveType />
           </TabPanel>
@@ -150,4 +150,4 @@ const LeaveManagement = () => {
   )
 }
 
-export default LeaveManagement;
+export default LeaveManagement

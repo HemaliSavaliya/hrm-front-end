@@ -11,12 +11,22 @@ import {
   Box,
   Typography,
   Divider,
-  Grid,
-} from "@mui/material";
-import { useEffect } from "react";
+  Grid
+} from '@mui/material'
+import { useEffect } from 'react'
 
-const AddEventModal = ({ open, handleClose, eventFormData, setEventFormData, onAddEvent, todos, scroll, editedEvent, editedEventData }) => {
-  const { description } = eventFormData;
+const AddEventModal = ({
+  open,
+  handleClose,
+  eventFormData,
+  setEventFormData,
+  onAddEvent,
+  todos,
+  scroll,
+  editedEvent,
+  editedEventData
+}) => {
+  const { description } = eventFormData
 
   useEffect(() => {
     if (editedEvent) {
@@ -24,63 +34,60 @@ const AddEventModal = ({ open, handleClose, eventFormData, setEventFormData, onA
       setEventFormData({
         id: editedEvent.id,
         description: editedEvent.description,
-        todoId: editedEvent.todoId,
-      });
+        todoId: editedEvent.todoId
+      })
     }
-  }, [editedEvent]);
+  }, [editedEvent])
 
-  const onClose = () => handleClose();
+  const onClose = () => handleClose()
 
-  const onChange = (event) => {
-    setEventFormData((prevState) => ({
+  const onChange = event => {
+    setEventFormData(prevState => ({
       ...prevState,
-      [event.target.name]: event.target.value,
-    }));
-  };
+      [event.target.name]: event.target.value
+    }))
+  }
 
   const handleTodoChange = (e, value) => {
-    setEventFormData((prevState) => ({
+    setEventFormData(prevState => ({
       ...prevState,
-      todoId: value?.id,
-    }));
-  };
+      todoId: value?.id
+    }))
+  }
 
   return (
     <Dialog
       open={open}
       scroll={scroll}
       onClose={onClose}
-      aria-labelledby="scroll-dialog-title"
-      aria-describedby="scroll-dialog-description"
+      aria-labelledby='scroll-dialog-title'
+      aria-describedby='scroll-dialog-description'
     >
-      <DialogTitle id="scroll-dialog-title">
+      <DialogTitle id='scroll-dialog-title'>
         <Typography variant='h6' fontWeight={600}>
-          {editedEventData ? "Update Event" : "Add Event"}
+          {editedEventData ? 'Update Event' : 'Add Event'}
         </Typography>
         <Typography variant='caption' fontWeight={600}>
-          To {editedEventData ? "update" : "add"} an event, please fill in the information below.
+          To {editedEventData ? 'update' : 'add'} an event, please fill in the information below.
         </Typography>
       </DialogTitle>
 
       <Divider sx={{ margin: 0 }} />
 
       <DialogContent>
-        <DialogContentText
-          id="scroll-dialog-description"
-          tabIndex={-1}
-        >
-          <Box component="form" autoComplete="off">
+        <DialogContentText id='scroll-dialog-description' tabIndex={-1}>
+          <Box component='form' autoComplete='off'>
             <Grid container spacing={5}>
               <Grid item xs={12} sm={12}>
                 <TextField
-                  name="description"
+                  name='description'
                   value={description}
-                  margin="dense"
-                  id="description"
-                  label="Description"
-                  type="text"
+                  margin='dense'
+                  id='description'
+                  label='Description'
+                  type='text'
                   fullWidth
-                  variant="outlined"
+                  variant='outlined'
                   onChange={onChange}
                 />
               </Grid>
@@ -88,10 +95,10 @@ const AddEventModal = ({ open, handleClose, eventFormData, setEventFormData, onA
                 <Autocomplete
                   onChange={handleTodoChange}
                   disablePortal
-                  id="combo-box-demo"
+                  id='combo-box-demo'
                   options={todos}
-                  getOptionLabel={(option) => option.name}
-                  renderInput={(params) => <TextField {...params} label="Todo" />}
+                  getOptionLabel={option => option.name}
+                  renderInput={params => <TextField {...params} label='Todo' />}
                 />
               </Grid>
             </Grid>
@@ -103,18 +110,12 @@ const AddEventModal = ({ open, handleClose, eventFormData, setEventFormData, onA
         <Button size='large' color='secondary' variant='outlined' onClick={onClose}>
           Cancel
         </Button>
-        <Button
-          size='large'
-          type='submit'
-          variant='contained'
-          disabled={description === ""}
-          onClick={onAddEvent}
-        >
-          {editedEventData ? "Update" : "Save"}
+        <Button size='large' type='submit' variant='contained' disabled={description === ''} onClick={onAddEvent}>
+          {editedEventData ? 'Update' : 'Save'}
         </Button>
       </DialogActions>
     </Dialog>
-  );
-};
+  )
+}
 
-export default AddEventModal;
+export default AddEventModal

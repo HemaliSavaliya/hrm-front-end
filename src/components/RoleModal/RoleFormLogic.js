@@ -1,56 +1,56 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 
 const RoleFormLogic = (roleData, editRoleId) => {
   const initialFormValue = {
-    roleName: "",
-    status: "Enable"
+    roleName: '',
+    status: 'Enable'
   }
 
-  const [formData, setFormData] = useState(initialFormValue);
-  const [errors, setErrors] = useState(initialFormValue);
+  const [formData, setFormData] = useState(initialFormValue)
+  const [errors, setErrors] = useState(initialFormValue)
 
   const validateField = (name, value) => {
     switch (name) {
-      case "roleName":
-        if (value.trim() === "") {
-          return "Role name is required"
+      case 'roleName':
+        if (value.trim() === '') {
+          return 'Role name is required'
         } else if (!/^[A-Za-z\s]+$/.test(value)) {
-          return "Role name should contain only characters";
+          return 'Role name should contain only characters'
         }
-        break;
+        break
     }
 
-    return "";
+    return ''
   }
 
   const validateForm = () => {
-    const newErrors = {};
+    const newErrors = {}
 
-    Object.keys(initialFormValue).forEach((name) => {
-      const value = formData[name];
-      const error = validateField(name, value);
-      newErrors[name] = error;
-    });
+    Object.keys(initialFormValue).forEach(name => {
+      const value = formData[name]
+      const error = validateField(name, value)
+      newErrors[name] = error
+    })
 
-    setErrors(newErrors);
+    setErrors(newErrors)
 
-    return !Object.values(newErrors).some((error) => error !== "");
-  };
+    return !Object.values(newErrors).some(error => error !== '')
+  }
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
+  const handleInputChange = event => {
+    const { name, value } = event.target
     setFormData({
       ...formData,
-      [name]: value,
-    });
+      [name]: value
+    })
 
-    const error = validateField(name, value);
+    const error = validateField(name, value)
 
     setErrors({
       ...errors,
       [name]: error
-    });
-  };
+    })
+  }
 
   return {
     handleInputChange,
@@ -62,4 +62,4 @@ const RoleFormLogic = (roleData, editRoleId) => {
   }
 }
 
-export default RoleFormLogic;
+export default RoleFormLogic

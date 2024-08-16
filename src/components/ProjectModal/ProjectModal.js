@@ -1,15 +1,25 @@
-import { Dialog, DialogContent, DialogTitle, Typography, Button, Box } from '@mui/material';
-import ProjectForm from './ProjectForm';
-import { motion } from "framer-motion";
+import { Dialog, DialogContent, DialogTitle, Typography, Button, Box } from '@mui/material'
+import ProjectForm from './ProjectForm'
+import { motion } from 'framer-motion'
 
-const ProjectModal = ({ editProjectId, projectData, open, setOpen, scroll, handleClickOpen, handleClose, addProjects, editProjects }) => {
-  const authToken = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('login-details')) : null;
-  const role = authToken?.role;
+const ProjectModal = ({
+  editProjectId,
+  projectData,
+  open,
+  setOpen,
+  scroll,
+  handleClickOpen,
+  handleClose,
+  addProjects,
+  editProjects
+}) => {
+  const authToken = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('login-details')) : null
+  const role = authToken?.role
 
   return (
     <>
       <Box>
-        {role === "Employee" ? null : (
+        {role === 'Employee' ? null : (
           <Button
             component={motion.div}
             whileHover={{
@@ -22,7 +32,7 @@ const ProjectModal = ({ editProjectId, projectData, open, setOpen, scroll, handl
             transition={{ delay: 0.25 }}
             variant='contained'
             onClick={handleClickOpen('body')}
-            sx={{ lineHeight: 0, padding: "20px 25px" }}
+            sx={{ lineHeight: 0, padding: '20px 25px' }}
           >
             Add Projects
           </Button>
@@ -33,20 +43,25 @@ const ProjectModal = ({ editProjectId, projectData, open, setOpen, scroll, handl
         open={open}
         onClose={handleClose}
         scroll={scroll}
-        aria-labelledby="scroll-dialog-title"
-        aria-describedby="scroll-dialog-description"
+        aria-labelledby='scroll-dialog-title'
+        aria-describedby='scroll-dialog-description'
       >
-        <DialogTitle id="scroll-dialog-title">
-          <Typography fontWeight={600}>
-            {editProjectId ? 'Edit Projects' : 'Add Projects'}
-          </Typography>
+        <DialogTitle id='scroll-dialog-title'>
+          <Typography fontWeight={600}>{editProjectId ? 'Edit Projects' : 'Add Projects'}</Typography>
         </DialogTitle>
-        <DialogContent dividers={scroll === 'body'} sx={{ borderBottom: "0" }}>
-          <ProjectForm handleClose={handleClose} editProjectId={editProjectId} projectData={projectData} setOpen={setOpen} addProjects={addProjects} editProjects={editProjects} />
+        <DialogContent dividers={scroll === 'body'} sx={{ borderBottom: '0' }}>
+          <ProjectForm
+            handleClose={handleClose}
+            editProjectId={editProjectId}
+            projectData={projectData}
+            setOpen={setOpen}
+            addProjects={addProjects}
+            editProjects={editProjects}
+          />
         </DialogContent>
       </Dialog>
     </>
   )
 }
 
-export default ProjectModal;
+export default ProjectModal

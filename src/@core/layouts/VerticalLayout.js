@@ -1,12 +1,12 @@
-import { useState } from 'react';
-import { Fab, Box } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import ArrowUp from 'mdi-material-ui/ArrowUp';
-import themeConfig from 'src/configs/themeConfig';
-import AppBar from './components/vertical/appBar';
-import Navigation from './components/vertical/navigation';
-import ScrollToTop from 'src/@core/components/scroll-to-top';
-import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker';
+import { useState } from 'react'
+import { Fab, Box } from '@mui/material'
+import { styled } from '@mui/material/styles'
+import ArrowUp from 'mdi-material-ui/ArrowUp'
+import themeConfig from 'src/configs/themeConfig'
+import AppBar from './components/vertical/appBar'
+import Navigation from './components/vertical/navigation'
+import ScrollToTop from 'src/@core/components/scroll-to-top'
+import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 
 const VerticalLayoutWrapper = styled('div')({
   height: '100%',
@@ -24,7 +24,7 @@ const MainContentWrapper = styled(Box)({
 const ContentWrapper = styled('main')(({ theme }) => ({
   flexGrow: 1,
   width: '100%',
-  paddingTop: "5.5rem",
+  paddingTop: '5.5rem',
   paddingLeft: theme.spacing(6),
   paddingRight: theme.spacing(6),
   paddingBottom: theme.spacing(6),
@@ -36,10 +36,10 @@ const ContentWrapper = styled('main')(({ theme }) => ({
 }))
 
 const VerticalLayout = props => {
-  const { children, scrollToTop } = props;
-  const navWidth = themeConfig.navigationSize;
-  const [navVisible, setNavVisible] = useState(false);
-  const toggleNavVisibility = () => setNavVisible(!navVisible);
+  const { children, scrollToTop } = props
+  const navWidth = themeConfig.navigationSize
+  const [navVisible, setNavVisible] = useState(false)
+  const toggleNavVisibility = () => setNavVisible(!navVisible)
 
   return (
     <>
@@ -54,11 +54,7 @@ const VerticalLayout = props => {
         <MainContentWrapper className='layout-content-wrapper'>
           <AppBar toggleNavVisibility={toggleNavVisibility} {...props} />
 
-          <ContentWrapper
-            className='layout-page-content'
-          >
-            {children}
-          </ContentWrapper>
+          <ContentWrapper className='layout-page-content'>{children}</ContentWrapper>
 
           <DatePickerWrapper sx={{ zIndex: 11 }}>
             <Box id='react-datepicker-portal'></Box>
@@ -79,4 +75,4 @@ const VerticalLayout = props => {
   )
 }
 
-export default VerticalLayout;
+export default VerticalLayout

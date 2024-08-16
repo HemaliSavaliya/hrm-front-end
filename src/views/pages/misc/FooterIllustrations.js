@@ -1,6 +1,6 @@
-import { Fragment } from 'react';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { styled, useTheme } from '@mui/material/styles';
+import { Fragment } from 'react'
+import useMediaQuery from '@mui/material/useMediaQuery'
+import { styled, useTheme } from '@mui/material/styles'
 
 // Styled Components
 const MaskImg = styled('img')(() => ({
@@ -41,4 +41,4 @@ const FooterIllustrations = props => {
   }
 }
 
-export default FooterIllustrations;
+export default FooterIllustrations

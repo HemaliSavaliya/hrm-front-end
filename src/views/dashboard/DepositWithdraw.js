@@ -1,7 +1,7 @@
-import { Box, Card, CardHeader, Typography, CardContent } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import MuiDivider from '@mui/material/Divider';
-import { motion } from "framer-motion";
+import { Box, Card, CardHeader, Typography, CardContent } from '@mui/material'
+import { styled } from '@mui/material/styles'
+import MuiDivider from '@mui/material/Divider'
+import { motion } from 'framer-motion'
 
 const depositData = [
   {
@@ -102,11 +102,7 @@ const Divider = styled(MuiDivider)(({ theme }) => ({
 
 const DepositWithdraw = () => {
   return (
-    <motion.div
-      initial={{ opacity: 0, x: 50 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.90 }}
-    >
+    <motion.div initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.9 }}>
       <Card sx={{ display: 'flex', justifyContent: 'space-between', flexDirection: ['column', 'column', 'row'] }}>
         <Box sx={{ width: '100%' }}>
           <CardHeader
@@ -202,4 +198,4 @@ const DepositWithdraw = () => {
   )
 }
 
-export default DepositWithdraw;
+export default DepositWithdraw

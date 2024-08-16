@@ -1,14 +1,14 @@
-import { useEffect, useState } from 'react';
-import { Box, Card } from '@mui/material';
-import { TabList, TabPanel, TabContext } from '@mui/lab';
-import { styled } from '@mui/material/styles';
-import MuiTab from '@mui/material/Tab';
-import { LockOpenOutline, InformationOutline, LockReset } from 'mdi-material-ui';
-import TabInfo from 'src/views/account-settings/TabInfo';
-import TabSecurity from 'src/views/account-settings/TabSecurity';
-import TabForgotPassword from 'src/views/account-settings/TabForgotPassword';
-import 'react-datepicker/dist/react-datepicker.css';
-import { motion } from "framer-motion";
+import { useEffect, useState } from 'react'
+import { Box, Card } from '@mui/material'
+import { TabList, TabPanel, TabContext } from '@mui/lab'
+import { styled } from '@mui/material/styles'
+import MuiTab from '@mui/material/Tab'
+import { LockOpenOutline, InformationOutline, LockReset } from 'mdi-material-ui'
+import TabInfo from 'src/views/account-settings/TabInfo'
+import TabSecurity from 'src/views/account-settings/TabSecurity'
+import TabForgotPassword from 'src/views/account-settings/TabForgotPassword'
+import 'react-datepicker/dist/react-datepicker.css'
+import { motion } from 'framer-motion'
 
 const Tab = styled(MuiTab)(({ theme }) => ({
   [theme.breakpoints.down('md')]: {
@@ -30,17 +30,17 @@ const TabName = styled('span')(({ theme }) => ({
 
 const AccountSettings = () => {
   // ** State
-  const [value, setValue] = useState('info');
-  const [role, setRole] = useState(null);
+  const [value, setValue] = useState('info')
+  const [role, setRole] = useState(null)
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const authToken = JSON.parse(localStorage.getItem('login-details'));
+      const authToken = JSON.parse(localStorage.getItem('login-details'))
       if (authToken) {
-        setRole(authToken?.role);
+        setRole(authToken?.role)
       }
     }
-  }, []);
+  }, [])
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
@@ -78,7 +78,7 @@ const AccountSettings = () => {
                 </Box>
               }
             />
-            {(role !== "Employee") && (
+            {role !== 'Employee' && (
               <Tab
                 value='forgot-password'
                 label={
@@ -97,7 +97,7 @@ const AccountSettings = () => {
           <TabPanel sx={{ p: 0 }} value='security'>
             <TabSecurity />
           </TabPanel>
-          {(role !== "Employee") && (
+          {role !== 'Employee' && (
             <TabPanel sx={{ p: 0 }} value='forgot-password'>
               <TabForgotPassword />
             </TabPanel>
@@ -108,4 +108,4 @@ const AccountSettings = () => {
   )
 }
 
-export default AccountSettings;
+export default AccountSettings

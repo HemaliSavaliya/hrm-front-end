@@ -102,7 +102,7 @@ export const DropFiles = ({ handleImageChange }) => {
         return (
           <>
             <img src='/images/document/pdf.png' alt={fileName} style={img} />
-            <Typography variant='subtitle2' pt={2} fontWeight={600} fontSize={11} style={{whiteSpace:"nowrap"}}>
+            <Typography variant='subtitle2' pt={2} fontWeight={600} fontSize={11} style={{ whiteSpace: 'nowrap' }}>
               {fileName}
             </Typography>
           </>
@@ -112,7 +112,7 @@ export const DropFiles = ({ handleImageChange }) => {
         return (
           <>
             <img src='/images/document/word.png' alt={fileName} style={img} />
-            <Typography variant='subtitle2' pt={2} fontWeight={600} fontSize={11} style={{whiteSpace:"nowrap"}}>
+            <Typography variant='subtitle2' pt={2} fontWeight={600} fontSize={11} style={{ whiteSpace: 'nowrap' }}>
               {fileName}
             </Typography>
           </>
@@ -122,7 +122,7 @@ export const DropFiles = ({ handleImageChange }) => {
         return (
           <>
             <img src='/images/document/powerpoint.png' alt={fileName} style={img} />
-            <Typography variant='subtitle2' pt={2} fontWeight={600} fontSize={11} style={{whiteSpace:"nowrap"}}>
+            <Typography variant='subtitle2' pt={2} fontWeight={600} fontSize={11} style={{ whiteSpace: 'nowrap' }}>
               {fileName}
             </Typography>
           </>
@@ -132,7 +132,7 @@ export const DropFiles = ({ handleImageChange }) => {
         return (
           <>
             <img src='/images/document/excel.png' alt={fileName} style={img} />
-            <Typography variant='subtitle2' pt={2} fontWeight={600} fontSize={11} style={{whiteSpace:"nowrap"}}>
+            <Typography variant='subtitle2' pt={2} fontWeight={600} fontSize={11} style={{ whiteSpace: 'nowrap' }}>
               {fileName}
             </Typography>
           </>
@@ -141,7 +141,7 @@ export const DropFiles = ({ handleImageChange }) => {
         return (
           <>
             <img src='/images/document/image.png' alt={fileName} style={img} />
-            <Typography variant='subtitle2' pt={2} fontWeight={600} fontSize={11} style={{whiteSpace:"nowrap"}}>
+            <Typography variant='subtitle2' pt={2} fontWeight={600} fontSize={11} style={{ whiteSpace: 'nowrap' }}>
               {fileName}
             </Typography>
           </>

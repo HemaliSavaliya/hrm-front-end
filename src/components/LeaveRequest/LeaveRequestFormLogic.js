@@ -1,84 +1,83 @@
-import { useState } from "react";
+import { useState } from 'react'
 
 const LeaveRequestFormLogic = () => {
   const initialFormValue = {
     // applyingDate: "",
-    leaveName: "",
-    startDate: "",
-    endDate: "",
-    leaveType: "",
-    description: ""
+    leaveName: '',
+    startDate: '',
+    endDate: '',
+    leaveType: '',
+    description: ''
   }
 
-  const [formData, setFormData] = useState(initialFormValue);
-  const [errors, setErrors] = useState(initialFormValue);
+  const [formData, setFormData] = useState(initialFormValue)
+  const [errors, setErrors] = useState(initialFormValue)
 
   const validateField = (name, value) => {
     switch (name) {
-
       // case "applyingDate":
       //   if (value.trim() === "") {
       //     return "Applying date is required";
       //   }
       //   break;
-      case "leaveName":
-        if (value.trim() === "") {
-          return "Leave Type is required";
+      case 'leaveName':
+        if (value.trim() === '') {
+          return 'Leave Type is required'
         }
-        break;
-      case "startDate":
-        if (value.trim() === "") {
-          return "Starting date is required";
+        break
+      case 'startDate':
+        if (value.trim() === '') {
+          return 'Starting date is required'
         }
-        break;
-        
+        break
+
       // case "endDate":
       //   if (value.trim() === "") {
       //     return "Ending date is required";
       //   }
       //   break;
-      case "leaveType":
-        if (value.trim() === "") {
-          return "Total Days is required";
+      case 'leaveType':
+        if (value.trim() === '') {
+          return 'Total Days is required'
         }
-        break;
-      case "description":
-        if (value.trim() === "") {
-          return "Description is required";
+        break
+      case 'description':
+        if (value.trim() === '') {
+          return 'Description is required'
         }
-        break;
+        break
     }
 
-    return "";
+    return ''
   }
 
   const validateForm = () => {
-    const newErrors = {};
-    Object.keys(initialFormValue).forEach((name) => {
-      const value = formData[name];
-      const error = validateField(name, value);
-      newErrors[name] = error;
-    });
+    const newErrors = {}
+    Object.keys(initialFormValue).forEach(name => {
+      const value = formData[name]
+      const error = validateField(name, value)
+      newErrors[name] = error
+    })
 
-    setErrors(newErrors);
+    setErrors(newErrors)
 
-    return !Object.values(newErrors).some((error) => error !== "");
-  };
+    return !Object.values(newErrors).some(error => error !== '')
+  }
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
+  const handleInputChange = event => {
+    const { name, value } = event.target
     setFormData({
       ...formData,
-      [name]: value,
-    });
+      [name]: value
+    })
 
-    const error = validateField(name, value);
+    const error = validateField(name, value)
 
     setErrors({
       ...errors,
-      [name]: error,
-    });
-  };
+      [name]: error
+    })
+  }
 
   // useEffect(() => {
   //   const selectedDepartment = departmentData.find((depart) => depart.id === editDepartId);
@@ -102,4 +101,4 @@ const LeaveRequestFormLogic = () => {
   }
 }
 
-export default LeaveRequestFormLogic;
+export default LeaveRequestFormLogic

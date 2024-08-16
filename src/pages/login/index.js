@@ -1,28 +1,49 @@
-import { Box, Button, Divider, TextField, InputLabel, Typography, IconButton, CardContent, FormControl, OutlinedInput, InputAdornment } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import MuiCard from '@mui/material/Card';
-import EyeOutline from 'mdi-material-ui/EyeOutline';
-import EyeOffOutline from 'mdi-material-ui/EyeOffOutline';
-import themeConfig from 'src/configs/themeConfig';
-import BlankLayout from 'src/@core/layouts/BlankLayout';
-import FooterIllustrationsV1 from 'src/views/pages/auth/FooterIllustration';
-import { motion } from "framer-motion";
-import { Toaster } from 'react-hot-toast';
-import useAuth from 'src/hooks/useAuth';
+import {
+  Box,
+  Button,
+  Divider,
+  TextField,
+  InputLabel,
+  Typography,
+  IconButton,
+  CardContent,
+  FormControl,
+  OutlinedInput,
+  InputAdornment
+} from '@mui/material'
+import { styled } from '@mui/material/styles'
+import MuiCard from '@mui/material/Card'
+import EyeOutline from 'mdi-material-ui/EyeOutline'
+import EyeOffOutline from 'mdi-material-ui/EyeOffOutline'
+import themeConfig from 'src/configs/themeConfig'
+import BlankLayout from 'src/@core/layouts/BlankLayout'
+import FooterIllustrationsV1 from 'src/views/pages/auth/FooterIllustration'
+import { motion } from 'framer-motion'
+import { Toaster } from 'react-hot-toast'
+import useAuth from 'src/hooks/useAuth'
 
 // ** Styled Components
 const Card = styled(MuiCard)(({ theme }) => ({
-  [theme.breakpoints.up('sm')]: { width: '28rem' },
-}));
+  [theme.breakpoints.up('sm')]: { width: '28rem' }
+}))
 
 const LinkStyled = styled('a')(({ theme }) => ({
   fontSize: '0.875rem',
   textDecoration: 'none',
-  color: theme.palette.primary.main,
-}));
+  color: theme.palette.primary.main
+}))
 
 const LoginPage = () => {
-  const { values,handleKeyDown, handleChange, handleClickShowPassword, handleMouseDownPassword, handleRadioChange, handleSubmit, isSaving } = useAuth();
+  const {
+    values,
+    handleKeyDown,
+    handleChange,
+    handleClickShowPassword,
+    handleMouseDownPassword,
+    handleRadioChange,
+    handleSubmit,
+    isSaving
+  } = useAuth()
 
   return (
     <Box className='content-center'>
@@ -33,7 +54,7 @@ const LoginPage = () => {
         transition={{ delay: 0.2, duration: 0.5 }}
       >
         <Card sx={{ zIndex: 1 }}>
-          <CardContent sx={{ padding: (theme) => `${theme.spacing(7, 9, 7)} !important` }}>
+          <CardContent sx={{ padding: theme => `${theme.spacing(7, 9, 7)} !important` }}>
             <Box sx={{ mb: 2, display: 'flex', alignItems: 'start', justifyContent: 'start' }}>
               <Typography
                 variant='h6'
@@ -41,7 +62,7 @@ const LoginPage = () => {
                   lineHeight: 1,
                   fontWeight: 600,
                   textTransform: 'uppercase',
-                  fontSize: '1.5rem !important',
+                  fontSize: '1.5rem !important'
                 }}
               >
                 {themeConfig.templateName}
@@ -96,7 +117,14 @@ const LoginPage = () => {
                   <FormControlLabel value='Admin' control={<Radio />} label='Admin' />
                 </RadioGroup>
               </FormControl> */}
-              <Button fullWidth size='large' variant='contained' sx={{ marginTop: 7 }} onClick={handleSubmit} disabled={isSaving}>
+              <Button
+                fullWidth
+                size='large'
+                variant='contained'
+                sx={{ marginTop: 7 }}
+                onClick={handleSubmit}
+                disabled={isSaving}
+              >
                 {isSaving ? 'Login...' : 'Login'}
               </Button>
               {/* <Divider sx={{ my: 5 }} /> */}
@@ -113,9 +141,9 @@ const LoginPage = () => {
       </motion.div>
       <FooterIllustrationsV1 />
     </Box>
-  );
-};
+  )
+}
 
-LoginPage.getLayout = (page) => <BlankLayout>{page}</BlankLayout>;
+LoginPage.getLayout = page => <BlankLayout>{page}</BlankLayout>
 
-export default LoginPage;
+export default LoginPage

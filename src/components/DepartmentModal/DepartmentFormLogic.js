@@ -1,92 +1,92 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react'
 
 const DepartmentFormLogic = (departmentData, editDepartId) => {
   const initialFormValue = {
-    departmentName: "",
-    departmentHead: "",
-    departmentEmail: "",
+    departmentName: '',
+    departmentHead: '',
+    departmentEmail: '',
     teamMembers: [],
-    status: "Active"
+    status: 'Active'
   }
 
-  const [formData, setFormData] = useState(initialFormValue);
-  const [errors, setErrors] = useState(initialFormValue);
+  const [formData, setFormData] = useState(initialFormValue)
+  const [errors, setErrors] = useState(initialFormValue)
 
   const validateField = (name, value) => {
     switch (name) {
-      case "departmentName":
-        if (value.trim() === "") {
-          return "Department name is required";
+      case 'departmentName':
+        if (value.trim() === '') {
+          return 'Department name is required'
         } else if (!/^[A-Za-z\s]+$/.test(value)) {
-          return "Department name should contain only characters";
+          return 'Department name should contain only characters'
         }
-        break;
-      case "departmentHead":
-        if (value.trim() === "") {
-          return "Department head is required";
+        break
+      case 'departmentHead':
+        if (value.trim() === '') {
+          return 'Department head is required'
         } else if (!/^[A-Za-z\s]+$/.test(value)) {
-          return "Department head should contain only characters";
+          return 'Department head should contain only characters'
         }
-        break;
-      case "departmentEmail":
-        if (value.trim() === "") {
-          return "Department email address is required";
+        break
+      case 'departmentEmail':
+        if (value.trim() === '') {
+          return 'Department email address is required'
         } else if (!/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z]+(?:\.[a-zA-Z]+)*$/.test(value)) {
-          return "Invalid email address";
+          return 'Invalid email address'
         }
-        break;
+        break
     }
 
-    return "";
+    return ''
   }
 
   const validateForm = () => {
-    const newErrors = {};
-    Object.keys(initialFormValue).forEach((name) => {
-      const value = formData[name];
-      const error = validateField(name, value);
-      newErrors[name] = error;
-    });
+    const newErrors = {}
+    Object.keys(initialFormValue).forEach(name => {
+      const value = formData[name]
+      const error = validateField(name, value)
+      newErrors[name] = error
+    })
 
-    setErrors(newErrors);
+    setErrors(newErrors)
 
-    return !Object.values(newErrors).some((error) => error !== "");
-  };
+    return !Object.values(newErrors).some(error => error !== '')
+  }
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
+  const handleInputChange = event => {
+    const { name, value } = event.target
     setFormData({
       ...formData,
-      [name]: value,
-    });
+      [name]: value
+    })
 
-    const error = validateField(name, value);
+    const error = validateField(name, value)
 
     setErrors({
       ...errors,
-      [name]: error,
-    });
-  };
+      [name]: error
+    })
+  }
 
   const handleTeamMembersChange = (event, value) => {
     setFormData({
       ...formData,
       teamMembers: value
-    });
+    })
   }
 
   useEffect(() => {
-    const selectedDepartment = departmentData.find((depart) => depart.id === editDepartId);
+    const selectedDepartment = departmentData.find(depart => depart.id === editDepartId)
 
     if (selectedDepartment) {
-      setFormData(selectedDepartment);
+      setFormData(selectedDepartment)
     } else {
       setFormData({
         ...initialFormValue
-      });
+      })
     }
-  }, [editDepartId, departmentData]);
+  }, [editDepartId, departmentData])
 
   return {
     handleInputChange,
@@ -99,4 +99,4 @@ const DepartmentFormLogic = (departmentData, editDepartId) => {
   }
 }
 
-export default DepartmentFormLogic;
+export default DepartmentFormLogic

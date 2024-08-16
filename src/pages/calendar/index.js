@@ -54,7 +54,7 @@ const EventCalendar = () => {
     events,
     generateId,
     setOpenDatepickerModal,
-    setEventInfoModal, 
+    setEventInfoModal,
     loading
   } = useCalendarData()
 

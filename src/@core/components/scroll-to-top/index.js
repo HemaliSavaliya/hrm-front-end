@@ -1,6 +1,6 @@
-import Zoom from '@mui/material/Zoom';
-import { styled } from '@mui/material/styles';
-import useScrollTrigger from '@mui/material/useScrollTrigger';
+import Zoom from '@mui/material/Zoom'
+import { styled } from '@mui/material/styles'
+import useScrollTrigger from '@mui/material/useScrollTrigger'
 
 const ScrollToTopStyled = styled('div')(({ theme }) => ({
   zIndex: 11,
@@ -35,4 +35,4 @@ const ScrollToTop = props => {
   )
 }
 
-export default ScrollToTop;
+export default ScrollToTop

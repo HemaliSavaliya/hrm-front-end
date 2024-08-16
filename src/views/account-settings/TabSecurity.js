@@ -1,12 +1,36 @@
-import { Box, Grid, Button, Divider, InputLabel, IconButton, CardContent, FormControl, OutlinedInput, InputAdornment } from '@mui/material';
-import EyeOutline from 'mdi-material-ui/EyeOutline';
-import EyeOffOutline from 'mdi-material-ui/EyeOffOutline';
-import { motion } from "framer-motion";
-import { Toaster } from 'react-hot-toast';
-import useTabSecurityData from 'src/hooks/useTabSecurityData';
+import {
+  Box,
+  Grid,
+  Button,
+  Divider,
+  InputLabel,
+  IconButton,
+  CardContent,
+  FormControl,
+  OutlinedInput,
+  InputAdornment
+} from '@mui/material'
+import EyeOutline from 'mdi-material-ui/EyeOutline'
+import EyeOffOutline from 'mdi-material-ui/EyeOffOutline'
+import { motion } from 'framer-motion'
+import { Toaster } from 'react-hot-toast'
+import useTabSecurityData from 'src/hooks/useTabSecurityData'
 
 const TabSecurity = () => {
-  const { handleCurrentPasswordChange, handleClickShowCurrentPassword, handleMouseDownCurrentPassword, handleNewPasswordChange, handleClickShowNewPassword, handleMouseDownNewPassword, handleConfirmNewPasswordChange, handleClickShowConfirmNewPassword, handleMouseDownConfirmNewPassword, handlePasswordChange, values, setValues } = useTabSecurityData();
+  const {
+    handleCurrentPasswordChange,
+    handleClickShowCurrentPassword,
+    handleMouseDownCurrentPassword,
+    handleNewPasswordChange,
+    handleClickShowNewPassword,
+    handleMouseDownNewPassword,
+    handleConfirmNewPasswordChange,
+    handleClickShowConfirmNewPassword,
+    handleMouseDownConfirmNewPassword,
+    handlePasswordChange,
+    values,
+    setValues
+  } = useTabSecurityData()
 
   return (
     <motion.form
@@ -129,4 +153,4 @@ const TabSecurity = () => {
   )
 }
 
-export default TabSecurity;
+export default TabSecurity

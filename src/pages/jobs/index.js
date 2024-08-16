@@ -7,7 +7,7 @@ import FormatListBulletedTriangle from 'mdi-material-ui/FormatListBulletedTriang
 import ApplicationEditOutline from 'mdi-material-ui/ApplicationEditOutline'
 import JobRequirement from 'src/views/jobs/JobRequirement'
 import ApplicantList from 'src/views/jobs/ApplicantList'
-import { motion } from "framer-motion"
+import { motion } from 'framer-motion'
 
 const Tab = styled(MuiTab)(({ theme }) => ({
   [theme.breakpoints.down('md')]: {

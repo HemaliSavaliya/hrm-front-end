@@ -118,7 +118,7 @@ const useAuth = () => {
     }
   }
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = e => {
     if (e.key === 'Enter') {
       handleSubmit(e)
     }
@@ -166,7 +166,7 @@ const useAuth = () => {
     handleMouseDownPassword,
     handleRadioChange,
     handleSubmit,
-    handleKeyDown,
+    handleKeyDown
   }
 }
 

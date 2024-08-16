@@ -1,11 +1,11 @@
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { motion } from "framer-motion";
-import { Chip, ListItem, Typography, Box, ListItemIcon, ListItemButton } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import themeConfig from 'src/configs/themeConfig';
-import UserIcon from 'src/layouts/components/UserIcon';
-import { handleURLQueries } from 'src/@core/layouts/utils';
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { motion } from 'framer-motion'
+import { Chip, ListItem, Typography, Box, ListItemIcon, ListItemButton } from '@mui/material'
+import { styled } from '@mui/material/styles'
+import themeConfig from 'src/configs/themeConfig'
+import UserIcon from 'src/layouts/components/UserIcon'
+import { handleURLQueries } from 'src/@core/layouts/utils'
 
 const MenuNavLink = styled(ListItemButton)(({ theme }) => ({
   width: '100%',
@@ -21,7 +21,7 @@ const MenuNavLink = styled(ListItemButton)(({ theme }) => ({
   '&.active .MuiTypography-root, &.active .MuiSvgIcon-root': {
     color: `${theme.palette.common.white} !important`
   }
-}));
+}))
 
 const MenuItemTextMetaWrapper = styled(Box)({
   width: '100%',
@@ -30,45 +30,44 @@ const MenuItemTextMetaWrapper = styled(Box)({
   justifyContent: 'space-between',
   transition: 'opacity .25s ease-in-out',
   ...(themeConfig.menuTextTruncate && { overflow: 'hidden' })
-});
+})
 
 const VerticalNavLink = ({ item, navVisible, toggleNavVisibility }) => {
-  const router = useRouter();
-  const IconTag = item.icon;
+  const router = useRouter()
+  const IconTag = item.icon
 
   const isNavLinkActive = () => {
-    return router.pathname === item.path || handleURLQueries(router, item.path);
-  };
+    return router.pathname === item.path || handleURLQueries(router, item.path)
+  }
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 }
-  };
+  }
 
   return (
-    <motion.div
-      initial="hidden"
-      animate="visible"
-      variants={itemVariants}
-      transition={{ delay: 0.2, duration: 0.5 }}
-    >
+    <motion.div initial='hidden' animate='visible' variants={itemVariants} transition={{ delay: 0.2, duration: 0.5 }}>
       <ListItem
         disablePadding
         className='nav-link'
         disabled={item.disabled || false}
         sx={{ mt: 1.5, px: '0 !important' }}
       >
-        <Link passHref href={item.path === undefined ? '/' : `${item.path}`} style={{ width: "100%", textDecoration: "none" }}>
+        <Link
+          passHref
+          href={item.path === undefined ? '/' : `${item.path}`}
+          style={{ width: '100%', textDecoration: 'none' }}
+        >
           <MenuNavLink
             className={isNavLinkActive() ? 'active' : ''}
             {...(item.openInNewTab ? { target: '_blank' } : null)}
-            onClick={(e) => {
+            onClick={e => {
               if (item.path === undefined) {
-                e.preventDefault();
-                e.stopPropagation();
+                e.preventDefault()
+                e.stopPropagation()
               }
               if (navVisible) {
-                toggleNavVisibility();
+                toggleNavVisibility()
               }
             }}
             sx={{
@@ -104,7 +103,7 @@ const VerticalNavLink = ({ item, navVisible, toggleNavVisibility }) => {
         </Link>
       </ListItem>
     </motion.div>
-  );
-};
+  )
+}
 
-export default VerticalNavLink;
+export default VerticalNavLink

@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { Card, Box } from '@mui/material';
-import { motion } from "framer-motion";
-import { TabContext, TabList, TabPanel } from '@mui/lab';
+import React, { useState } from 'react'
+import { Card, Box } from '@mui/material'
+import { motion } from 'framer-motion'
+import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { styled } from '@mui/material/styles'
 import MuiTab from '@mui/material/Tab'
-import Department from 'src/views/department/Department';
-import Designation from 'src/views/department/Designation';
-import { BadgeAccountOutline, CheckboxMultipleBlankOutline } from 'mdi-material-ui';
+import Department from 'src/views/department/Department'
+import Designation from 'src/views/department/Designation'
+import { BadgeAccountOutline, CheckboxMultipleBlankOutline } from 'mdi-material-ui'
 
 const Tab = styled(MuiTab)(({ theme }) => ({
   [theme.breakpoints.down('md')]: {
@@ -79,4 +79,4 @@ const DepartmentIndex = () => {
   )
 }
 
-export default DepartmentIndex;
+export default DepartmentIndex

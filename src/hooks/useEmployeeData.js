@@ -11,7 +11,7 @@ const useEmployeeData = () => {
   const [deleteTargetId, setDeleteTargetId] = useState(null)
   const [open, setOpen] = useState(false)
   const [scroll, setScroll] = useState('body')
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true)
   const authToken = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('login-details')) : null
   const theme = useTheme()
 
@@ -32,7 +32,7 @@ const useEmployeeData = () => {
   }
 
   const fetchData = async () => {
-    setLoading(true);
+    setLoading(true)
     try {
       const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/empList`, {
         headers: {
@@ -47,7 +47,7 @@ const useEmployeeData = () => {
     } catch (error) {
       console.error('Error fetching Employee', error)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
   }
 
@@ -278,7 +278,7 @@ const useEmployeeData = () => {
     deleteModalOpen,
     setDeleteModalOpen,
     confirmDeleteEmployee,
-    handleDeleteEmployee,
+    handleDeleteEmployee
   }
 }
 

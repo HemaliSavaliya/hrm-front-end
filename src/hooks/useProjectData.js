@@ -84,7 +84,7 @@ const useProjectData = () => {
   }
 
   const fetchProjects = async () => {
-    setLoading(true);
+    setLoading(true)
     try {
       const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/projects-list`, {
         headers: {
@@ -98,8 +98,8 @@ const useProjectData = () => {
       setProjectData(activeProjects, response.data)
     } catch (error) {
       console.error('Error fetching projects:', error)
-    }finally {
-      setLoading(false);
+    } finally {
+      setLoading(false)
     }
   }
 

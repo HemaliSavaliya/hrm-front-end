@@ -1,83 +1,83 @@
 // ** Icon imports
-import HomeOutline from 'mdi-material-ui/HomeOutline';
-import Account from 'mdi-material-ui/Account';
-import Project from 'mdi-material-ui/Briefcase';
-import Attendance from 'mdi-material-ui/Calendar';
-import Leave from 'mdi-material-ui/Clipboard';
-import Layers from 'mdi-material-ui/Layers';
-import AppleKeyboardCommand from 'mdi-material-ui/AppleKeyboardCommand';
-import Microphone from 'mdi-material-ui/Microphone';
-import CalendarMonthOutline from 'mdi-material-ui/CalendarMonthOutline';
-import TrophyAward from 'mdi-material-ui/TrophyAward';
-import AccountCogOutline from 'mdi-material-ui/AccountCogOutline';
-import FormatListBulleted from 'mdi-material-ui/FormatListBulleted';
+import HomeOutline from 'mdi-material-ui/HomeOutline'
+import Account from 'mdi-material-ui/Account'
+import Project from 'mdi-material-ui/Briefcase'
+import Attendance from 'mdi-material-ui/Calendar'
+import Leave from 'mdi-material-ui/Clipboard'
+import Layers from 'mdi-material-ui/Layers'
+import AppleKeyboardCommand from 'mdi-material-ui/AppleKeyboardCommand'
+import Microphone from 'mdi-material-ui/Microphone'
+import CalendarMonthOutline from 'mdi-material-ui/CalendarMonthOutline'
+import TrophyAward from 'mdi-material-ui/TrophyAward'
+import AccountCogOutline from 'mdi-material-ui/AccountCogOutline'
+import FormatListBulleted from 'mdi-material-ui/FormatListBulleted'
 
 const navigation = () => {
   return [
     {
       title: 'Dashboard',
       icon: HomeOutline,
-      path: '/',
+      path: '/'
     },
     {
-      sectionTitle: 'Pages',
+      sectionTitle: 'Pages'
     },
     {
       title: 'Employees',
       icon: Account,
-      path: '/employee',
+      path: '/employee'
     },
     {
       title: 'Projects',
       icon: Project,
-      path: '/projects',
+      path: '/projects'
     },
     {
       title: 'Role',
       icon: AccountCogOutline,
-      path: '/role',
+      path: '/role'
     },
     {
       title: 'Attendance',
       icon: Attendance,
-      path: '/attendance',
+      path: '/attendance'
     },
     {
       title: 'Leave Management',
       icon: Leave,
-      path: '/leave-management',
+      path: '/leave-management'
     },
     {
       title: 'Departments',
       icon: Layers,
-      path: '/departments',
+      path: '/departments'
     },
     {
       title: 'Job',
       icon: AppleKeyboardCommand,
-      path: '/jobs',
+      path: '/jobs'
     },
     {
       title: 'Calendar',
       icon: CalendarMonthOutline,
-      path: '/calendar',
+      path: '/calendar'
     },
     {
       title: 'Permission',
       icon: FormatListBulleted,
-      path: '/permission',
+      path: '/permission'
     },
     {
       title: 'Announcement',
       icon: Microphone,
-      path: '/announcement',
+      path: '/announcement'
     },
     {
       title: 'Awards',
       icon: TrophyAward,
-      path: '/awards',
-    },
+      path: '/awards'
+    }
   ]
 }
 
-export default navigation;
+export default navigation

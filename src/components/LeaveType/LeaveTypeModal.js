@@ -1,11 +1,21 @@
-import { Box, Dialog, DialogContent, DialogTitle, Typography, Button } from '@mui/material';
-import LeaveTypeForm from './LeaveTypeForm';
-import { motion } from "framer-motion";
+import { Box, Dialog, DialogContent, DialogTitle, Typography, Button } from '@mui/material'
+import LeaveTypeForm from './LeaveTypeForm'
+import { motion } from 'framer-motion'
 
-const LeaveTypeModal = ({ leaveTypeData, editLeaveTypeId, open, setOpen, scroll, handleClickOpen, handleClose, addLeaveType, editLeaveType }) => {
+const LeaveTypeModal = ({
+  leaveTypeData,
+  editLeaveTypeId,
+  open,
+  setOpen,
+  scroll,
+  handleClickOpen,
+  handleClose,
+  addLeaveType,
+  editLeaveType
+}) => {
   return (
     <>
-      <Box sx={{ mt: 3, textAlign: "end" }}>
+      <Box sx={{ mt: 3, textAlign: 'end' }}>
         <Button
           component={motion.div}
           whileHover={{
@@ -18,7 +28,7 @@ const LeaveTypeModal = ({ leaveTypeData, editLeaveTypeId, open, setOpen, scroll,
           transition={{ delay: 0.25 }}
           variant='contained'
           onClick={handleClickOpen('body')}
-          sx={{ lineHeight: 0, padding: "20px 25px" }}
+          sx={{ lineHeight: 0, padding: '20px 25px' }}
         >
           Add Leave Type
         </Button>
@@ -27,20 +37,25 @@ const LeaveTypeModal = ({ leaveTypeData, editLeaveTypeId, open, setOpen, scroll,
         open={open}
         onClose={handleClose}
         scroll={scroll}
-        aria-labelledby="scroll-dialog-title"
-        aria-describedby="scroll-dialog-description"
+        aria-labelledby='scroll-dialog-title'
+        aria-describedby='scroll-dialog-description'
       >
-        <DialogTitle id="scroll-dialog-title">
-          <Typography fontWeight={600}>
-            {editLeaveTypeId ? 'Edit Leave Type' : 'Add Leave Type'}
-          </Typography>
+        <DialogTitle id='scroll-dialog-title'>
+          <Typography fontWeight={600}>{editLeaveTypeId ? 'Edit Leave Type' : 'Add Leave Type'}</Typography>
         </DialogTitle>
-        <DialogContent dividers={scroll === 'body'} sx={{ borderBottom: "0" }}>
-          <LeaveTypeForm handleClose={handleClose} editLeaveTypeId={editLeaveTypeId} leaveTypeData={leaveTypeData} setOpen={setOpen} addLeaveType={addLeaveType} editLeaveType={editLeaveType} />
+        <DialogContent dividers={scroll === 'body'} sx={{ borderBottom: '0' }}>
+          <LeaveTypeForm
+            handleClose={handleClose}
+            editLeaveTypeId={editLeaveTypeId}
+            leaveTypeData={leaveTypeData}
+            setOpen={setOpen}
+            addLeaveType={addLeaveType}
+            editLeaveType={editLeaveType}
+          />
         </DialogContent>
       </Dialog>
     </>
   )
 }
 
-export default LeaveTypeModal;
+export default LeaveTypeModal

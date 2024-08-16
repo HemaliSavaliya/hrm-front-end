@@ -99,10 +99,10 @@ function EnhancedTableHead(props) {
             sx={
               headCell.id === 'action'
                 ? {
-                  position: 'sticky',
-                  left: 0,
-                  zIndex: 6
-                }
+                    position: 'sticky',
+                    left: 0,
+                    zIndex: 6
+                  }
                 : null
             }
           >
@@ -148,7 +148,7 @@ const Employee = () => {
     deleteModalOpen,
     setDeleteModalOpen,
     confirmDeleteEmployee,
-    handleDeleteEmployee,
+    handleDeleteEmployee
   } = useEmployeeData()
   const authToken = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('login-details')) : null
 
@@ -367,10 +367,7 @@ const Employee = () => {
                               }}
                             >
                               <PencilOutline onClick={() => handleEdit(row.id)} sx={{ mr: 2, color: '#9155FD' }} />
-                              <DeleteOutline
-                                onClick={() => handleDeleteEmployee(row.id)}
-                                sx={{ color: '#9155FD' }}
-                              />
+                              <DeleteOutline onClick={() => handleDeleteEmployee(row.id)} sx={{ color: '#9155FD' }} />
                             </TableCell>
                             <TableCell align='left'>{index + 1 + page * rowsPerPage}</TableCell>
                             {/* <TableCell align='left'>{row.id}</TableCell> */}
