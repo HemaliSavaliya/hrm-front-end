@@ -20,9 +20,6 @@ const navigation = () => {
       path: '/'
     },
     {
-      sectionTitle: 'Pages'
-    },
-    {
       title: 'Employees',
       icon: Account,
       path: '/employee'

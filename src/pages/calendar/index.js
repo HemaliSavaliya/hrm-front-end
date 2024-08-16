@@ -12,6 +12,7 @@ import CustomToolbar from 'src/components/CalendarModal/CustomToolbar'
 import { motion } from 'framer-motion'
 import useCalendarData from 'src/hooks/useCalendarData'
 import { Toaster } from 'react-hot-toast'
+import { useEffect, useState } from 'react'
 
 const locales = {
   'en-IN': enIN
@@ -26,6 +27,7 @@ const localizer = dateFnsLocalizer({
 })
 
 const EventCalendar = () => {
+  const [loading, setLoading] = useState(true)
   const {
     openSlot,
     openDatepickerModal,
@@ -54,12 +56,28 @@ const EventCalendar = () => {
     events,
     generateId,
     setOpenDatepickerModal,
-    setEventInfoModal,
-    loading
+    setEventInfoModal
   } = useCalendarData()
 
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false)
+    }, 2000)
+  }, [])
+
   if (loading) {
-    return <div>Loading...</div>
+    return (
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '80vh'
+        }}
+      >
+        <img src='/images/loader.svg' alt='loader' />
+      </div>
+    )
   }
 
   return (

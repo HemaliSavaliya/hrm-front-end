@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import useUserPermissions from 'src/hooks/useUserPermissions'
 import VerticalNavLink from './VerticalNavLink'
-import VerticalNavSectionTitle from './VerticalNavSectionTitle'
+// import VerticalNavSectionTitle from './VerticalNavSectionTitle'
 import navigation from 'src/navigation/vertical'
 
 const resolveNavItemComponent = item => {
-  if (item.sectionTitle) return VerticalNavSectionTitle
+  // if (item.sectionTitle) return VerticalNavSectionTitle
   return VerticalNavLink
 }
 

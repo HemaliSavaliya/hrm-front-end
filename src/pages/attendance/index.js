@@ -12,6 +12,7 @@ import { motion } from 'framer-motion'
 
 const Attendance = () => {
   const [role, setRole] = useState(null)
+  const [loading, setLoading] = useState(true)
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const authToken = JSON.parse(localStorage.getItem('login-details'))
@@ -54,6 +55,27 @@ const Attendance = () => {
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
+  }
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false)
+    }, 2000)
+  }, [])
+
+  if (loading) {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '80vh'
+        }}
+      >
+        <img src='/images/loader.svg' alt='loader' />
+      </div>
+    )
   }
 
   return (

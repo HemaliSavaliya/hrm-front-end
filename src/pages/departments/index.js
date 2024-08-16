@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Card, Box } from '@mui/material'
 import { motion } from 'framer-motion'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
@@ -28,9 +28,31 @@ const TabName = styled('span')(({ theme }) => ({
 
 const DepartmentIndex = () => {
   const [value, setValue] = useState('department')
+  const [loading, setLoading] = useState(true)
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
+  }
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false)
+    }, 2000)
+  }, [])
+
+  if (loading) {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '80vh'
+        }}
+      >
+        <img src='/images/loader.svg' alt='loader' />
+      </div>
+    )
   }
 
   return (

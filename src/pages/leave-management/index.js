@@ -33,6 +33,7 @@ const LeaveManagement = () => {
   }))
 
   const [role, setRole] = useState(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -57,6 +58,27 @@ const LeaveManagement = () => {
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
+  }
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false)
+    }, 2000)
+  }, [])
+
+  if (loading) {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '80vh'
+        }}
+      >
+        <img src='/images/loader.svg' alt='loader' />
+      </div>
+    )
   }
 
   return (

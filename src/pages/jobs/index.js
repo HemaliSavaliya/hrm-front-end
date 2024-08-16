@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Box, Card } from '@mui/material'
 import { TabList, TabPanel, TabContext } from '@mui/lab'
 import { styled } from '@mui/material/styles'
@@ -30,9 +30,31 @@ const TabName = styled('span')(({ theme }) => ({
 const Jobs = () => {
   // ** State
   const [value, setValue] = useState('requirement')
+  const [loading, setLoading] = useState(true)
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
+  }
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false)
+    }, 2000)
+  }, [])
+
+  if (loading) {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '80vh'
+        }}
+      >
+        <img src='/images/loader.svg' alt='loader' />
+      </div>
+    )
   }
 
   return (
