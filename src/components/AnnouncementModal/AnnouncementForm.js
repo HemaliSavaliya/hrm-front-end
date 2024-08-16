@@ -1,14 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {
   Button,
-  DialogContentText,
   Grid,
   Divider,
   MenuItem,
   TextField,
   InputLabel,
   Typography,
-  CardContent,
   CardActions,
   FormControl,
   Select
@@ -92,86 +90,82 @@ const AnnouncementForm = ({
     <>
       <div>
         <form onSubmit={handleFormSubmit} autoComplete='off'>
-          <CardContent>
-            <Grid container spacing={5}>
-              <Grid item xs={12} sm={12}>
-                <TextField
-                  fullWidth
-                  label='Announcement Title'
-                  id='announcementTitle'
-                  name='announcementTitle'
-                  value={formData.announcementTitle}
-                  onChange={handleInputChange}
-                />
-                {errors.announcementTitle && (
-                  <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.announcementTitle}</Typography>
-                )}
-              </Grid>
-              <Grid item xs={12} sm={12}>
-                <TextField
-                  fullWidth
-                  label='Announcement Details'
-                  id='announcementDetails'
-                  name='announcementDetails'
-                  value={formData.announcementDetails}
-                  onChange={handleInputChange}
-                />
-                {errors.announcementDetails && (
-                  <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>
-                    {errors.announcementDetails}
-                  </Typography>
-                )}
-              </Grid>
-              <Grid item xs={12} sm={12}>
-                <FormControl fullWidth>
-                  <InputLabel id='form-layouts-separator-select-label'>Department</InputLabel>
-                  <Select
-                    label='Department'
-                    labelId='form-layouts-separator-select-label'
-                    id='selectDepartment'
-                    name='selectDepartment'
-                    value={formData.selectDepartment}
-                    onChange={handleInputChange}
-                  >
-                    {departmentData.length === 0 ? (
-                      <MenuItem disabled>No Department</MenuItem>
-                    ) : (
-                      departmentData.map(department => (
-                        <MenuItem key={department.id} value={department.departmentName}>
-                          {department.departmentName}
-                        </MenuItem>
-                      ))
-                    )}
-                  </Select>
-                </FormControl>
-                {errors.selectDepartment && (
-                  <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.selectDepartment}</Typography>
-                )}
-              </Grid>
-              <Grid item xs={12} sm={12}>
-                <div
-                  id='document'
-                  name='document'
-                  style={{
-                    marginBottom: '10px',
-                    padding: '20px',
-                    border: 'dashed',
-                    borderColor: 'currentColor',
-                    borderWidth: 'thin',
-                    borderRadius: '6px',
-                    textAlign: 'center'
-                  }}
-                >
-                  <DropFiles handleImageChange={handleImageChange} />
-                </div>
-                {errors.document && (
-                  <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.document}</Typography>
-                )}
-              </Grid>
+          <Grid container spacing={5}>
+            <Grid item xs={12} sm={12}>
+              <TextField
+                fullWidth
+                label='Announcement Title'
+                id='announcementTitle'
+                name='announcementTitle'
+                value={formData.announcementTitle}
+                onChange={handleInputChange}
+              />
+              {errors.announcementTitle && (
+                <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.announcementTitle}</Typography>
+              )}
             </Grid>
-          </CardContent>
+            <Grid item xs={12} sm={12}>
+              <TextField
+                fullWidth
+                label='Announcement Details'
+                id='announcementDetails'
+                name='announcementDetails'
+                value={formData.announcementDetails}
+                onChange={handleInputChange}
+              />
+              {errors.announcementDetails && (
+                <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.announcementDetails}</Typography>
+              )}
+            </Grid>
+            <Grid item xs={12} sm={12}>
+              <FormControl fullWidth>
+                <InputLabel id='form-layouts-separator-select-label'>Department</InputLabel>
+                <Select
+                  label='Department'
+                  labelId='form-layouts-separator-select-label'
+                  id='selectDepartment'
+                  name='selectDepartment'
+                  value={formData.selectDepartment}
+                  onChange={handleInputChange}
+                >
+                  {departmentData.length === 0 ? (
+                    <MenuItem disabled>No Department</MenuItem>
+                  ) : (
+                    departmentData.map(department => (
+                      <MenuItem key={department.id} value={department.departmentName}>
+                        {department.departmentName}
+                      </MenuItem>
+                    ))
+                  )}
+                </Select>
+              </FormControl>
+              {errors.selectDepartment && (
+                <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.selectDepartment}</Typography>
+              )}
+            </Grid>
+            <Grid item xs={12} sm={12}>
+              <div
+                id='document'
+                name='document'
+                style={{
+                  marginBottom: '10px',
+                  padding: '20px',
+                  border: 'dashed',
+                  borderColor: 'currentColor',
+                  borderWidth: 'thin',
+                  borderRadius: '6px',
+                  textAlign: 'center'
+                }}
+              >
+                <DropFiles handleImageChange={handleImageChange} />
+              </div>
+              {errors.document && (
+                <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.document}</Typography>
+              )}
+            </Grid>
+          </Grid>
           <Divider sx={{ margin: 0 }} />
-          <CardActions>
+          <CardActions sx={{ pl: 0, pb: 0 }}>
             <Button
               size='large'
               type='submit'

@@ -1,19 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {
   Button,
-  DialogContentText,
   Grid,
   Divider,
   TextField,
   Typography,
-  CardContent,
   CardActions,
   FormControl,
   InputLabel,
   Select,
   MenuItem
 } from '@mui/material'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import AwardsFormLogic from './AwardsFormLogic'
 import axios from 'axios'
 
@@ -91,80 +89,78 @@ const AwardsForm = ({ handleClose, editAwardId, awardsData, setOpen, addAwards, 
     <>
       <div>
         <form onSubmit={handleFormSubmit} autoComplete='off'>
-          <CardContent>
-            <Grid container spacing={5}>
-              <Grid item xs={12} sm={12}>
-                <TextField
-                  fullWidth
-                  label='Awards Name'
-                  id='awardsName'
-                  name='awardsName'
-                  value={formData.awardsName}
-                  onChange={handleInputChange}
-                />
-                {errors.awardsName && (
-                  <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.awardsName}</Typography>
-                )}
-              </Grid>
-              <Grid item xs={12} sm={12}>
-                <TextField
-                  fullWidth
-                  label='Awards Details'
-                  id='awardsDetails'
-                  name='awardsDetails'
-                  multiline
-                  rows={3}
-                  value={formData.awardsDetails}
-                  onChange={handleInputChange}
-                />
-                {errors.awardsDetails && (
-                  <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.awardsDetails}</Typography>
-                )}
-              </Grid>
-              <Grid item xs={12} sm={12}>
-                <FormControl fullWidth>
-                  <InputLabel id='form-layouts-separator-select-label'>Employee</InputLabel>
-                  <Select
-                    label='Employee'
-                    defaultValue=''
-                    labelId='form-layouts-separator-select-label'
-                    id='employeeName'
-                    name='employeeName'
-                    value={formData.employeeName}
-                    onChange={handleInputChange}
-                  >
-                    {awardsUser.length === 0 ? (
-                      <MenuItem disabled>No Employee</MenuItem>
-                    ) : (
-                      awardsUser.map(user => (
-                        <MenuItem key={user.id} value={user.name}>
-                          {user.name} - {user.id}
-                        </MenuItem>
-                      ))
-                    )}
-                  </Select>
-                </FormControl>
-                {errors.employeeName && (
-                  <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.employeeName}</Typography>
-                )}
-              </Grid>
-              <Grid item xs={12} sm={12}>
-                <TextField
-                  fullWidth
-                  label='Reward'
-                  id='reward'
-                  name='reward'
-                  value={formData.reward}
-                  onChange={handleInputChange}
-                />
-                {errors.reward && (
-                  <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.reward}</Typography>
-                )}
-              </Grid>
+          <Grid container spacing={5}>
+            <Grid item xs={12} sm={12}>
+              <TextField
+                fullWidth
+                label='Awards Name'
+                id='awardsName'
+                name='awardsName'
+                value={formData.awardsName}
+                onChange={handleInputChange}
+              />
+              {errors.awardsName && (
+                <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.awardsName}</Typography>
+              )}
             </Grid>
-          </CardContent>
+            <Grid item xs={12} sm={12}>
+              <TextField
+                fullWidth
+                label='Awards Details'
+                id='awardsDetails'
+                name='awardsDetails'
+                multiline
+                rows={3}
+                value={formData.awardsDetails}
+                onChange={handleInputChange}
+              />
+              {errors.awardsDetails && (
+                <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.awardsDetails}</Typography>
+              )}
+            </Grid>
+            <Grid item xs={12} sm={12}>
+              <FormControl fullWidth>
+                <InputLabel id='form-layouts-separator-select-label'>Employee</InputLabel>
+                <Select
+                  label='Employee'
+                  defaultValue=''
+                  labelId='form-layouts-separator-select-label'
+                  id='employeeName'
+                  name='employeeName'
+                  value={formData.employeeName}
+                  onChange={handleInputChange}
+                >
+                  {awardsUser.length === 0 ? (
+                    <MenuItem disabled>No Employee</MenuItem>
+                  ) : (
+                    awardsUser.map(user => (
+                      <MenuItem key={user.id} value={user.name}>
+                        {user.name} - {user.id}
+                      </MenuItem>
+                    ))
+                  )}
+                </Select>
+              </FormControl>
+              {errors.employeeName && (
+                <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.employeeName}</Typography>
+              )}
+            </Grid>
+            <Grid item xs={12} sm={12} sx={{ mb: 5 }}>
+              <TextField
+                fullWidth
+                label='Reward'
+                id='reward'
+                name='reward'
+                value={formData.reward}
+                onChange={handleInputChange}
+              />
+              {errors.reward && (
+                <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.reward}</Typography>
+              )}
+            </Grid>
+          </Grid>
           <Divider sx={{ margin: 0 }} />
-          <CardActions>
+          <CardActions sx={{ pl: 0, pb: 0 }}>
             <Button size='large' type='submit' sx={{ mr: 2 }} variant='contained'>
               {isInEditMode ? 'Update' : 'Save'}
             </Button>

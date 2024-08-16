@@ -1,8 +1,6 @@
 import {
   Button,
   CardActions,
-  CardContent,
-  DialogContentText,
   Divider,
   FormControl,
   Grid,
@@ -12,7 +10,7 @@ import {
   TextField,
   Typography
 } from '@mui/material'
-import React, { useEffect, useRef } from 'react'
+import React from 'react'
 import DesignationFormLogic from './DesignationFormLogic'
 
 const DesignationForm = ({ handleClose, editDesignationId, designationData, setOpen, addDesignation }) => {
@@ -46,42 +44,40 @@ const DesignationForm = ({ handleClose, editDesignationId, designationData, setO
   return (
     <div>
       <form onSubmit={handleFormSubmit} autoComplete='off'>
-        <CardContent>
-          <Grid container spacing={5}>
-            <Grid item xs={12} sm={12}>
-              <TextField
-                fullWidth
-                label='Designation Name'
-                id='designationName'
-                name='designationName'
-                value={formData.designationName}
-                onChange={handleInputChange}
-              />
-              {errors.designationName && (
-                <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.designationName}</Typography>
-              )}
-            </Grid>
-            <Grid item xs={12} sm={12}>
-              <FormControl fullWidth>
-                <InputLabel>Status</InputLabel>
-                <Select
-                  label='Status'
-                  defaultValue='Active'
-                  labelId='form-layouts-separator-select-label'
-                  id='status'
-                  name='status'
-                  value={formData.status}
-                  onChange={handleInputChange}
-                >
-                  <MenuItem value='Active'>Active</MenuItem>
-                  <MenuItem value='Inactive'>Inactive</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
+        <Grid container spacing={5}>
+          <Grid item xs={12} sm={12}>
+            <TextField
+              fullWidth
+              label='Designation Name'
+              id='designationName'
+              name='designationName'
+              value={formData.designationName}
+              onChange={handleInputChange}
+            />
+            {errors.designationName && (
+              <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.designationName}</Typography>
+            )}
           </Grid>
-        </CardContent>
+          <Grid item xs={12} sm={12} sx={{ mb: 5 }}>
+            <FormControl fullWidth>
+              <InputLabel>Status</InputLabel>
+              <Select
+                label='Status'
+                defaultValue='Active'
+                labelId='form-layouts-separator-select-label'
+                id='status'
+                name='status'
+                value={formData.status}
+                onChange={handleInputChange}
+              >
+                <MenuItem value='Active'>Active</MenuItem>
+                <MenuItem value='Inactive'>Inactive</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+        </Grid>
         <Divider sx={{ margin: 0 }} />
-        <CardActions>
+        <CardActions sx={{ pl: 0, pb: 0 }}>
           <Button size='large' type='submit' sx={{ mr: 2 }} variant='contained'>
             Save
           </Button>

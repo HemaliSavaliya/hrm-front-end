@@ -1,11 +1,9 @@
 import {
   Button,
-  DialogContentText,
   Grid,
   Divider,
   TextField,
   Typography,
-  CardContent,
   CardActions,
   FormControl,
   InputLabel,
@@ -53,52 +51,51 @@ const LeaveTypeForm = ({ handleClose, leaveTypeData, editLeaveTypeId, setOpen, a
     <>
       <div>
         <form onSubmit={handleFormSubmit} autoComplete='off'>
-          <CardContent>
-            <Grid container spacing={5}>
-              <Grid item xs={12} sm={12}>
-                <TextField
-                  fullWidth
-                  label='Leave Type Name'
-                  id='leaveName'
-                  name='leaveName'
-                  value={formData.leaveName}
+          <Grid container spacing={5}>
+            <Grid item xs={12} sm={12}>
+              <TextField
+                fullWidth
+                label='Leave Type Name'
+                id='leaveName'
+                name='leaveName'
+                value={formData.leaveName}
+                onChange={handleInputChange}
+              />
+              {errors.leaveName && (
+                <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.leaveName}</Typography>
+              )}
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label='Leave Type Balance'
+                id='leaveBalance'
+                name='leaveBalance'
+                value={formData.leaveBalance}
+                onChange={handleInputChange}
+              />
+              {errors.leaveBalance && (
+                <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.leaveBalance}</Typography>
+              )}
+            </Grid>
+            <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
+              <FormControl fullWidth>
+                <InputLabel id='form-layouts-separator-select-label'>Leave Status</InputLabel>
+                <Select
+                  label='Leave Status'
+                  defaultValue=''
+                  labelId='form-layouts-separator-select-label'
+                  id='leaveStatus'
+                  name='leaveStatus'
+                  value={formData.leaveStatus}
                   onChange={handleInputChange}
-                />
-                {errors.leaveName && (
-                  <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.leaveName}</Typography>
-                )}
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  label='Leave Type Balance'
-                  id='leaveBalance'
-                  name='leaveBalance'
-                  value={formData.leaveBalance}
-                  onChange={handleInputChange}
-                />
-                {errors.leaveBalance && (
-                  <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.leaveBalance}</Typography>
-                )}
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <FormControl fullWidth>
-                  <InputLabel id='form-layouts-separator-select-label'>Leave Status</InputLabel>
-                  <Select
-                    label='Leave Status'
-                    defaultValue=''
-                    labelId='form-layouts-separator-select-label'
-                    id='leaveStatus'
-                    name='leaveStatus'
-                    value={formData.leaveStatus}
-                    onChange={handleInputChange}
-                  >
-                    <MenuItem value='Active'>Active</MenuItem>
-                    <MenuItem value='Inactive'>Inactive</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-              {/* <Grid item xs={12} sm={6}>
+                >
+                  <MenuItem value='Active'>Active</MenuItem>
+                  <MenuItem value='Inactive'>Inactive</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            {/* <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
                   type="date"
@@ -116,10 +113,9 @@ const LeaveTypeForm = ({ handleClose, leaveTypeData, editLeaveTypeId, setOpen, a
                 />
                 {errors.leaveAddingDate && <Typography sx={{ color: "#FF4433", fontSize: "13px",  pt: 1 }}>{errors.leaveAddingDate}</Typography>}
               </Grid> */}
-            </Grid>
-          </CardContent>
+          </Grid>
           <Divider sx={{ margin: 0 }} />
-          <CardActions>
+          <CardActions sx={{ pl: 0, pb: 0 }}>
             <Button size='large' type='submit' sx={{ mr: 2 }} variant='contained'>
               {isInEditMode ? 'Update' : 'Save'}
             </Button>

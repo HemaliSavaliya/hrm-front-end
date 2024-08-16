@@ -1,13 +1,11 @@
 import {
   Button,
-  DialogContentText,
   Grid,
   Divider,
   MenuItem,
   TextField,
   InputLabel,
   Typography,
-  CardContent,
   CardActions,
   FormControl,
   Select,
@@ -15,7 +13,7 @@ import {
   Chip
 } from '@mui/material'
 import { DropFiles } from 'src/@core/DropFile/DropFiles'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import ProjectFormLogic from './ProjectFormLogic'
 import axios from 'axios'
 
@@ -120,79 +118,57 @@ const ProjectForm = ({ handleClose, editProjectId, setOpen, projectData, addProj
     <>
       <div>
         <form onSubmit={handleFormSubmit} autoComplete='off'>
-          <CardContent>
-            <Grid container spacing={5}>
-              {!isInEditMode && (
-                <>
-                  <Grid item xs={12} sm={12}>
-                    <TextField
-                      fullWidth
-                      label='Project Name'
-                      id='projectName'
-                      name='projectName'
-                      value={formData.projectName}
-                      onChange={handleInputChange}
-                    />
-                    {errors.projectName && (
-                      <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.projectName}</Typography>
-                    )}
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      fullWidth
-                      label='Client Name'
-                      id='clientName'
-                      name='clientName'
-                      value={formData.clientName}
-                      onChange={handleInputChange}
-                    />
-                    {errors.clientName && (
-                      <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.clientName}</Typography>
-                    )}
-                  </Grid>
-                </>
-              )}
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  type='email'
-                  label='Client Email'
-                  id='clientEmail'
-                  name='clientEmail'
-                  value={formData.clientEmail}
-                  onChange={handleInputChange}
-                />
-              </Grid>
-              {!isInEditMode && (
+          <Grid container spacing={5}>
+            {!isInEditMode && (
+              <>
+                <Grid item xs={12} sm={12}>
+                  <TextField
+                    fullWidth
+                    label='Project Name'
+                    id='projectName'
+                    name='projectName'
+                    value={formData.projectName}
+                    onChange={handleInputChange}
+                  />
+                  {errors.projectName && (
+                    <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.projectName}</Typography>
+                  )}
+                </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
                     fullWidth
-                    type='date'
-                    label='Start Date'
-                    id='startDate'
-                    name='startDate'
-                    value={formData.startDate}
+                    label='Client Name'
+                    id='clientName'
+                    name='clientName'
+                    value={formData.clientName}
                     onChange={handleInputChange}
-                    InputLabelProps={{
-                      shrink: true
-                    }}
-                    inputProps={{
-                      placeholder: '' // Set an empty string as the placeholder
-                    }}
                   />
-                  {errors.startDate && (
-                    <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.startDate}</Typography>
+                  {errors.clientName && (
+                    <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.clientName}</Typography>
                   )}
                 </Grid>
-              )}
+              </>
+            )}
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                type='email'
+                label='Client Email'
+                id='clientEmail'
+                name='clientEmail'
+                value={formData.clientEmail}
+                onChange={handleInputChange}
+              />
+            </Grid>
+            {!isInEditMode && (
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
                   type='date'
-                  label='End Date'
-                  id='endDate'
-                  name='endDate'
-                  value={formData.endDate}
+                  label='Start Date'
+                  id='startDate'
+                  name='startDate'
+                  value={formData.startDate}
                   onChange={handleInputChange}
                   InputLabelProps={{
                     shrink: true
@@ -201,73 +177,93 @@ const ProjectForm = ({ handleClose, editProjectId, setOpen, projectData, addProj
                     placeholder: '' // Set an empty string as the placeholder
                   }}
                 />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <FormControl fullWidth>
-                  <InputLabel id='form-layouts-separator-select-label'>Status</InputLabel>
-                  <Select
-                    label='Status'
-                    defaultValue='Active'
-                    labelId='form-layouts-separator-select-label'
-                    id='status'
-                    name='status'
-                    value={formData.status}
-                    onChange={handleInputChange}
-                  >
-                    <MenuItem value='Active'>Active</MenuItem>
-                    <MenuItem value='Inactive'>Inactive</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <Autocomplete
-                  multiple
-                  options={teamMemberData.map((member, index) => ({
-                    name: member,
-                    id: teamMemberId[index]
-                  }))}
-                  getOptionLabel={option => option.name}
-                  value={formData.teamMembers}
-                  onChange={handleTeamMembersChange}
-                  renderTags={(value, getTagProps) =>
-                    value.map((option, index) => {
-                      const { key, ...rest } = getTagProps({ index })
-
-                      return <Chip key={key} variant='outlined' label={`${option.name} (${option.id})`} {...rest} />
-                    })
-                  }
-                  renderInput={params => (
-                    <TextField {...params} label='Team Members' id='teamMembers' name='teamMembers' />
-                  )}
-                />
-                {errors.teamMembers && (
-                  <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.teamMembers}</Typography>
+                {errors.startDate && (
+                  <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.startDate}</Typography>
                 )}
               </Grid>
-              <Grid item xs={12} sm={12}>
-                <div
-                  id='document'
-                  name='document'
-                  style={{
-                    marginBottom: '10px',
-                    padding: '20px',
-                    border: 'dashed',
-                    borderColor: 'currentColor',
-                    borderWidth: 'thin',
-                    borderRadius: '6px',
-                    textAlign: 'center'
-                  }}
-                >
-                  <DropFiles handleImageChange={handleImageChange} />
-                </div>
-                {errors.document && (
-                  <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.document}</Typography>
-                )}
-              </Grid>
+            )}
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                type='date'
+                label='End Date'
+                id='endDate'
+                name='endDate'
+                value={formData.endDate}
+                onChange={handleInputChange}
+                InputLabelProps={{
+                  shrink: true
+                }}
+                inputProps={{
+                  placeholder: '' // Set an empty string as the placeholder
+                }}
+              />
             </Grid>
-          </CardContent>
+            <Grid item xs={12} sm={6}>
+              <FormControl fullWidth>
+                <InputLabel id='form-layouts-separator-select-label'>Status</InputLabel>
+                <Select
+                  label='Status'
+                  defaultValue='Active'
+                  labelId='form-layouts-separator-select-label'
+                  id='status'
+                  name='status'
+                  value={formData.status}
+                  onChange={handleInputChange}
+                >
+                  <MenuItem value='Active'>Active</MenuItem>
+                  <MenuItem value='Inactive'>Inactive</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Autocomplete
+                multiple
+                options={teamMemberData.map((member, index) => ({
+                  name: member,
+                  id: teamMemberId[index]
+                }))}
+                getOptionLabel={option => option.name}
+                value={formData.teamMembers}
+                onChange={handleTeamMembersChange}
+                renderTags={(value, getTagProps) =>
+                  value.map((option, index) => {
+                    const { key, ...rest } = getTagProps({ index })
+
+                    return <Chip key={key} variant='outlined' label={`${option.name} (${option.id})`} {...rest} />
+                  })
+                }
+                renderInput={params => (
+                  <TextField {...params} label='Team Members' id='teamMembers' name='teamMembers' />
+                )}
+              />
+              {errors.teamMembers && (
+                <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.teamMembers}</Typography>
+              )}
+            </Grid>
+            <Grid item xs={12} sm={12}>
+              <div
+                id='document'
+                name='document'
+                style={{
+                  marginBottom: '10px',
+                  padding: '20px',
+                  border: 'dashed',
+                  borderColor: 'currentColor',
+                  borderWidth: 'thin',
+                  borderRadius: '6px',
+                  textAlign: 'center'
+                }}
+              >
+                <DropFiles handleImageChange={handleImageChange} />
+              </div>
+              {errors.document && (
+                <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.document}</Typography>
+              )}
+            </Grid>
+          </Grid>
           <Divider sx={{ margin: 0 }} />
-          <CardActions>
+          <CardActions sx={{ pl: 0, pb: 0 }}>
             <Button
               size='large'
               type='submit'

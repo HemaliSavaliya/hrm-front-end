@@ -1,8 +1,6 @@
 import {
   Button,
   CardActions,
-  CardContent,
-  DialogContentText,
   Divider,
   FormControl,
   Grid,
@@ -46,41 +44,39 @@ const RoleForm = ({ handleClose, editRoleId, roleData, setOpen, addRole }) => {
   return (
     <div>
       <form onSubmit={handleFormSubmit} autoComplete='off'>
-        <CardContent>
-          <Grid container spacing={5}>
-            <Grid item xs={12} sm={12}>
-              <TextField
-                fullWidth
-                label='Role Name'
-                id='roleName'
-                name='roleName'
-                value={formData.roleName}
-                onChange={handleInputChange}
-              />
-              {errors.roleName && (
-                <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.roleName}</Typography>
-              )}
-            </Grid>
-            <Grid item xs={12} sm={12}>
-              <FormControl fullWidth>
-                <InputLabel>Status</InputLabel>
-                <Select
-                  label='Status'
-                  defaultValue='Enable'
-                  id='status'
-                  name='status'
-                  value={formData.status}
-                  onChange={handleInputChange}
-                >
-                  <MenuItem value='Enable'>Enable</MenuItem>
-                  <MenuItem value='Disable'>Disable</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
+        <Grid container spacing={5}>
+          <Grid item xs={12} sm={12}>
+            <TextField
+              fullWidth
+              label='Role Name'
+              id='roleName'
+              name='roleName'
+              value={formData.roleName}
+              onChange={handleInputChange}
+            />
+            {errors.roleName && (
+              <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.roleName}</Typography>
+            )}
           </Grid>
-        </CardContent>
+          <Grid item xs={12} sm={12} sx={{ mb: 5 }}>
+            <FormControl fullWidth>
+              <InputLabel>Status</InputLabel>
+              <Select
+                label='Status'
+                defaultValue='Enable'
+                id='status'
+                name='status'
+                value={formData.status}
+                onChange={handleInputChange}
+              >
+                <MenuItem value='Enable'>Enable</MenuItem>
+                <MenuItem value='Disable'>Disable</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+        </Grid>
         <Divider sx={{ margin: 0 }} />
-        <CardActions>
+        <CardActions sx={{ pl: 0, pb: 0 }}>
           <Button size='large' type='submit' sx={{ mr: 2 }} variant='contained'>
             Save
           </Button>
