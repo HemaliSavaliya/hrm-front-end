@@ -25,6 +25,7 @@ import DocumentModal from 'src/common/DocumentModal'
 import axios from 'axios'
 import { Toaster } from 'react-hot-toast'
 import ConfirmationModal from 'src/common/ConfirmationModal'
+import { useTheme } from '@mui/material/styles'
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -196,6 +197,7 @@ const Project = () => {
   const [fileId, setFileId] = useState(null)
   const [openModal, setOpenModal] = useState(false)
   const [loadingStates, setLoadingStates] = useState(new Array(projectData.length).fill(false))
+  const theme = useTheme()
 
   // Function to handle button click and call the API
   const handleButtonClick = async (documentName, id, loadingIndex) => {
@@ -345,7 +347,7 @@ const Project = () => {
                                 align='left'
                                 sx={{
                                   position: 'sticky',
-                                  background: 'white',
+                                  background: theme.palette.background.paper,
                                   left: 0,
                                   zIndex: 1
                                 }}

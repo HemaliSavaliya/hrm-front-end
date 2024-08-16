@@ -10,11 +10,10 @@ import {
   TablePagination,
   TableRow,
   TableSortLabel,
-  Typography
+  Typography,
+  Skeleton
 } from '@mui/material'
 import PropTypes from 'prop-types'
-import DeleteOutline from 'mdi-material-ui/DeleteOutline'
-import PencilOutline from 'mdi-material-ui/PencilOutline'
 import { visuallyHidden } from '@mui/utils'
 import { motion } from 'framer-motion'
 import axios from 'axios'
@@ -108,20 +107,24 @@ const ApplicantList = () => {
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(5)
   const [applicant, setApplicant] = useState([])
+  const [loading, setLoading] = useState(true)
 
   // Fetch data
-  const fetchTimer = async () => {
+  const fetchApplicant = async () => {
+    setLoading(true)
     try {
       const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/applicant-list`)
 
       setApplicant(response.data)
     } catch (error) {
       console.error('Error fetching Role Wise Attendance', error)
+    } finally {
+      setLoading(false)
     }
   }
 
   useEffect(() => {
-    fetchTimer()
+    fetchApplicant()
   }, [])
 
   const handleRequestSort = (event, property) => {
@@ -156,7 +159,24 @@ const ApplicantList = () => {
     >
       <Card sx={{ mt: 3 }}>
         <Box sx={{ width: '100%' }}>
-          {visibleRows && visibleRows.length === 0 ? (
+          {loading ? (
+            <TableContainer sx={{ height: '380px' }}>
+              <Table stickyHeader sx={{ minWidth: 1500 }} aria-labelledby='tableTitle'>
+                <EnhancedTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
+                <TableBody>
+                  {Array.from(new Array(rowsPerPage)).map((_, index) => (
+                    <TableRow key={index}>
+                      {headCells.map(cell => (
+                        <TableCell key={cell.id}>
+                          <Skeleton variant='text' />
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          ) : visibleRows && visibleRows.length === 0 ? (
             <Typography
               textTransform={'uppercase'}
               letterSpacing={1}

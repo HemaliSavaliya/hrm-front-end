@@ -21,6 +21,7 @@ import useAwardsData from 'src/hooks/useAwardsData'
 import { motion } from 'framer-motion'
 import { Toaster } from 'react-hot-toast'
 import ConfirmationModal from 'src/common/ConfirmationModal'
+import { useTheme } from '@mui/material/styles'
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -139,6 +140,7 @@ const Awards = () => {
   const [rowsPerPage, setRowsPerPage] = useState(5)
   const authToken = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('login-details')) : null
   const role = authToken?.role
+  const theme = useTheme()
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc'
@@ -234,7 +236,7 @@ const Awards = () => {
                               sx={{
                                 position: 'sticky',
                                 left: 0,
-                                background: 'white',
+                                background: theme.palette.background.paper,
                                 zIndex: 1
                               }}
                             >

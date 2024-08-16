@@ -10,7 +10,8 @@ import {
   TablePagination,
   TableRow,
   TableSortLabel,
-  Typography
+  Typography,
+  Skeleton
 } from '@mui/material'
 import PropTypes from 'prop-types'
 import { visuallyHidden } from '@mui/utils'
@@ -106,10 +107,12 @@ const LeaveBalance = () => {
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(5)
   const [leaveBal, setLeaveBal] = useState([])
+  const [loading, setLoading] = useState(true)
   const authToken = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('login-details')) : null
 
   useEffect(() => {
     const fetchLeaveBalance = async () => {
+      setLoading(true)
       try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/leaveBalance`, {
           headers: {
@@ -120,6 +123,8 @@ const LeaveBalance = () => {
         setLeaveBal(response.data)
       } catch (error) {
         console.error('Error fetching Role Wise Attendance', error)
+      } finally {
+        setLoading(false)
       }
     }
 
@@ -158,7 +163,24 @@ const LeaveBalance = () => {
     >
       <Card sx={{ mt: 3 }}>
         <Box sx={{ width: '100%' }}>
-          {visibleRows && visibleRows.length === 0 ? (
+          {loading ? (
+            <TableContainer sx={{ height: '380px' }}>
+              <Table stickyHeader sx={{ minWidth: 1500 }} aria-labelledby='tableTitle'>
+                <EnhancedTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
+                <TableBody>
+                  {Array.from(new Array(rowsPerPage)).map((_, index) => (
+                    <TableRow key={index}>
+                      {headCells.map(cell => (
+                        <TableCell key={cell.id}>
+                          <Skeleton variant='text' />
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          ) : visibleRows && visibleRows.length === 0 ? (
             <Typography
               textTransform={'uppercase'}
               letterSpacing={1}

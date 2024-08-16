@@ -11,6 +11,7 @@ const useLeaveTypeData = () => {
   const [scroll, setScroll] = useState('body')
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
   const [deleteTargetId, setDeleteTargetId] = useState(null)
+  const [loading, setLoading] = useState(true)
   const authToken = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('login-details')) : null
   const theme = useTheme()
 
@@ -83,6 +84,7 @@ const useLeaveTypeData = () => {
   }
 
   const fetchLeaveType = async () => {
+    setLoading(true)
     try {
       const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/leaveTypeList`, {
         headers: {
@@ -96,6 +98,8 @@ const useLeaveTypeData = () => {
       setLeaveTypeData(leaveType, response.data)
     } catch (error) {
       console.error('Error fetching leave type', error)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -265,6 +269,7 @@ const useLeaveTypeData = () => {
   }
 
   return {
+    loading,
     leaveTypeData,
     editLeaveTypeId,
     open,

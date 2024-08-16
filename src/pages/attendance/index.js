@@ -13,6 +13,7 @@ import { motion } from 'framer-motion'
 const Attendance = () => {
   const [role, setRole] = useState(null)
   const [loading, setLoading] = useState(true)
+  
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const authToken = JSON.parse(localStorage.getItem('login-details'))

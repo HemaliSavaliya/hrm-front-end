@@ -13,7 +13,8 @@ import {
   TableSortLabel,
   TextField,
   InputAdornment,
-  Typography
+  Typography,
+  Skeleton
 } from '@mui/material'
 import PropTypes from 'prop-types'
 import { visuallyHidden } from '@mui/utils'
@@ -113,10 +114,12 @@ const RoleWiseAttendance = () => {
   const [rowsPerPage, setRowsPerPage] = useState(5)
   const [roleAttendance, setRoleAttendance] = useState([])
   const [searchQuery, setSearchQuery] = useState('')
+  const [loading, setLoading] = useState(true)
   const authToken = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('login-details')) : null
 
   // Fetch data
   const fetchTimer = async () => {
+    setLoading(true)
     try {
       const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/timer-list-role`, {
         headers: {
@@ -127,6 +130,8 @@ const RoleWiseAttendance = () => {
       setRoleAttendance(response.data)
     } catch (error) {
       console.error('Error fetching Role Wise Attendance', error)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -201,7 +206,24 @@ const RoleWiseAttendance = () => {
       </Box>
       <Card sx={{ mt: 3 }}>
         <Box sx={{ width: '100%' }}>
-          {visibleRows && visibleRows.length === 0 ? (
+          {loading ? (
+            <TableContainer sx={{ height: '380px' }}>
+              <Table stickyHeader sx={{ minWidth: 1500 }} aria-labelledby='tableTitle'>
+                <EnhancedTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
+                <TableBody>
+                  {Array.from(new Array(rowsPerPage)).map((_, index) => (
+                    <TableRow key={index}>
+                      {headCells.map(cell => (
+                        <TableCell key={cell.id}>
+                          <Skeleton variant='text' />
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          ) : visibleRows && visibleRows.length === 0 ? (
             <Typography
               textTransform={'uppercase'}
               letterSpacing={1}

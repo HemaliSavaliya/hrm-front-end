@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 
 const useLeaveReqData = () => {
   const [leaveReqData, setLeaveReqData] = useState([])
+  const [loading, setLoading] = useState(true)
   const authToken = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('login-details')) : null
 
   const updateLeaveRequestStatus = async (leaveRequestId, newStatus) => {
@@ -37,6 +38,7 @@ const useLeaveReqData = () => {
   }
 
   const fetchAllLeaveRequest = async () => {
+    setLoading(true)
     try {
       const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/leaveRequestListRoleWise`, {
         headers: {
@@ -47,6 +49,8 @@ const useLeaveReqData = () => {
       setLeaveReqData(response.data)
     } catch (error) {
       console.error('Error fetching leave request', error)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -55,6 +59,7 @@ const useLeaveReqData = () => {
   }, [authToken?.token])
 
   return {
+    loading,
     leaveReqData,
     updateLeaveRequestStatus
   }

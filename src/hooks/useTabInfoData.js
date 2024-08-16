@@ -8,6 +8,7 @@ const useTabInfoData = () => {
   const [dateJon, setDateJon] = useState(null)
   const [imgSrc, setImgSrc] = useState(null)
   const [authToken, setAuthToken] = useState(null)
+  const [loadingImage, setLoadingImage] = useState(false) // Add loading state
   const theme = useTheme()
 
   useEffect(() => {
@@ -196,6 +197,7 @@ const useTabInfoData = () => {
 
   // Function to fetch the profile image data from the server
   const fetchProfileImage = async () => {
+    setLoadingImage(true) // Start loading
     try {
       // Make a request to the backend endpoint to fetch the profile image data
       const response = await axios.get(
@@ -214,10 +216,13 @@ const useTabInfoData = () => {
       setImgSrc(dataURL)
     } catch (error) {
       console.error('Error fetching profile image:', error)
+    } finally {
+      setLoadingImage(false) // Stop loading
     }
   }
 
   return {
+    loadingImage,
     date,
     dateJon,
     setDateJon,

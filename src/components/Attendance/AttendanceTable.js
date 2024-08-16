@@ -10,7 +10,8 @@ import {
   TablePagination,
   TableRow,
   TableSortLabel,
-  Typography
+  Typography,
+  Skeleton
 } from '@mui/material'
 import PropTypes from 'prop-types'
 import { visuallyHidden } from '@mui/utils'
@@ -105,7 +106,7 @@ EnhancedTableHead.propTypes = {
 }
 
 const AttendanceTable = () => {
-  const { role, savedProjects } = useTimer()
+  const { role, savedProjects, loading } = useTimer()
 
   // for table
   const [order, setOrder] = useState('asc')
@@ -149,7 +150,24 @@ const AttendanceTable = () => {
     >
       <Card sx={{ mt: 5 }}>
         <Box sx={{ width: '100%' }}>
-          {visibleRows && visibleRows.length === 0 ? (
+          {loading ? (
+            <TableContainer sx={{ height: '380px' }}>
+              <Table stickyHeader sx={{ minWidth: 1500 }} aria-labelledby='tableTitle'>
+                <EnhancedTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
+                <TableBody>
+                  {Array.from(new Array(rowsPerPage)).map((_, index) => (
+                    <TableRow key={index}>
+                      {headCells.map(cell => (
+                        <TableCell key={cell.id}>
+                          <Skeleton variant='text' />
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          ) : visibleRows && visibleRows.length === 0 ? (
             <Typography
               textTransform={'uppercase'}
               letterSpacing={1}

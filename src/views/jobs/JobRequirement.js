@@ -10,7 +10,8 @@ import {
   TablePagination,
   TableRow,
   TableSortLabel,
-  Typography
+  Typography,
+  Skeleton
 } from '@mui/material'
 import PropTypes from 'prop-types'
 import DeleteOutline from 'mdi-material-ui/DeleteOutline'
@@ -21,6 +22,7 @@ import JobModal from 'src/components/JobModal/JobModal'
 import { motion } from 'framer-motion'
 import { Toaster } from 'react-hot-toast'
 import ConfirmationModal from 'src/common/ConfirmationModal'
+import { useTheme } from '@mui/material/styles'
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -129,7 +131,8 @@ const JobRequirement = () => {
     deleteModalOpen,
     setDeleteModalOpen,
     confirmDeleteJobs,
-    handleDeleteJobs
+    handleDeleteJobs,
+    loading
   } = useJobData()
 
   // for table
@@ -137,6 +140,7 @@ const JobRequirement = () => {
   const [orderBy, setOrderBy] = useState('name')
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(5)
+  const theme = useTheme()
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc'
@@ -193,7 +197,24 @@ const JobRequirement = () => {
       >
         <Card sx={{ mt: 3 }}>
           <Box sx={{ width: '100%' }}>
-            {visibleRows && visibleRows.length === 0 ? (
+            {loading ? (
+              <TableContainer sx={{ height: '380px' }}>
+                <Table stickyHeader sx={{ minWidth: 1500 }} aria-labelledby='tableTitle'>
+                  <EnhancedTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
+                  <TableBody>
+                    {Array.from(new Array(rowsPerPage)).map((_, index) => (
+                      <TableRow key={index}>
+                        {headCells.map(cell => (
+                          <TableCell key={cell.id}>
+                            <Skeleton variant='text' />
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            ) : visibleRows && visibleRows.length === 0 ? (
               <Typography
                 textTransform={'uppercase'}
                 letterSpacing={1}
@@ -217,7 +238,7 @@ const JobRequirement = () => {
                               sx={{
                                 position: 'sticky',
                                 left: 0,
-                                background: 'white',
+                                background: theme.palette.background.paper,
                                 zIndex: 1
                               }}
                             >

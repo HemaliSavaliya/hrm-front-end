@@ -11,7 +11,8 @@ import {
   TableRow,
   TableSortLabel,
   Chip,
-  Typography
+  Typography,
+  Skeleton
 } from '@mui/material'
 import PropTypes from 'prop-types'
 import PencilOutline from 'mdi-material-ui/PencilOutline'
@@ -20,6 +21,7 @@ import useDepartmentData from 'src/hooks/useDepartmentData'
 import { motion } from 'framer-motion'
 import { Toaster } from 'react-hot-toast'
 import DepartmentModal from 'src/components/DepartmentModal/DepartmentModal'
+import { useTheme } from '@mui/material/styles'
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -131,7 +133,8 @@ const Department = () => {
     handleClose,
     addDepartments,
     editDepartments,
-    updateDepartmentStatus
+    updateDepartmentStatus,
+    loading
   } = useDepartmentData()
 
   // for table
@@ -139,6 +142,7 @@ const Department = () => {
   const [orderBy, setOrderBy] = useState('name')
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(5)
+  const theme = useTheme()
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc'
@@ -194,7 +198,24 @@ const Department = () => {
       >
         <Card sx={{ mt: 3 }}>
           <Box sx={{ width: '100%' }}>
-            {visibleRows && visibleRows.length === 0 ? (
+            {loading ? (
+              <TableContainer sx={{ height: '380px' }}>
+                <Table stickyHeader sx={{ minWidth: 1500 }} aria-labelledby='tableTitle'>
+                  <EnhancedTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
+                  <TableBody>
+                    {Array.from(new Array(rowsPerPage)).map((_, index) => (
+                      <TableRow key={index}>
+                        {headCells.map(cell => (
+                          <TableCell key={cell.id}>
+                            <Skeleton variant='text' />
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            ) : visibleRows && visibleRows.length === 0 ? (
               <Typography
                 textTransform={'uppercase'}
                 letterSpacing={1}
@@ -218,7 +239,7 @@ const Department = () => {
                               align='left'
                               sx={{
                                 position: 'sticky',
-                                background: 'white',
+                                background: theme.palette.background.paper,
                                 left: 0,
                                 zIndex: 1
                               }}

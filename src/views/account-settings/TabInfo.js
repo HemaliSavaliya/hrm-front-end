@@ -1,10 +1,9 @@
 /* eslint-disable react/display-name */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { forwardRef, useEffect } from 'react'
-import { Grid, Button, TextField, CardContent, Box, Typography, Divider } from '@mui/material'
+import { Grid, Button, TextField, CardContent, Box, Typography, Divider, Skeleton } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import DatePicker from 'react-datepicker'
-// import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker';
 import { motion } from 'framer-motion'
 import PencilOutline from 'mdi-material-ui/PencilOutline'
 import { Toaster } from 'react-hot-toast'
@@ -19,6 +18,19 @@ const CustomInputJoin = forwardRef((props, ref) => {
 })
 
 const ImgStyled = styled('img')(({ theme }) => ({
+  width: 120,
+  height: 120,
+  marginRight: theme.spacing(6.25),
+  marginBottom: theme.spacing(6.25),
+  borderRadius: theme.shape.borderRadius,
+  border: '1px solid rgba(231, 227, 252, 0.25)',
+  padding: '5px',
+  [theme.breakpoints.down('sm')]: {
+    marginRight: 0
+  }
+}))
+
+const ImgStyled1 = styled(Box)(({ theme }) => ({
   width: 120,
   height: 120,
   marginRight: theme.spacing(6.25),
@@ -99,7 +111,8 @@ const TabInfo = () => {
     fetchProfileImage,
     imgSrc,
     authToken,
-    userData
+    userData,
+    loadingImage
   } = useTabInfoData()
 
   // Fetch the profile image when the component mounts
@@ -119,10 +132,24 @@ const TabInfo = () => {
         <Grid container spacing={7}>
           <Grid item xs={12} sx={{ marginTop: 4.8, marginBottom: 3 }}>
             <BoxStyled>
-              {imgSrc ? (
-                <ImgStyled alt='John Doe' src={imgSrc} />
+              {loadingImage ? (
+                <ImgStyled1>
+                  <Skeleton variant='rectangular' height={109} />
+                </ImgStyled1>
+              ) : imgSrc ? (
+                <motion.div
+                  animate={{ opacity: 1 }}
+                  initial={{ opacity: 0 }}
+                  transition={{ delay: 0.2, duration: 0.4 }}
+                >
+                  <ImgStyled src={imgSrc} alt='Profile Pic' />
+                </motion.div>
               ) : (
-                <AvatarStyled>{authToken?.name.charAt(0).toUpperCase()}</AvatarStyled>
+                <AvatarStyled>
+                  <Typography variant='h3' color='inherit'>
+                    {userData.name.charAt(0)}
+                  </Typography>
+                </AvatarStyled>
               )}
               <Box>
                 <ButtonStyled component='label' variant='contained' htmlFor='account-settings-upload-image'>

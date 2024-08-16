@@ -9,6 +9,7 @@ const useDesignationData = () => {
   const [editDesignationId, setEditDesignationId] = useState(null)
   const [open, setOpen] = useState(false)
   const [scroll, setScroll] = useState('body')
+  const [loading, setLoading] = useState(true)
   const authToken = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('login-details')) : null
   const theme = useTheme()
 
@@ -24,6 +25,7 @@ const useDesignationData = () => {
   }
 
   const fetchDesignation = async () => {
+    setLoading(true)
     try {
       const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/designation-list`, {
         headers: {
@@ -34,6 +36,8 @@ const useDesignationData = () => {
       setDesignationData(response.data)
     } catch (error) {
       console.error('Error fetching department:', error)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -148,6 +152,7 @@ const useDesignationData = () => {
   }
 
   return {
+    loading,
     designationData,
     editDesignationId,
     open,

@@ -9,6 +9,7 @@ const useDepartmentData = () => {
   const [editDepartId, setEditDepartId] = useState(null)
   const [open, setOpen] = useState(false)
   const [scroll, setScroll] = useState('body')
+  const [loading, setLoading] = useState(true)
   const authToken = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('login-details')) : null
   const theme = useTheme()
 
@@ -81,6 +82,7 @@ const useDepartmentData = () => {
   }
 
   const fetchDepartment = async () => {
+    setLoading(true)
     try {
       const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/department-list`, {
         headers: {
@@ -91,6 +93,8 @@ const useDepartmentData = () => {
       setDepartmentData(response.data)
     } catch (error) {
       console.error('Error fetching department:', error)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -209,6 +213,7 @@ const useDepartmentData = () => {
   }
 
   return {
+    loading,
     departmentData,
     editDepartId,
     open,

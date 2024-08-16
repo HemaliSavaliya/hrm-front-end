@@ -2,6 +2,7 @@ import {
   Box,
   Card,
   Chip,
+  Skeleton,
   Table,
   TableBody,
   TableCell,
@@ -107,6 +108,7 @@ const statusObj = {
 
 const Designation = () => {
   const {
+    loading,
     designationData,
     editDesignationId,
     open,
@@ -177,7 +179,24 @@ const Designation = () => {
       >
         <Card sx={{ mt: 3 }}>
           <Box sx={{ width: '100%' }}>
-            {visibleRows && visibleRows.length === 0 ? (
+            {loading ? (
+              <TableContainer sx={{ height: '380px' }}>
+                <Table stickyHeader sx={{ minWidth: 1500 }} aria-labelledby='tableTitle'>
+                  <EnhancedTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
+                  <TableBody>
+                    {Array.from(new Array(rowsPerPage)).map((_, index) => (
+                      <TableRow key={index}>
+                        {headCells.map(cell => (
+                          <TableCell key={cell.id}>
+                            <Skeleton variant='text' />
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            ) : visibleRows && visibleRows.length === 0 ? (
               <Typography
                 textTransform={'uppercase'}
                 letterSpacing={1}

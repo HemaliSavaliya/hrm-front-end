@@ -11,6 +11,7 @@ const useJobData = () => {
   const [scroll, setScroll] = useState('body')
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
   const [deleteTargetId, setDeleteTargetId] = useState(null)
+  const [loading, setLoading] = useState(true)
   const authToken = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('login-details')) : null
   const theme = useTheme()
 
@@ -32,6 +33,7 @@ const useJobData = () => {
   }
 
   const fetchJobs = async () => {
+    setLoading(true)
     try {
       const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/jobsList`, {
         headers: {
@@ -45,6 +47,8 @@ const useJobData = () => {
       setJobData(jobsData, response.data)
     } catch (error) {
       console.error('Error fetching jobs:', error)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -214,6 +218,7 @@ const useJobData = () => {
   }
 
   return {
+    loading,
     jobData,
     editJobId,
     open,

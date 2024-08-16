@@ -11,7 +11,8 @@ import {
   TableRow,
   TableSortLabel,
   Button,
-  Typography
+  Typography,
+  Skeleton
 } from '@mui/material'
 import PropTypes from 'prop-types'
 import { visuallyHidden } from '@mui/utils'
@@ -51,7 +52,6 @@ function stableSort(array, comparator) {
 
 const headCells = [
   { id: 'no', label: 'No' },
-  // { id: 'id', label: 'ID' },
   { id: 'name', label: 'Employee Name' },
   { id: 'date', label: 'Applying Date' },
   { id: 'type', label: 'Leave Type' },
@@ -105,7 +105,7 @@ EnhancedTableHead.propTypes = {
 }
 
 const LeaveRequest = () => {
-  const { leaveReqData, updateLeaveRequestStatus } = useAllLeaveReqData()
+  const { leaveReqData, updateLeaveRequestStatus, loading } = useAllLeaveReqData()
 
   // for table
   const [order, setOrder] = useState('asc')
@@ -157,7 +157,24 @@ const LeaveRequest = () => {
       >
         <Card sx={{ mt: 3 }}>
           <Box sx={{ width: '100%' }}>
-            {visibleRows && visibleRows.length === 0 ? (
+            {loading ? (
+              <TableContainer sx={{ height: '380px' }}>
+                <Table stickyHeader sx={{ minWidth: 1500 }} aria-labelledby='tableTitle'>
+                  <EnhancedTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
+                  <TableBody>
+                    {Array.from(new Array(rowsPerPage)).map((_, index) => (
+                      <TableRow key={index}>
+                        {headCells.map(cell => (
+                          <TableCell key={cell.id}>
+                            <Skeleton variant='text' />
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            ) : visibleRows && visibleRows.length === 0 ? (
               <Typography
                 textTransform={'uppercase'}
                 letterSpacing={1}
@@ -178,7 +195,6 @@ const LeaveRequest = () => {
                         return (
                           <TableRow hover role='checkbox' tabIndex={-1} key={row.id} sx={{ cursor: 'pointer' }}>
                             <TableCell align='left'>{index + 1 + page * rowsPerPage}</TableCell>
-                            {/* <TableCell align="left">{row.userId}</TableCell> */}
                             <TableCell align='left'>{row.userName}</TableCell>
                             <TableCell align='left'>{row.applyingDate}</TableCell>
                             <TableCell align='left'>{row.leaveName}</TableCell>

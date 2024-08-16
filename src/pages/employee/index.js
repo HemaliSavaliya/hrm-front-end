@@ -25,6 +25,7 @@ import axios from 'axios'
 import DocumentModal from 'src/common/DocumentModal'
 import { Toaster } from 'react-hot-toast'
 import ConfirmationModal from 'src/common/ConfirmationModal'
+import { useTheme } from '@mui/material/styles'
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -153,6 +154,7 @@ const Employee = () => {
   const authToken = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('login-details')) : null
 
   const [searchQuery, setSearchQuery] = useState('')
+  const theme = useTheme()
 
   // For Search data
   const handleSearch = event => {
@@ -373,7 +375,7 @@ const Employee = () => {
                               sx={{
                                 position: 'sticky',
                                 left: 0,
-                                background: 'white',
+                                background: theme.palette.background.paper,
                                 zIndex: 1
                               }}
                             >
