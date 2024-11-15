@@ -35,6 +35,16 @@ const navigation = () => {
       path: '/role'
     },
     {
+      title: 'Permission',
+      icon: FormatListBulleted,
+      path: '/permission'
+    },
+    {
+      title: 'Holidays',
+      icon: AccountCogOutline,
+      path: '/holiday'
+    },
+    {
       title: 'Attendance',
       icon: Attendance,
       path: '/attendance'
@@ -58,11 +68,6 @@ const navigation = () => {
       title: 'Calendar',
       icon: CalendarMonthOutline,
       path: '/calendar'
-    },
-    {
-      title: 'Permission',
-      icon: FormatListBulleted,
-      path: '/permission'
     },
     {
       title: 'Announcement',

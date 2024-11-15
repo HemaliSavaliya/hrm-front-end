@@ -10,6 +10,13 @@ const useRoleData = () => {
   const [open, setOpen] = useState(false)
   const [scroll, setScroll] = useState('body')
   const [loading, setLoading] = useState(true)
+  const [totalItems, setTotalItems] = useState(0)
+  const [totalPages, setTotalPages] = useState(0)
+  const [page, setPage] = useState(0) // Material-UI pagination starts from 0
+  const [rowsPerPage, setRowsPerPage] = useState(5)
+  const [search, setSearch] = useState('')
+  const [sortBy, setSortBy] = useState('roleName')
+  const [sortOrder, setSortOrder] = useState('asc')
   const authToken = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('login-details')) : null
   const theme = useTheme()
 
@@ -26,14 +33,21 @@ const useRoleData = () => {
 
   const fetchRole = async () => {
     setLoading(true)
+    const companyId = authToken?.companyId
+
     try {
       const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/role-list`, {
         headers: {
           Authorization: `Bearer ${authToken?.token}`
-        }
+        },
+        params: { page: page + 1, limit: rowsPerPage, companyId, search, sortBy, sortOrder }
       })
 
-      setRoleData(response.data)
+      const { data, totalItems, totalPages } = response.data
+
+      setRoleData(data)
+      setTotalItems(totalItems)
+      setTotalPages(totalPages)
     } catch (error) {
       console.error('Error fetching department:', error)
     } finally {
@@ -43,7 +57,7 @@ const useRoleData = () => {
 
   useEffect(() => {
     fetchRole()
-  }, [authToken?.token])
+  }, [authToken?.token, authToken?.companyId, page, rowsPerPage, sortBy, sortOrder])
 
   // Function to add from data to localStorage
   const addRole = async newRole => {
@@ -161,7 +175,18 @@ const useRoleData = () => {
     handleClickOpen,
     handleClose,
     addRole,
-    updateRoleStatus
+    updateRoleStatus,
+    totalItems,
+    totalPages,
+    page,
+    rowsPerPage,
+    search,
+    fetchRole,
+    setPage,
+    setRowsPerPage,
+    setSearch,
+    setSortBy,
+    setSortOrder
   }
 }
 

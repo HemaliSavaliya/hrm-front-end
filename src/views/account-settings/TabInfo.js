@@ -147,7 +147,9 @@ const TabInfo = () => {
               ) : (
                 <AvatarStyled>
                   <Typography variant='h3' color='inherit'>
-                    {userData.name.charAt(0)}
+                    {authToken?.role === 'Admin'
+                      ? authToken?.name.charAt(0).toUpperCase()
+                      : userData.name.charAt(0).toUpperCase()}
                   </Typography>
                 </AvatarStyled>
               )}

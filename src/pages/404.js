@@ -40,7 +40,7 @@ const Error404 = () => {
           </Typography>
         </BoxWrapper>
         <Img alt='error-illustration' src='/images/pages/not-found.png' />
-        <Link passHref href='/login'>
+        <Link passHref href='/'>
           <Button variant='contained' sx={{ px: 5.5 }}>
             Back to Home
           </Button>

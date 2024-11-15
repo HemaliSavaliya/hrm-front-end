@@ -10,6 +10,7 @@ import {
   TablePagination,
   TableRow,
   TableSortLabel,
+  TextField,
   Typography
 } from '@mui/material'
 import React, { useState } from 'react'
@@ -20,41 +21,10 @@ import useRoleData from 'src/hooks/useRoleData'
 import { Toaster } from 'react-hot-toast'
 import RoleModal from 'src/components/RoleModal/RoleModal'
 
-function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1
-  }
-
-  return 0
-}
-
-function getComparator(order, orderBy) {
-  return order === 'desc'
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy)
-}
-
-function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index])
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0])
-    if (order !== 0) {
-      return order
-    }
-
-    return a[1] - b[1]
-  })
-
-  return stabilizedThis.map(el => el[0])
-}
-
 const headCells = [
   { id: 'no', label: 'No' },
-  { id: 'name', label: 'Role Name' },
-  { id: 'start', label: 'Date' },
+  { id: 'roleName', label: 'Role Name' },
+  { id: 'date', label: 'Date' },
   { id: 'status', label: 'Status' }
 ]
 
@@ -116,19 +86,30 @@ const Role = () => {
     handleClickOpen,
     handleClose,
     addRole,
-    updateRoleStatus
+    updateRoleStatus,
+    totalItems,
+    page,
+    rowsPerPage,
+    search,
+    fetchRole,
+    setPage,
+    setRowsPerPage,
+    setSearch,
+    setSortBy,
+    setSortOrder
   } = useRoleData()
 
-  // for table
+  // for table sorting
   const [order, setOrder] = useState('asc')
   const [orderBy, setOrderBy] = useState('name')
-  const [page, setPage] = useState(0)
-  const [rowsPerPage, setRowsPerPage] = useState(5)
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc'
-    setOrder(isAsc ? 'desc' : 'asc')
+    const newOrder = isAsc ? 'desc' : 'asc'
+    setOrder(newOrder)
     setOrderBy(property)
+    setSortBy(property) // Set the sortBy state for the backend
+    setSortOrder(newOrder) // Set the sortOrder state for the backend
   }
 
   const handleChangePage = (event, newPage) => {
@@ -140,50 +121,45 @@ const Role = () => {
     setPage(0)
   }
 
-  // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - roleData.length) : 0
+  const handleSearchChange = event => {
+    if (event.key === 'Enter') {
+      fetchRole() // Trigger the search when Enter is pressed
+    }
+  }
 
-  const visibleRows = stableSort(roleData, getComparator(order, orderBy)).slice(
-    page * rowsPerPage,
-    page * rowsPerPage + rowsPerPage
-  )
+  const handleInputChange = event => {
+    const value = event.target.value
+    setSearch(value)
+
+    if (value === '') {
+      fetchRole() // Fetch original data when search box is cleared
+    }
+  }
 
   // For toggle status
   const handleStatusToggle = (id, currentStatus) => {
-    // Assume you have a function to update the status in your data
     const newStatus = currentStatus === 'Enable' ? 'Disable' : 'Enable'
     updateRoleStatus(id, newStatus)
   }
 
-  if (loading) {
-    return (
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '80vh'
-        }}
-      >
-        <img src='/images/loader.svg' alt='loader' />
-      </div>
-    )
-  }
+  // if (loading) {
+  //   return (
+  //     <div
+  //       style={{
+  //         display: 'flex',
+  //         justifyContent: 'center',
+  //         alignItems: 'center',
+  //         height: '80vh'
+  //       }}
+  //     >
+  //       <img src='/images/loader.svg' alt='loader' />
+  //     </div>
+  //   )
+  // }
 
   return (
     <>
       <Toaster />
-
-      <RoleModal
-        editRoleId={editRoleId}
-        roleData={roleData}
-        open={open}
-        setOpen={setOpen}
-        scroll={scroll}
-        handleClickOpen={handleClickOpen}
-        handleClose={handleClose}
-        addRole={addRole}
-      />
 
       <motion.div
         initial={{ opacity: 0, y: 15 }}
@@ -191,9 +167,29 @@ const Role = () => {
         exist={{ opacity: 0, y: 15 }}
         transition={{ delay: 0.25 }}
       >
-        <Card sx={{ mt: 3 }}>
-          <Box sx={{ width: '100%' }}>
-            {visibleRows && visibleRows.length === 0 ? (
+        <Card>
+          <Box sx={{ width: '100%', padding: '20px' }}>
+            <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'} mb={4}>
+              <RoleModal
+                editRoleId={editRoleId}
+                roleData={roleData}
+                open={open}
+                setOpen={setOpen}
+                scroll={scroll}
+                handleClickOpen={handleClickOpen}
+                handleClose={handleClose}
+                addRole={addRole}
+              />
+              <TextField
+                label='Search Roles'
+                variant='outlined'
+                size='small'
+                value={search}
+                onChange={handleInputChange} // Update the input value as the user types
+                onKeyDown={handleSearchChange} // Trigger the search when Enter is pressed
+              />
+            </Box>
+            {roleData && roleData.length === 0 ? (
               <Typography
                 textTransform={'uppercase'}
                 letterSpacing={1}
@@ -210,7 +206,7 @@ const Role = () => {
                   <Table stickyHeader sx={{ minWidth: 600 }} aria-labelledby='tableTitle'>
                     <EnhancedTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
                     <TableBody>
-                      {visibleRows.map((row, index) => {
+                      {roleData.map((row, index) => {
                         return (
                           <TableRow hover role='checkbox' tabIndex={-1} key={row.id} sx={{ cursor: 'pointer' }}>
                             <TableCell align='left'>{index + 1 + page * rowsPerPage}</TableCell>
@@ -232,18 +228,13 @@ const Role = () => {
                           </TableRow>
                         )
                       })}
-                      {emptyRows > 0 && (
-                        <TableRow style={{ height: 53 * emptyRows }}>
-                          <TableCell colSpan={headCells.length} />
-                        </TableRow>
-                      )}
                     </TableBody>
                   </Table>
                 </TableContainer>
                 <TablePagination
                   rowsPerPageOptions={[5, 10, 25]}
                   component='div'
-                  count={roleData.length}
+                  count={totalItems}
                   rowsPerPage={rowsPerPage}
                   page={page}
                   onPageChange={handleChangePage}
