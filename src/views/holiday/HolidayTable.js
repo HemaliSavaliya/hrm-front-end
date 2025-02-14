@@ -6,18 +6,15 @@ import {
     TableBody,
     TableCell,
     TableContainer,
-    TableHead,
     TablePagination,
     TableRow,
-    TableSortLabel,
     Tooltip,
     Typography,
     useTheme
 } from '@mui/material';
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Toaster } from 'react-hot-toast';
-import { DeleteOutline, PencilOutline } from 'mdi-material-ui';
+import { PencilOutline } from 'mdi-material-ui';
 import { getComparator, stableSort } from 'src/common/CommonLogic';
 import { holidayCells } from 'src/TableHeader/TableHeader';
 import { EnhancedTableHead } from 'src/common/EnhancedTableHead';
@@ -34,8 +31,8 @@ const HolidayTable = ({ searchQuery, holidayData, loading, handleEdit, handleDel
     // Filter data based on search query
     const filteredData = holidayData.filter((holiday) => {
         return (
-            holiday.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            holiday.date.includes(searchQuery)
+            holiday.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            holiday.date?.includes(searchQuery)
         );
     });
 

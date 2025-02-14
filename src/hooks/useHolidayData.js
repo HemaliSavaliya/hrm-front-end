@@ -41,7 +41,7 @@ const useHolidayData = () => {
   const fetchHoliday = async () => {
     setLoading(true)
     try {
-      const response = await axios.get(`http://localhost:9000/api/holiday-list`, {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/holiday-list`, {
         headers: {
           Authorization: `Bearer ${authToken?.token}`
         }
@@ -63,7 +63,7 @@ const useHolidayData = () => {
   const addHoliday = async newHoliday => {
     try {
       const response = await axios.post(
-        `http://localhost:9000/api/add-holiday`,
+        `${process.env.NEXT_PUBLIC_URL}/add-holiday`,
         {
           ...newHoliday
         },
@@ -117,7 +117,7 @@ const useHolidayData = () => {
   // Function to edit form data to localStorage
   const editHoliday = async (updatedData, holidayId) => {
     try {
-      const response = await axios.put(`http://localhost:9000/api/update-holiday/${holidayId}`, updatedData, {
+      const response = await axios.put(`${process.env.NEXT_PUBLIC_URL}/update-holiday/${holidayId}`, updatedData, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${authToken?.token}`
@@ -180,7 +180,7 @@ const useHolidayData = () => {
   // Function to delete form data to localStorage
   const deleteHoliday = async id => {
     try {
-      const response = await axios.delete(`http://localhost:9000/api/delete-holiday/${id}`, {
+      const response = await axios.delete(`${process.env.NEXT_PUBLIC_URL}/delete-holiday/${id}`, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${authToken?.token}`

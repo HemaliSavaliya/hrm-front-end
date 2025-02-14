@@ -9,7 +9,7 @@ import { Toaster } from 'react-hot-toast'
 import ConfirmationModal from 'src/common/ConfirmationModal'
 import useHolidayData from 'src/hooks/useHolidayData'
 import HolidayModal from 'src/components/Holidays/HolidayModal'
-import { formStyles, inputField, inputLabel } from 'src/Styles'
+import { formStyles } from 'src/Styles'
 import HolidayTable from 'src/views/holiday/HolidayTable'
 
 const Holidays = () => {
