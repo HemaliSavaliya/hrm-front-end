@@ -1,7 +1,10 @@
 import React from 'react'
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button } from '@mui/material'
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button, useTheme } from '@mui/material'
+import { cancelButton, saveButton } from 'src/Styles'
 
 const ConfirmationModal = ({ open, onClose, onConfirm, title, content }) => {
+  const theme = useTheme()
+
   return (
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>{title}</DialogTitle>
@@ -9,10 +12,17 @@ const ConfirmationModal = ({ open, onClose, onConfirm, title, content }) => {
         <DialogContentText>{content}</DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} variant='outlined' color='secondary'>
+        <Button onClick={onClose} variant='outlined' color='secondary' sx={cancelButton}>
           Cancel
         </Button>
-        <Button onClick={onConfirm} variant='contained' color='primary' autoFocus>
+        <Button onClick={onConfirm} variant='contained' color='primary' autoFocus
+          sx={{
+            ...saveButton,
+            '&.MuiButton-root:hover': {
+              backgroundColor: theme.palette.primary.hover
+            }
+          }}
+        >
           Confirm
         </Button>
       </DialogActions>

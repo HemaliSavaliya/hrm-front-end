@@ -1,9 +1,11 @@
-import { Dialog, DialogTitle, Button, DialogContent, CardContent, CardActions, Divider, Box } from '@mui/material'
+import { Dialog, DialogTitle, Button, DialogContent, CardContent, CardActions, Divider, Box, useTheme } from '@mui/material'
 import { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
+import { cancelButton, saveButton } from 'src/Styles'
 
 const DocumentModal = ({ fileData, fileType, fileName, open, onClose, scroll, deleteDocumentData, fileId }) => {
   const descriptionElementRef = useRef(null)
+  const theme = useTheme()
 
   useEffect(() => {
     const { current: descriptionElement } = descriptionElementRef
@@ -57,7 +59,12 @@ const DocumentModal = ({ fileData, fileType, fileName, open, onClose, scroll, de
             <Button
               size='large'
               type='submit'
-              sx={{ mr: 2, lineHeight: 0, padding: '20px 25px !important' }}
+              sx={{
+                ...saveButton,
+                '&.MuiButton-root:hover': {
+                  backgroundColor: theme.palette.primary.hover
+                }
+              }}
               variant='contained'
               onClick={() => {
                 deleteDocumentData(fileName, fileId)
@@ -71,7 +78,7 @@ const DocumentModal = ({ fileData, fileType, fileName, open, onClose, scroll, de
               color='secondary'
               variant='outlined'
               onClick={onClose}
-              sx={{ lineHeight: 0, padding: '20px 25px !important' }}
+              sx={cancelButton}
             >
               Cancel
             </Button>

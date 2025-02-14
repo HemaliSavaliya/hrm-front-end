@@ -3,12 +3,12 @@ import { Box, Card } from '@mui/material'
 import { TabList, TabPanel, TabContext } from '@mui/lab'
 import { styled } from '@mui/material/styles'
 import MuiTab from '@mui/material/Tab'
-import { LockOpenOutline, InformationOutline, LockReset } from 'mdi-material-ui'
 import TabInfo from 'src/views/account-settings/TabInfo'
 import TabSecurity from 'src/views/account-settings/TabSecurity'
 import TabForgotPassword from 'src/views/account-settings/TabForgotPassword'
 import 'react-datepicker/dist/react-datepicker.css'
 import { motion } from 'framer-motion'
+import { ForgotPasswordIcon, InformationDiamondIcon, SecurityCheckIcon } from 'hugeicons-react'
 
 const Tab = styled(MuiTab)(({ theme }) => ({
   [theme.breakpoints.down('md')]: {
@@ -64,7 +64,7 @@ const AccountSettings = () => {
               value='info'
               label={
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <InformationOutline />
+                  <InformationDiamondIcon />
                   <TabName>Info</TabName>
                 </Box>
               }
@@ -73,7 +73,7 @@ const AccountSettings = () => {
               value='security'
               label={
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <LockOpenOutline />
+                  <SecurityCheckIcon />
                   <TabName>Security</TabName>
                 </Box>
               }
@@ -83,7 +83,7 @@ const AccountSettings = () => {
                 value='forgot-password'
                 label={
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <LockReset />
+                    <ForgotPasswordIcon />
                     <TabName>Forgot Password</TabName>
                   </Box>
                 }

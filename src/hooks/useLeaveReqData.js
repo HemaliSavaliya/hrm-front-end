@@ -9,8 +9,14 @@ const useLeaveReqData = () => {
   const [open, setOpen] = useState(false)
   const [scroll, setScroll] = useState('body')
   const [loading, setLoading] = useState(true)
+  const [searchQuery, setSearchQuery] = useState('')
   const authToken = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('login-details')) : null
   const theme = useTheme()
+
+  // Handle search input
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value)
+  }
 
   const handleClose = () => {
     setOpen(false)
@@ -161,7 +167,9 @@ const useLeaveReqData = () => {
     handleClickOpen,
     handleClose,
     addLeaveRequest,
-    updateLeaveRequestStatus
+    updateLeaveRequestStatus,
+    searchQuery,
+    handleSearchChange
   }
 }
 

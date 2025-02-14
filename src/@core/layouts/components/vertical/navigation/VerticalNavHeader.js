@@ -1,24 +1,15 @@
-/* eslint-disable @next/next/no-img-element */
 import Link from 'next/link'
-import { Box, Typography } from '@mui/material'
+import { Box, IconButton, useMediaQuery } from '@mui/material'
 import { styled } from '@mui/material/styles'
-import themeConfig from 'src/configs/themeConfig'
-import axios from 'axios'
+import { ArrowLeft01Icon, ArrowLeftDoubleIcon } from 'hugeicons-react'
 import { useEffect, useState } from 'react'
+import axios from 'axios'
 
 // ** Styled Components
 const MenuHeaderWrapper = styled(Box)(({ theme }) => ({
-  padding: '10px 10px 0px 10px',
+  padding: '12px 17px',
   transition: 'padding .25s ease-in-out',
-  minHeight: theme.mixins.toolbar.minHeight
-}))
-
-const HeaderTitle = styled(Typography)(({ theme }) => ({
-  fontWeight: 600,
-  lineHeight: 'normal',
-  textTransform: 'uppercase',
-  color: theme.palette.text.primary,
-  transition: 'opacity .25s ease-in-out, margin .25s ease-in-out'
+  boxShadow: '-9px 0 20px rgba(89, 102, 122, 0.1)'
 }))
 
 const StyledLink = styled('a')({
@@ -30,6 +21,8 @@ const StyledLink = styled('a')({
 const VerticalNavHeader = props => {
   // ** Props
   const { verticalNavMenuBranding: userVerticalNavMenuBranding } = props
+
+  const isDesktop = useMediaQuery(theme => theme.breakpoints.up('md'))
 
   // For company logo
   const [logoUrls, setLogoUrls] = useState(null)
@@ -60,16 +53,18 @@ const VerticalNavHeader = props => {
       {userVerticalNavMenuBranding ? (
         userVerticalNavMenuBranding(props)
       ) : (
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Box>
-            <StyledLink href='/' passHref>
-              {/* <StyledLink> */}
-              <HeaderTitle variant='h6'>{themeConfig.templateName}</HeaderTitle>
-              {/* </StyledLink> */}
+        <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
+          <Link href='/' passHref>
+            <StyledLink>
+              {/* <HeaderTitle variant='h6'>{themeConfig.templateName}</HeaderTitle> */}
+              {/* <img src='/favicon.png' alt='logo' width={35} /> */}
+              <img src={logoUrls} alt={`Company Logo`} style={{ width: 35, height: 35 }} />
             </StyledLink>
-          </Box>
-          <Box>
-            <img src={logoUrls} alt={`Company Logo`} style={{ width: 35, height: 35 }} />
+          </Link>
+          <Box className='actions-left' ml={3.5}>
+            <IconButton color='inherit' onClick={props.toggleNavVisibility}>
+              {isDesktop ? <ArrowLeftDoubleIcon /> : <ArrowLeft01Icon />}
+            </IconButton>
           </Box>
         </Box>
       )}

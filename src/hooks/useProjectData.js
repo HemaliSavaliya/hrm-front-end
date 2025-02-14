@@ -11,9 +11,15 @@ const useProjectData = () => {
   const [scroll, setScroll] = useState('body')
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
   const [deleteTargetId, setDeleteTargetId] = useState(null)
+  const [searchQuery, setSearchQuery] = useState('')
   const [loading, setLoading] = useState(true)
   const authToken = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('login-details')) : null
   const theme = useTheme()
+
+  // Handle search input
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value)
+  }
 
   const handleClose = () => {
     setOpen(false)
@@ -332,7 +338,9 @@ const useProjectData = () => {
     deleteModalOpen,
     setDeleteModalOpen,
     confirmDeleteProject,
-    handleDeleteProject
+    handleDeleteProject,
+    searchQuery,
+    handleSearchChange
   }
 }
 

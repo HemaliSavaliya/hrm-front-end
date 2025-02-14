@@ -47,7 +47,6 @@ const App = props => {
       // Check if not already on the sign-in or error pages before redirecting
       if (
         router.pathname !== '/login' &&
-        router.pathname !== '/500' &&
         router.pathname !== '/401' &&
         router.pathname !== '/404'
       ) {

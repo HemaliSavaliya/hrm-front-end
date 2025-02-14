@@ -7,104 +7,19 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableHead,
   TablePagination,
   TableRow,
-  TableSortLabel,
   TextField,
-  InputAdornment,
   Typography,
-  Skeleton
+  Skeleton,
+  useTheme
 } from '@mui/material'
-import PropTypes from 'prop-types'
-import { visuallyHidden } from '@mui/utils'
 import { motion } from 'framer-motion'
-import { Magnify } from 'mdi-material-ui'
 import axios from 'axios'
-
-function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1
-  }
-
-  return 0
-}
-
-function getComparator(order, orderBy) {
-  return order === 'desc'
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy)
-}
-
-function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index])
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0])
-    if (order !== 0) {
-      return order
-    }
-
-    return a[1] - b[1]
-  })
-
-  return stabilizedThis.map(el => el[0])
-}
-
-const headCells = [
-  { id: 'no', label: 'No' },
-  { id: 'name', label: 'Employee Name' },
-  { id: 'date', label: 'Date' },
-  { id: 'role', label: 'Role' },
-  { id: 'in-time', label: 'In Time' },
-  { id: 'out-time', label: 'Out Time' },
-  { id: 'total-hours', label: 'Total Hours' },
-  { id: 'status', label: 'Status' }
-]
-
-function EnhancedTableHead(props) {
-  const { order, orderBy, onRequestSort } = props
-
-  const createSortHandler = property => event => {
-    onRequestSort(event, property)
-  }
-
-  return (
-    <TableHead>
-      <TableRow>
-        {headCells.map(headCell => (
-          <TableCell
-            key={headCell.id}
-            align='left'
-            padding='normal'
-            sortDirection={orderBy === headCell.id ? order : false}
-          >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
-              onClick={createSortHandler(headCell.id)}
-            >
-              {headCell.label}
-              {orderBy === headCell.id ? (
-                <Box component='span' sx={visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                </Box>
-              ) : null}
-            </TableSortLabel>
-          </TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
-  )
-}
-
-EnhancedTableHead.propTypes = {
-  onRequestSort: PropTypes.func.isRequired,
-  order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-  orderBy: PropTypes.string.isRequired
-}
+import { formStyles } from 'src/Styles'
+import { roleWiseCells } from 'src/TableHeader/TableHeader'
+import { getComparator, stableSort } from 'src/common/CommonLogic'
+import { EnhancedTableHead } from 'src/common/EnhancedTableHead'
 
 const RoleWiseAttendance = () => {
   // for table
@@ -115,6 +30,8 @@ const RoleWiseAttendance = () => {
   const [roleAttendance, setRoleAttendance] = useState([])
   const [searchQuery, setSearchQuery] = useState('')
   const [loading, setLoading] = useState(true)
+  const theme = useTheme()
+  const styles = formStyles(theme);
   const authToken = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('login-details')) : null
 
   // Fetch data
@@ -180,40 +97,46 @@ const RoleWiseAttendance = () => {
   )
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 15 }}
-      animate={{ opacity: 1, y: 0 }}
-      exist={{ opacity: 0, y: 15 }}
-      transition={{ delay: 0.25 }}
-    >
-      <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'end', mt: 3 }}>
-        <Box className='actions-left' sx={{ mr: 2, display: 'flex', alignItems: 'center' }}>
-          <TextField
-            autoComplete='off'
-            size='small'
-            placeholder='Search Here'
-            onChange={handleSearch}
-            sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2 } }}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position='start'>
-                  <Magnify fontSize='small' />
-                </InputAdornment>
-              )
-            }}
-          />
-        </Box>
+    <Card sx={{ mt: 4, p: 5, boxShadow: '0px 9px 20px rgba(46, 35, 94, 0.07)' }}>
+      <Box
+        sx={{
+          width: '100%',
+          display: { xs: 'grid', sm: 'flex', lg: 'flex' },
+          alignItems: 'center',
+          justifyContent: 'end'
+        }}
+        mb={4}
+      >
+        <TextField
+          sx={{ mt: { xs: 3, sm: 0, lg: 0 }, ...styles.inputLabel, ...styles.inputField }}
+          label='Search Attendance'
+          variant='filled'
+          size='small'
+          value={searchQuery}
+          onChange={handleSearch}
+        />
       </Box>
-      <Card sx={{ mt: 3 }}>
+
+      <motion.div
+        initial={{ opacity: 0, y: 15 }}
+        animate={{ opacity: 1, y: 0 }}
+        exist={{ opacity: 0, y: 15 }}
+        transition={{ delay: 0.25 }}
+      >
         <Box sx={{ width: '100%' }}>
           {loading ? (
-            <TableContainer sx={{ height: '380px' }}>
+            <TableContainer sx={{ height: '180px', border: `1px solid ${theme.palette.action.focus}` }}>
               <Table stickyHeader sx={{ minWidth: 1500 }} aria-labelledby='tableTitle'>
-                <EnhancedTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
+                <EnhancedTableHead
+                  headCells={roleWiseCells}
+                  order={order}
+                  orderBy={orderBy}
+                  onRequestSort={handleRequestSort}
+                />
                 <TableBody>
                   {Array.from(new Array(rowsPerPage)).map((_, index) => (
                     <TableRow key={index}>
-                      {headCells.map(cell => (
+                      {roleWiseCells.map(cell => (
                         <TableCell key={cell.id}>
                           <Skeleton variant='text' />
                         </TableCell>
@@ -236,13 +159,23 @@ const RoleWiseAttendance = () => {
             </Typography>
           ) : (
             <>
-              <TableContainer sx={{ height: '330px' }}>
-                <Table stickyHeader sx={{ minWidth: 1000 }} aria-labelledby='tableTitle'>
-                  <EnhancedTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
+              <TableContainer sx={{ height: '180px', border: `1px solid ${theme.palette.action.focus}` }}>
+                <Table
+                  stickyHeader
+                  sx={{ minWidth: { xs: 1000, sm: 1000, lg: 1000 } }}
+                  size='small'
+                  aria-label='a dense table'
+                >
+                  <EnhancedTableHead
+                    headCells={roleWiseCells}
+                    order={order}
+                    orderBy={orderBy}
+                    onRequestSort={handleRequestSort}
+                  />
                   <TableBody>
                     {visibleRows.map((row, index) => {
                       return (
-                        <TableRow hover role='checkbox' tabIndex={-1} key={row.id} sx={{ cursor: 'pointer' }}>
+                        <TableRow key={row.id} sx={{ cursor: 'pointer' }}>
                           <TableCell align='left'>{index + 1 + page * rowsPerPage}</TableCell>
                           <TableCell align='left'>{row.userName}</TableCell>
                           <TableCell align='left'>{row.date}</TableCell>
@@ -275,8 +208,8 @@ const RoleWiseAttendance = () => {
             </>
           )}
         </Box>
-      </Card>
-    </motion.div>
+      </motion.div>
+    </Card>
   )
 }
 

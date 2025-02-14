@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState } from 'react'
 import { List, Box } from '@mui/material'
 import { styled, useTheme } from '@mui/material/styles'
 import PerfectScrollbar from 'react-perfect-scrollbar'
@@ -8,7 +8,7 @@ import VerticalNavHeader from './VerticalNavHeader'
 import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
 
 const StyledBoxForShadow = styled(Box)({
-  top: 50,
+  top: 63,
   left: -8,
   zIndex: 2,
   height: 75,
@@ -72,21 +72,21 @@ const Navigation = props => {
         <ScrollWrapper
           {...(hidden
             ? {
-                onScroll: container => scrollMenu(container),
-                sx: { height: '100%', overflowY: 'auto', overflowX: 'hidden' }
-              }
+              onScroll: container => scrollMenu(container),
+              sx: { height: '100%', overflowY: 'auto', overflowX: 'hidden' }
+            }
             : {
-                options: { wheelPropagation: false },
-                onScrollY: container => scrollMenu(container),
-                containerRef: ref => handleInfiniteScroll(ref)
-              })}
+              options: { wheelPropagation: false },
+              onScrollY: container => scrollMenu(container),
+              containerRef: ref => handleInfiniteScroll(ref)
+            })}
         >
           {beforeVerticalNavMenuContent ? beforeVerticalNavMenuContent(props) : null}
           <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
             {userVerticalNavMenuContent ? (
               userVerticalNavMenuContent(props)
             ) : (
-              <List className='nav-items' sx={{ transition: 'padding .25s ease', pr: 4.5 }}>
+              <List className='nav-items' sx={{ transition: 'padding .25s ease' }}>
                 <VerticalNavItems
                   groupActive={groupActive}
                   setGroupActive={setGroupActive}

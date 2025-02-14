@@ -11,102 +11,20 @@ import {
   TableRow,
   TableSortLabel,
   Typography,
-  Skeleton
+  Skeleton,
+  useTheme
 } from '@mui/material'
 import PropTypes from 'prop-types'
 import { visuallyHidden } from '@mui/utils'
 import { motion } from 'framer-motion'
 import { useTimer } from 'src/@core/context/TimerContext'
-
-function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1
-  }
-
-  return 0
-}
-
-function getComparator(order, orderBy) {
-  return order === 'desc'
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy)
-}
-
-function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index])
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0])
-    if (order !== 0) {
-      return order
-    }
-
-    return a[1] - b[1]
-  })
-
-  return stabilizedThis.map(el => el[0])
-}
-
-const headCells = [
-  { id: 'no', label: 'No' },
-  { id: 'ip', label: 'IP' },
-  { id: 'date', label: 'Date' },
-  { id: 'description', label: 'Description' },
-  { id: 'start', label: 'Start Time' },
-  { id: 'resume', label: 'Resume Time' },
-  { id: 'pause', label: 'Pause Time' },
-  { id: 'stop', label: 'Stop Time' },
-  { id: 'hours', label: 'Hours' },
-  { id: 'minutes', label: 'Minutes' },
-  { id: 'seconds', label: 'Seconds' }
-]
-
-function EnhancedTableHead(props) {
-  const { order, orderBy, onRequestSort } = props
-
-  const createSortHandler = property => event => {
-    onRequestSort(event, property)
-  }
-
-  return (
-    <TableHead>
-      <TableRow>
-        {headCells.map(headCell => (
-          <TableCell
-            key={headCell.id}
-            align='left'
-            padding='normal'
-            sortDirection={orderBy === headCell.id ? order : false}
-          >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
-              onClick={createSortHandler(headCell.id)}
-            >
-              {headCell.label}
-              {orderBy === headCell.id ? (
-                <Box component='span' sx={visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                </Box>
-              ) : null}
-            </TableSortLabel>
-          </TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
-  )
-}
-
-EnhancedTableHead.propTypes = {
-  onRequestSort: PropTypes.func.isRequired,
-  order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-  orderBy: PropTypes.string.isRequired
-}
+import { getComparator, stableSort } from 'src/common/CommonLogic'
+import { EnhancedTableHead } from 'src/common/EnhancedTableHead'
+import { trackerCells } from 'src/TableHeader/TableHeader'
 
 const AttendanceTable = () => {
   const { role, savedProjects, loading } = useTimer()
+  const theme = useTheme()
 
   // for table
   const [order, setOrder] = useState('asc')
@@ -151,13 +69,18 @@ const AttendanceTable = () => {
       <Card sx={{ mt: 5 }}>
         <Box sx={{ width: '100%' }}>
           {loading ? (
-            <TableContainer sx={{ height: '380px' }}>
+            <TableContainer sx={{ height: '200px', border: `1px solid ${theme.palette.action.focus}` }}>
               <Table stickyHeader sx={{ minWidth: 1500 }} aria-labelledby='tableTitle'>
-                <EnhancedTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
+                <EnhancedTableHead
+                  headCells={trackerCells}
+                  order={order}
+                  orderBy={orderBy}
+                  onRequestSort={handleRequestSort}
+                />
                 <TableBody>
                   {Array.from(new Array(rowsPerPage)).map((_, index) => (
                     <TableRow key={index}>
-                      {headCells.map(cell => (
+                      {trackerCells.map(cell => (
                         <TableCell key={cell.id}>
                           <Skeleton variant='text' />
                         </TableCell>
@@ -180,9 +103,19 @@ const AttendanceTable = () => {
             </Typography>
           ) : (
             <>
-              <TableContainer sx={{ height: '200px' }}>
-                <Table stickyHeader sx={{ minWidth: 1500 }} aria-labelledby='tableTitle'>
-                  <EnhancedTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
+              <TableContainer sx={{ height: '150px', border: `1px solid ${theme.palette.action.focus}` }}>
+                <Table
+                  stickyHeader
+                  sx={{ minWidth: { xs: 1500, sm: 1500, lg: 1500 } }}
+                  size='small'
+                  aria-label='a dense table'
+                >
+                  <EnhancedTableHead
+                    headCells={trackerCells}
+                    order={order}
+                    orderBy={orderBy}
+                    onRequestSort={handleRequestSort}
+                  />
                   <TableBody>
                     {role === 'HR' &&
                       HRData &&

@@ -6,7 +6,7 @@ const DefaultPalette = (mode, themeColor) => {
 
   const primaryGradient = () => {
     if (themeColor === 'primary') {
-      return '#C6A7FE'
+      return '#7366FF'
     } else if (themeColor === 'secondary') {
       return '#9C9FA4'
     } else if (themeColor === 'success') {
@@ -24,7 +24,10 @@ const DefaultPalette = (mode, themeColor) => {
     customColors: {
       main: mainColor,
       primaryGradient: primaryGradient(),
-      tableHeaderBg: mode === 'light' ? '#F9FAFC' : '#3D3759'
+      tableHeaderBg: mode === 'light' ? '#F9FAFC' : '#3D3759',
+      borderPrimary: mode === 'light' ? '#eaebee' : '#4a4b4f',
+      listHover: mode === 'light' ? '#f1f0ff' : 'rgba(115, 102, 255, 0.2)',
+      svgIcon: mode === 'light' ? 'rgba(58, 53, 65, 0.38)' : 'rgba(231, 227, 252, 0.38)'
     },
     common: {
       black: '#000',
@@ -33,9 +36,12 @@ const DefaultPalette = (mode, themeColor) => {
     mode: mode,
     primary: {
       light: '#9E69FD',
-      main: '#9155FD',
+      main: '#7366FF',
+      hover: '#8378f9',
       dark: '#804BDF',
-      contrastText: '#FFF'
+      contrastText: '#FFF',
+      chart: 'rgb(224, 242, 254)',
+      chartDark: '#0ea5e933'
     },
     secondary: {
       light: '#9C9FA4',
@@ -91,7 +97,7 @@ const DefaultPalette = (mode, themeColor) => {
     divider: `rgba(${mainColor}, 0.12)`,
     background: {
       paper: mode === 'light' ? '#FFF' : '#312D4B',
-      default: mode === 'light' ? '#F4F5FA' : '#28243D',
+      default: mode === 'light' ? '#F4F5FA' : '#28243D'
     },
     action: {
       active: `rgba(${mainColor}, 0.54)`,
@@ -100,6 +106,14 @@ const DefaultPalette = (mode, themeColor) => {
       disabled: `rgba(${mainColor}, 0.3)`,
       disabledBackground: `rgba(${mainColor}, 0.18)`,
       focus: `rgba(${mainColor}, 0.12)`
+    },
+    buttons: {
+      statusSuccess: mode === 'light' ? 'rgb(210, 244, 238)' : '#24978233',
+      statusError: mode === 'light' ? 'rgb(254, 226, 226)' : '#ef444433',
+      statusPending: mode === 'light' ? 'rgb(254, 249, 195)' : '#eab30833',
+      statusBorder: mode === 'light' ? 'rgb(160, 232, 219)' : '#24978233',
+      statusDisable: mode === 'light' ? 'rgb(241, 245, 249)' : '#64748b33',
+      statusDisableBorder: mode === 'light' ? 'rgb(226, 232, 240)' : '#64748b33',
     }
   }
 }

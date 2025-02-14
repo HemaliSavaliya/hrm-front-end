@@ -259,10 +259,11 @@ const EmployeeModalLogic = (employeeData, editEmployeeId) => {
       const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/role-list`, {
         headers: {
           Authorization: `Bearer ${authToken?.token}`
-        }
+        },
+        params: { companyId: authToken?.companyId }
       })
 
-      const filterData = response.data.filter(data => data.status === 'Enable')
+      const filterData = response.data.data.filter(data => data.status === 'Enable')
 
       setRoleData(filterData)
     } catch (error) {

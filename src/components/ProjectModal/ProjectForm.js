@@ -10,12 +10,14 @@ import {
   FormControl,
   Select,
   Autocomplete,
-  Chip
+  Chip,
+  useTheme
 } from '@mui/material'
 import { DropFiles } from 'src/@core/DropFile/DropFiles'
 import { useEffect, useState } from 'react'
 import ProjectFormLogic from './ProjectFormLogic'
 import axios from 'axios'
+import { cancelButton, formStyles, saveButton } from 'src/Styles'
 
 const ProjectForm = ({ handleClose, editProjectId, setOpen, projectData, addProjects, editProjects }) => {
   const {
@@ -32,6 +34,8 @@ const ProjectForm = ({ handleClose, editProjectId, setOpen, projectData, addProj
   const [teamMemberData, setTeamMemberData] = useState([])
   const [teamMemberId, setTeamMemberId] = useState([])
   const [isSaving, setIsSaving] = useState(false)
+  const theme = useTheme()
+  const styles = formStyles(theme);
   const authToken = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('login-details')) : null
 
   useEffect(() => {
@@ -105,15 +109,6 @@ const ProjectForm = ({ handleClose, editProjectId, setOpen, projectData, addProj
 
   const isInEditMode = !!editProjectId
 
-  // const descriptionElementRef = useRef(null);
-
-  // useEffect(() => {
-  //   const { current: descriptionElement } = descriptionElementRef;
-  //   if (descriptionElement !== null) {
-  //     descriptionElement.focus();
-  //   }
-  // }, []);
-
   return (
     <>
       <div>
@@ -124,11 +119,14 @@ const ProjectForm = ({ handleClose, editProjectId, setOpen, projectData, addProj
                 <Grid item xs={12} sm={12}>
                   <TextField
                     fullWidth
+                    variant="filled"
+                    size='small'
                     label='Project Name'
                     id='projectName'
                     name='projectName'
                     value={formData.projectName}
                     onChange={handleInputChange}
+                    sx={{ ...styles.inputLabel, ...styles.inputField }}
                   />
                   {errors.projectName && (
                     <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.projectName}</Typography>
@@ -137,11 +135,14 @@ const ProjectForm = ({ handleClose, editProjectId, setOpen, projectData, addProj
                 <Grid item xs={12} sm={6}>
                   <TextField
                     fullWidth
+                    variant="filled"
+                    size='small'
                     label='Client Name'
                     id='clientName'
                     name='clientName'
                     value={formData.clientName}
                     onChange={handleInputChange}
+                    sx={{ ...styles.inputLabel, ...styles.inputField }}
                   />
                   {errors.clientName && (
                     <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.clientName}</Typography>
@@ -152,18 +153,23 @@ const ProjectForm = ({ handleClose, editProjectId, setOpen, projectData, addProj
             <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
+                variant="filled"
+                size='small'
                 type='email'
                 label='Client Email'
                 id='clientEmail'
                 name='clientEmail'
                 value={formData.clientEmail}
                 onChange={handleInputChange}
+                sx={{ ...styles.inputLabel, ...styles.inputField }}
               />
             </Grid>
             {!isInEditMode && (
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
+                  variant="filled"
+                  size='small'
                   type='date'
                   label='Start Date'
                   id='startDate'
@@ -176,6 +182,7 @@ const ProjectForm = ({ handleClose, editProjectId, setOpen, projectData, addProj
                   inputProps={{
                     placeholder: '' // Set an empty string as the placeholder
                   }}
+                  sx={{ ...styles.inputLabel, ...styles.inputField }}
                 />
                 {errors.startDate && (
                   <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.startDate}</Typography>
@@ -185,6 +192,8 @@ const ProjectForm = ({ handleClose, editProjectId, setOpen, projectData, addProj
             <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
+                variant="filled"
+                size='small'
                 type='date'
                 label='End Date'
                 id='endDate'
@@ -197,11 +206,12 @@ const ProjectForm = ({ handleClose, editProjectId, setOpen, projectData, addProj
                 inputProps={{
                   placeholder: '' // Set an empty string as the placeholder
                 }}
+                sx={{ ...styles.inputLabel, ...styles.inputField }}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <FormControl fullWidth>
-                <InputLabel id='form-layouts-separator-select-label'>Status</InputLabel>
+              <FormControl fullWidth variant="filled" size='small'>
+                <InputLabel id='form-layouts-separator-select-label' sx={styles.inputLabelDrop}>Status</InputLabel>
                 <Select
                   label='Status'
                   defaultValue='Active'
@@ -210,6 +220,7 @@ const ProjectForm = ({ handleClose, editProjectId, setOpen, projectData, addProj
                   name='status'
                   value={formData.status}
                   onChange={handleInputChange}
+                  sx={styles.inputFieldDrop}
                 >
                   <MenuItem value='Active'>Active</MenuItem>
                   <MenuItem value='Inactive'>Inactive</MenuItem>
@@ -218,6 +229,7 @@ const ProjectForm = ({ handleClose, editProjectId, setOpen, projectData, addProj
             </Grid>
             <Grid item xs={12} sm={6}>
               <Autocomplete
+                size="small"
                 multiple
                 options={teamMemberData.map((member, index) => ({
                   name: member,
@@ -234,7 +246,7 @@ const ProjectForm = ({ handleClose, editProjectId, setOpen, projectData, addProj
                   })
                 }
                 renderInput={params => (
-                  <TextField {...params} label='Team Members' id='teamMembers' name='teamMembers' />
+                  <TextField variant="filled" size='small' sx={{ ...styles.inputLabel, ...styles.inputField }} {...params} label='Team Members' id='teamMembers' name='teamMembers' />
                 )}
               />
               {errors.teamMembers && (
@@ -267,7 +279,12 @@ const ProjectForm = ({ handleClose, editProjectId, setOpen, projectData, addProj
             <Button
               size='large'
               type='submit'
-              sx={{ mr: 2, lineHeight: 0, padding: '20px 25px !important' }}
+              sx={{
+                ...saveButton,
+                '&.MuiButton-root:hover': {
+                  backgroundColor: theme.palette.primary.hover
+                }
+              }}
               variant='contained'
               disabled={isSaving} // Disable button while uploading or saving
             >
@@ -278,7 +295,7 @@ const ProjectForm = ({ handleClose, editProjectId, setOpen, projectData, addProj
               color='secondary'
               variant='outlined'
               onClick={handleClose}
-              sx={{ lineHeight: 0, padding: '20px 25px !important' }}
+              sx={cancelButton}
             >
               Cancel
             </Button>

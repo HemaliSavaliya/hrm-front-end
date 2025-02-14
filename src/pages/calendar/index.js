@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardContent, Container, Divider } from '@mui/material'
+import { Box, Button, Card, CardContent, Container, Divider, useTheme } from '@mui/material'
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar'
 import { format, parse, startOfWeek, getDay } from 'date-fns'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
@@ -13,6 +13,8 @@ import { motion } from 'framer-motion'
 import useCalendarData from 'src/hooks/useCalendarData'
 import { Toaster } from 'react-hot-toast'
 import { useEffect, useState } from 'react'
+import { saveButton } from 'src/Styles'
+import { PlusSignIcon } from 'hugeicons-react'
 
 const locales = {
   'en-IN': enIN
@@ -28,7 +30,8 @@ const localizer = dateFnsLocalizer({
 
 const EventCalendar = () => {
   const [loading, setLoading] = useState(true)
-  
+  const theme = useTheme()
+
   const {
     openSlot,
     openDatepickerModal,
@@ -95,30 +98,30 @@ const EventCalendar = () => {
             <CardContent>
               <Box sx={{ display: 'flex' }}>
                 <Button
-                  component={motion.div}
-                  whileHover={{ scale: 0.9, transition: { duration: 0.4 } }}
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 15 }}
-                  transition={{ delay: 0.25 }}
-                  sx={{ mr: 3, lineHeight: 0, padding: '20px 25px' }}
+                  sx={{
+                    ...saveButton,
+                    gap: 1,
+                    '&.MuiButton-root:hover': {
+                      backgroundColor: theme.palette.primary.hover
+                    }
+                  }}
                   variant='contained'
                   onClick={() => setOpenDatepickerModal(true)}
                 >
-                  Add Event
+                  Add Event <PlusSignIcon size={15} />
                 </Button>
                 <Button
-                  component={motion.div}
-                  whileHover={{ scale: 0.9, transition: { duration: 0.4 } }}
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 15 }}
-                  transition={{ delay: 0.25 }}
                   variant='contained'
                   onClick={() => setOpenTodoModal(true)}
-                  sx={{ lineHeight: 0, padding: '20px 25px' }}
+                  sx={{
+                    ...saveButton,
+                    gap: 1,
+                    '&.MuiButton-root:hover': {
+                      backgroundColor: theme.palette.primary.hover
+                    }
+                  }}
                 >
-                  Create todo
+                  Create todo <PlusSignIcon size={15} />
                 </Button>
               </Box>
               <Divider style={{ margin: 10 }} />

@@ -11,9 +11,11 @@ import {
   Box,
   Typography,
   Divider,
-  Grid
+  Grid,
+  useTheme
 } from '@mui/material'
 import { useEffect } from 'react'
+import { cancelButton, formStyles, saveButton } from 'src/Styles'
 
 const AddEventModal = ({
   open,
@@ -27,6 +29,8 @@ const AddEventModal = ({
   editedEventData
 }) => {
   const { description } = eventFormData
+  const theme = useTheme()
+  const styles = formStyles(theme);
 
   useEffect(() => {
     if (editedEvent) {
@@ -80,6 +84,8 @@ const AddEventModal = ({
             <Grid container spacing={5}>
               <Grid item xs={12} sm={12}>
                 <TextField
+                  variant="filled"
+                  size='small'
                   name='description'
                   value={description}
                   margin='dense'
@@ -87,8 +93,8 @@ const AddEventModal = ({
                   label='Description'
                   type='text'
                   fullWidth
-                  variant='outlined'
                   onChange={onChange}
+                  sx={{ ...styles.inputLabel, ...styles.inputField }}
                 />
               </Grid>
               <Grid item xs={12} sm={12}>
@@ -98,7 +104,7 @@ const AddEventModal = ({
                   id='combo-box-demo'
                   options={todos}
                   getOptionLabel={option => option.name}
-                  renderInput={params => <TextField {...params} label='Todo' />}
+                  renderInput={params => <TextField {...params} label='Todo' variant="filled" size='small' sx={{ ...styles.inputLabel, ...styles.inputField }} />}
                 />
               </Grid>
             </Grid>
@@ -107,10 +113,21 @@ const AddEventModal = ({
       </DialogContent>
       <Divider sx={{ margin: 0 }} />
       <DialogActions>
-        <Button size='large' color='secondary' variant='outlined' onClick={onClose}>
+        <Button color='secondary' variant='outlined' onClick={onClose} sx={cancelButton}>
           Cancel
         </Button>
-        <Button size='large' type='submit' variant='contained' disabled={description === ''} onClick={onAddEvent}>
+        <Button
+          sx={{
+            ...saveButton,
+            '&.MuiButton-root:hover': {
+              backgroundColor: theme.palette.primary.hover
+            }
+          }}
+          type='submit'
+          variant='contained'
+          disabled={description === ''}
+          onClick={onAddEvent}
+        >
           {editedEventData ? 'Update' : 'Save'}
         </Button>
       </DialogActions>

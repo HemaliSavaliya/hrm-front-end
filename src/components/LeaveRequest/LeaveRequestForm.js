@@ -9,17 +9,20 @@ import {
   MenuItem,
   InputLabel,
   FormControl,
-  Select
+  Select,
+  useTheme
 } from '@mui/material'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import LeaveRequestFormLogic from './LeaveRequestFormLogic'
 import axios from 'axios'
+import { cancelButton, formStyles, saveButton } from 'src/Styles'
 
 const LeaveRequestForm = ({ handleClose, setOpen, addLeaveRequest }) => {
   const { formData, handleInputChange, errors, validateForm, setFormData, initialFormValue } = LeaveRequestFormLogic()
-
+  const theme = useTheme()
+  const styles = formStyles(theme);
   const [selectedTotalDays, setSelectedTotalDays] = useState('')
-
+  const [loading, setLoading] = useState(false) // Add loading state
   const [leaveType, setLeaveType] = useState([])
   const authToken = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('login-details')) : null
 
@@ -50,20 +53,18 @@ const LeaveRequestForm = ({ handleClose, setOpen, addLeaveRequest }) => {
       return // If the form is not valid, don't submit
     }
 
-    addLeaveRequest(formData)
+    setLoading(true)
+    try {
+      addLeaveRequest(formData)
 
-    setFormData(initialFormValue)
-    setOpen(false)
+      setFormData(initialFormValue)
+      setOpen(false)
+    } catch (error) {
+      console.error('Error submitting the form:', error)
+    } finally {
+      setLoading(false) // Set loading to false once submission is done
+    }
   }
-
-  // const descriptionElementRef = useRef(null);
-
-  // useEffect(() => {
-  //   const { current: descriptionElement } = descriptionElementRef;
-  //   if (descriptionElement !== null) {
-  //     descriptionElement.focus();
-  //   }
-  // }, []);
 
   return (
     <>
@@ -71,8 +72,8 @@ const LeaveRequestForm = ({ handleClose, setOpen, addLeaveRequest }) => {
         <form onSubmit={handleFormSubmit} autoComplete='off'>
           <Grid container spacing={5}>
             <Grid item xs={12} sm={6}>
-              <FormControl fullWidth>
-                <InputLabel>Leave Type</InputLabel>
+              <FormControl fullWidth variant="filled" size='small'>
+                <InputLabel sx={styles.inputLabelDrop}>Leave Type</InputLabel>
                 <Select
                   label='Leave Type'
                   defaultValue=''
@@ -81,6 +82,7 @@ const LeaveRequestForm = ({ handleClose, setOpen, addLeaveRequest }) => {
                   name='leaveName'
                   value={formData.leaveName}
                   onChange={handleInputChange}
+                  sx={styles.inputFieldDrop}
                 >
                   {leaveType.length === 0 ? (
                     <MenuItem disabled>No Leave Type</MenuItem>
@@ -116,8 +118,8 @@ const LeaveRequestForm = ({ handleClose, setOpen, addLeaveRequest }) => {
                 {errors.applyingDate && <Typography sx={{ color: "#FF4433", fontSize: "13px", pt: 1 }}>{errors.applyingDate}</Typography>}
               </Grid> */}
             <Grid item xs={12} sm={6}>
-              <FormControl fullWidth>
-                <InputLabel>Total Days</InputLabel>
+              <FormControl fullWidth variant="filled" size='small'>
+                <InputLabel sx={styles.inputLabelDrop}>Total Days</InputLabel>
                 <Select
                   label='Total Days'
                   defaultValue=''
@@ -129,6 +131,7 @@ const LeaveRequestForm = ({ handleClose, setOpen, addLeaveRequest }) => {
                     handleInputChange(e)
                     setSelectedTotalDays(e.target.value)
                   }}
+                  sx={styles.inputFieldDrop}
                 >
                   <MenuItem value='Half Day'>Half Day</MenuItem>
                   <MenuItem value='Full Day'>Full Day</MenuItem>
@@ -143,6 +146,8 @@ const LeaveRequestForm = ({ handleClose, setOpen, addLeaveRequest }) => {
                 <>
                   <TextField
                     fullWidth
+                    variant="filled"
+                    size='small'
                     type='date'
                     label='Start Date'
                     id='startDate'
@@ -155,6 +160,7 @@ const LeaveRequestForm = ({ handleClose, setOpen, addLeaveRequest }) => {
                     inputProps={{
                       placeholder: ''
                     }}
+                    sx={{ ...styles.inputLabel, ...styles.inputField }}
                   />
 
                   {errors.startDate && (
@@ -166,6 +172,8 @@ const LeaveRequestForm = ({ handleClose, setOpen, addLeaveRequest }) => {
                 <>
                   <TextField
                     fullWidth
+                    variant="filled"
+                    size='small'
                     type='date'
                     label='Start Date'
                     id='startDate'
@@ -178,6 +186,7 @@ const LeaveRequestForm = ({ handleClose, setOpen, addLeaveRequest }) => {
                     inputProps={{
                       placeholder: ''
                     }}
+                    sx={{ ...styles.inputLabel, ...styles.inputField }}
                   />
 
                   {errors.startDate && (
@@ -191,6 +200,8 @@ const LeaveRequestForm = ({ handleClose, setOpen, addLeaveRequest }) => {
                 <>
                   <TextField
                     fullWidth
+                    variant="filled"
+                    size='small'
                     type='date'
                     label='End Date'
                     id='endDate'
@@ -203,6 +214,7 @@ const LeaveRequestForm = ({ handleClose, setOpen, addLeaveRequest }) => {
                     inputProps={{
                       placeholder: ''
                     }}
+                    sx={{ ...styles.inputLabel, ...styles.inputField }}
                   />
 
                   {/* {errors.endDate && <Typography sx={{ color: "#FF4433", fontSize: "13px", pt: 1 }}>{errors.endDate}</Typography>} */}
@@ -212,6 +224,8 @@ const LeaveRequestForm = ({ handleClose, setOpen, addLeaveRequest }) => {
             <Grid item xs={12} sm={12} sx={{ mb: 5 }}>
               <TextField
                 fullWidth
+                variant="filled"
+                size='small'
                 multiline
                 rows={3}
                 label='Description'
@@ -219,6 +233,7 @@ const LeaveRequestForm = ({ handleClose, setOpen, addLeaveRequest }) => {
                 name='description'
                 value={formData.description}
                 onChange={handleInputChange}
+                sx={{ ...styles.inputLabel, ...styles.inputField }}
               />
               {errors.description && (
                 <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.description}</Typography>
@@ -227,10 +242,28 @@ const LeaveRequestForm = ({ handleClose, setOpen, addLeaveRequest }) => {
           </Grid>
           <Divider sx={{ margin: 0 }} />
           <CardActions sx={{ pl: 0, pb: 0 }}>
-            <Button size='large' type='submit' sx={{ mr: 2 }} variant='contained'>
-              Save
+            <Button
+              size='large'
+              type='submit'
+              sx={{
+                ...saveButton,
+                '&.MuiButton-root:hover': {
+                  backgroundColor: theme.palette.primary.hover
+                }
+              }}
+              variant='contained'
+              disabled={loading} // Disable button while loading
+            >
+              {loading ? <>Saving...</> : 'Save'}
             </Button>
-            <Button size='large' color='secondary' variant='outlined' onClick={handleClose}>
+            <Button
+              size='large'
+              color='secondary'
+              variant='outlined'
+              onClick={handleClose}
+              disabled={loading} // Disable button while loading
+              sx={cancelButton}
+            >
               Cancel
             </Button>
           </CardActions>

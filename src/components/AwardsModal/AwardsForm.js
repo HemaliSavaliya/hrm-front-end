@@ -9,20 +9,24 @@ import {
   FormControl,
   InputLabel,
   Select,
-  MenuItem
+  MenuItem,
+  useTheme
 } from '@mui/material'
 import { useEffect, useState } from 'react'
 import AwardsFormLogic from './AwardsFormLogic'
 import axios from 'axios'
+import { cancelButton, formStyles, saveButton } from 'src/Styles'
 
 const AwardsForm = ({ handleClose, editAwardId, awardsData, setOpen, addAwards, editAwards }) => {
   const { formData, handleInputChange, errors, validateForm, setFormData, initialFormValue } = AwardsFormLogic(
     awardsData,
     editAwardId
   )
-
+  const [isSaving, setIsSaving] = useState(false)
   const [awardsUser, setAwardsUser] = useState([])
   const authToken = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('login-details')) : null
+  const theme = useTheme()
+  const styles = formStyles(theme);
 
   const fetchUserList = async () => {
     try {
@@ -44,7 +48,7 @@ const AwardsForm = ({ handleClose, editAwardId, awardsData, setOpen, addAwards, 
     fetchUserList()
   }, [authToken?.token])
 
-  const handleFormSubmit = event => {
+  const handleFormSubmit = async event => {
     event.preventDefault()
 
     if (!validateForm()) {
@@ -62,28 +66,36 @@ const AwardsForm = ({ handleClose, editAwardId, awardsData, setOpen, addAwards, 
       }
 
       if (editAwardId) {
-        editAwards(formDataWithUserId, editAwardId)
+        // Disable the save button to prevent multiple submissions
+        setIsSaving(true)
+        try {
+          await editAwards(formDataWithUserId, editAwardId)
+        } catch (error) {
+          console.error('Error')
+        } finally {
+          // Ensure to re-enable the save button even if an error occurs
+          setIsSaving(false)
+          setOpen(false)
+        }
       } else {
-        addAwards(formDataWithUserId)
+        // Disable the save button to prevent multiple submissions
+        setIsSaving(true)
+        try {
+          await addAwards(formDataWithUserId)
+          setFormData(initialFormValue)
+        } catch (error) {
+          console.error('Error')
+        } finally {
+          // Ensure to re-enable the save button even if an error occurs
+          setIsSaving(false)
+        }
       }
-
-      setFormData(initialFormValue)
-      setOpen(false)
     } else {
       console.error('Error: Selected user not found')
     }
   }
 
   const isInEditMode = !!editAwardId
-
-  // const descriptionElementRef = useRef(null);
-
-  // useEffect(() => {
-  //   const { current: descriptionElement } = descriptionElementRef;
-  //   if (descriptionElement !== null) {
-  //     descriptionElement.focus();
-  //   }
-  // }, []);
 
   return (
     <>
@@ -93,11 +105,14 @@ const AwardsForm = ({ handleClose, editAwardId, awardsData, setOpen, addAwards, 
             <Grid item xs={12} sm={12}>
               <TextField
                 fullWidth
+                variant="filled"
+                size='small'
                 label='Awards Name'
                 id='awardsName'
                 name='awardsName'
                 value={formData.awardsName}
                 onChange={handleInputChange}
+                sx={{ ...styles.inputLabel, ...styles.inputField }}
               />
               {errors.awardsName && (
                 <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.awardsName}</Typography>
@@ -106,6 +121,8 @@ const AwardsForm = ({ handleClose, editAwardId, awardsData, setOpen, addAwards, 
             <Grid item xs={12} sm={12}>
               <TextField
                 fullWidth
+                variant="filled"
+                size='small'
                 label='Awards Details'
                 id='awardsDetails'
                 name='awardsDetails'
@@ -113,14 +130,15 @@ const AwardsForm = ({ handleClose, editAwardId, awardsData, setOpen, addAwards, 
                 rows={3}
                 value={formData.awardsDetails}
                 onChange={handleInputChange}
+                sx={{ ...styles.inputLabel, ...styles.inputField }}
               />
               {errors.awardsDetails && (
                 <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.awardsDetails}</Typography>
               )}
             </Grid>
             <Grid item xs={12} sm={12}>
-              <FormControl fullWidth>
-                <InputLabel id='form-layouts-separator-select-label'>Employee</InputLabel>
+              <FormControl fullWidth variant="filled" size='small'>
+                <InputLabel id='form-layouts-separator-select-label' sx={styles.inputLabelDrop}>Employee</InputLabel>
                 <Select
                   label='Employee'
                   defaultValue=''
@@ -129,6 +147,7 @@ const AwardsForm = ({ handleClose, editAwardId, awardsData, setOpen, addAwards, 
                   name='employeeName'
                   value={formData.employeeName}
                   onChange={handleInputChange}
+                  sx={styles.inputFieldDrop}
                 >
                   {awardsUser.length === 0 ? (
                     <MenuItem disabled>No Employee</MenuItem>
@@ -148,11 +167,14 @@ const AwardsForm = ({ handleClose, editAwardId, awardsData, setOpen, addAwards, 
             <Grid item xs={12} sm={12} sx={{ mb: 5 }}>
               <TextField
                 fullWidth
+                variant="filled"
+                size='small'
                 label='Reward'
                 id='reward'
                 name='reward'
                 value={formData.reward}
                 onChange={handleInputChange}
+                sx={{ ...styles.inputLabel, ...styles.inputField }}
               />
               {errors.reward && (
                 <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.reward}</Typography>
@@ -161,10 +183,28 @@ const AwardsForm = ({ handleClose, editAwardId, awardsData, setOpen, addAwards, 
           </Grid>
           <Divider sx={{ margin: 0 }} />
           <CardActions sx={{ pl: 0, pb: 0 }}>
-            <Button size='large' type='submit' sx={{ mr: 2 }} variant='contained'>
-              {isInEditMode ? 'Update' : 'Save'}
+            <Button
+              size='large'
+              type='submit'
+              sx={{
+                ...saveButton,
+                '&.MuiButton-root:hover': {
+                  backgroundColor: theme.palette.primary.hover
+                }
+              }}
+              variant='contained'
+              disabled={isSaving} // Disable button while loading
+            >
+              {isSaving ? <>Saving...</> : !isInEditMode ? 'Save' : 'Update'}
             </Button>
-            <Button size='large' color='secondary' variant='outlined' onClick={handleClose}>
+            <Button
+              size='large'
+              color='secondary'
+              variant='outlined'
+              onClick={handleClose}
+              sx={cancelButton}
+              disabled={isSaving} // Disable button while loading
+            >
               Cancel
             </Button>
           </CardActions>

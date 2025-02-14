@@ -1,7 +1,7 @@
-import { Dialog, DialogContent, DialogTitle, Typography, Button, TextField, InputAdornment, Box } from '@mui/material'
+import { Dialog, DialogContent, DialogTitle, Typography, Button, useTheme } from '@mui/material'
 import EmployeeForm from './EmployeeForm'
-import { motion } from 'framer-motion'
-import { Magnify } from 'mdi-material-ui'
+import { saveButton } from 'src/Styles'
+import { PlusSignIcon } from 'hugeicons-react'
 
 const EmployeeModal = ({
   editEmployeeId,
@@ -11,52 +11,26 @@ const EmployeeModal = ({
   scroll,
   handleClickOpen,
   handleClose,
-  handleSearch,
   addEmployee,
   editEmployee
 }) => {
+  const theme = useTheme()
+
   return (
     <>
-      <Box
+      <Button
+        variant='contained'
+        onClick={handleClickOpen('body')}
         sx={{
-          width: '100%',
-          display: { xs: 'grid', sm: 'flex', lg: 'flex' },
-          alignItems: 'center',
-          justifyContent: 'space-between'
+          ...saveButton,
+          gap: 1,
+          '&.MuiButton-root:hover': {
+            backgroundColor: theme.palette.primary.hover
+          }
         }}
       >
-        <Button
-          component={motion.div}
-          whileHover={{
-            scale: 0.9,
-            transition: { duration: 0.4 }
-          }}
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          exist={{ opacity: 0, y: 15 }}
-          transition={{ delay: 0.25 }}
-          variant='contained'
-          onClick={handleClickOpen('body')}
-          sx={{ lineHeight: 0, padding: '20px 25px' }}
-        >
-          Add Employees
-        </Button>
-
-        <TextField
-          autoComplete='off'
-          size='small'
-          placeholder='Search Here'
-          onChange={handleSearch}
-          sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2 }, mt: { xs: 3, sm: 0, lg: 0 } }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position='start'>
-                <Magnify fontSize='small' />
-              </InputAdornment>
-            )
-          }}
-        />
-      </Box>
+        Add Employees <PlusSignIcon size={15} />
+      </Button>
 
       <Dialog
         open={open}

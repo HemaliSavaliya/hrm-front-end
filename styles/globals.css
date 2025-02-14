@@ -1,6 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 html,
 body {
   min-height: 100%;
+  overflow-x: hidden;
 }
 
 #__next {
@@ -8,8 +11,7 @@ body {
 }
 
 code {
-  font-family: 'Inter', sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
-    'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue';
+  font-family: "Poppins", sans-serif;
   padding: 0.1rem 0.4rem;
   font-size: 90%;
   color: #d400ff;
@@ -45,8 +47,6 @@ code[class*='language-'] {
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(58, 53, 65, 0.12);
 }
-
-/* rgba(145, 85, 253, 0.3) */
 
 /* Custom chip css */
 .switch-holder {
@@ -105,4 +105,26 @@ code[class*='language-'] {
   background-color: #00b33c;
   /* box-shadow: 0px 0px 5px rgba(255, 255, 255, .5),
     3px 3px 5px #00b33c; */
+}
+
+/* chart */
+
+#totalProjectChart .apexcharts-legend-series {
+  border-radius: .125rem;
+  /* border: 1px solid rgb(226 232 240); */
+  padding: .25rem .5rem;
+}
+
+[data-vc=calendar] {
+  padding: 0 !important;
+}
+
+[data-vc-theme=light].vc,
+[data-vc-theme=dark].vc {
+  background-color: transparent !important;
+}
+
+[data-vc-theme=light] .vc-date__btn,
+[data-vc-theme=dark] .vc-date__btn {
+  background: none !important;
 }

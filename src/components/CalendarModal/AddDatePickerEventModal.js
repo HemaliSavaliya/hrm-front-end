@@ -11,10 +11,12 @@ import {
   Box,
   Typography,
   Divider,
-  Grid
+  Grid,
+  useTheme
 } from '@mui/material'
 import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
+import { cancelButton, formStyles, saveButton } from 'src/Styles'
 
 // import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3'
 
@@ -27,6 +29,8 @@ const AddDatePickerEventModal = ({
   todos
 }) => {
   const { description, start, end, allDay } = datePickerEventFormData
+  const theme = useTheme()
+  const styles = formStyles(theme);
 
   const onClose = () => {
     handleClose()
@@ -88,6 +92,8 @@ const AddDatePickerEventModal = ({
             <Grid container spacing={5}>
               <Grid item xs={12} sm={12}>
                 <TextField
+                  variant="filled"
+                  size='small'
                   name='description'
                   value={description}
                   margin='dense'
@@ -95,8 +101,8 @@ const AddDatePickerEventModal = ({
                   label='Description'
                   type='text'
                   fullWidth
-                  variant='outlined'
                   onChange={onChange}
+                  sx={{ ...styles.inputLabel, ...styles.inputField }}
                 />
               </Grid>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -111,14 +117,8 @@ const AddDatePickerEventModal = ({
                         start: newValue ? new Date(newValue) : null
                       }))
                     }
-                    renderInput={params => <TextField {...params} />}
+                    renderInput={params => <TextField fullWidth {...params} variant="filled" size='small' sx={{ ...styles.inputLabel, ...styles.inputField }} />}
                   />
-                  {/* <Box>
-                    <Typography variant="caption" color="text" component={"span"}>
-                      All day?
-                    </Typography>
-                    <Checkbox onChange={handleCheckboxChange} value={allDay} />
-                  </Box> */}
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <DateTimePicker
@@ -133,7 +133,7 @@ const AddDatePickerEventModal = ({
                         end: newValue ? new Date(newValue) : null
                       }))
                     }
-                    renderInput={params => <TextField {...params} />}
+                    renderInput={params => <TextField fullWidth {...params} variant="filled" size='small' sx={{ ...styles.inputLabel, ...styles.inputField }} />}
                   />
                 </Grid>
               </LocalizationProvider>
@@ -144,7 +144,7 @@ const AddDatePickerEventModal = ({
                   id='combo-box-demo'
                   options={todos}
                   getOptionLabel={option => option.name}
-                  renderInput={params => <TextField {...params} label='Todo' />}
+                  renderInput={params => <TextField {...params} label='Todo' variant="filled" size='small' sx={{ ...styles.inputLabel, ...styles.inputField }} />}
                 />
               </Grid>
             </Grid>
@@ -153,13 +153,17 @@ const AddDatePickerEventModal = ({
       </DialogContent>
       <Divider sx={{ margin: 0 }} />
       <DialogActions>
-        <Button size='large' color='secondary' variant='outlined' onClick={onClose}>
+        <Button color='secondary' variant='outlined' onClick={onClose} sx={cancelButton}>
           Cancel
         </Button>
         <Button
-          size='large'
           type='submit'
-          sx={{ mr: 2 }}
+          sx={{
+            ...saveButton,
+            '&.MuiButton-root:hover': {
+              backgroundColor: theme.palette.primary.hover
+            }
+          }}
           variant='contained'
           disabled={isDisabled()}
           onClick={onAddEvent}

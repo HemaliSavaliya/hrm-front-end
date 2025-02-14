@@ -7,16 +7,18 @@ import {
   IconButton,
   CardContent,
   FormControl,
-  OutlinedInput,
   InputAdornment,
   Select,
-  MenuItem
+  MenuItem,
+  useTheme,
+  FilledInput
 } from '@mui/material'
 import EyeOutline from 'mdi-material-ui/EyeOutline'
 import EyeOffOutline from 'mdi-material-ui/EyeOffOutline'
 import { motion } from 'framer-motion'
 import { Toaster } from 'react-hot-toast'
 import useForgotPasswordData from 'src/hooks/useForgotPasswordData'
+import { cancelButton, formStyles, saveButton } from 'src/Styles'
 
 const TabForgotPassword = () => {
   const {
@@ -32,6 +34,8 @@ const TabForgotPassword = () => {
     setValues,
     userPassword
   } = useForgotPasswordData()
+  const theme = useTheme()
+  const styles = formStyles(theme);
 
   return (
     <motion.form
@@ -45,9 +49,9 @@ const TabForgotPassword = () => {
         <Grid container spacing={5}>
           <Grid item xs={12} sm={6}>
             <Grid container spacing={5}>
-              <Grid item xs={12} sx={{ marginTop: 4.75 }}>
-                <FormControl fullWidth>
-                  <InputLabel id='form-layouts-separator-select-label'>Employee</InputLabel>
+              <Grid item xs={12}>
+                <FormControl fullWidth variant="filled" size='small'>
+                  <InputLabel id='form-layouts-separator-select-label' sx={styles.inputLabelDrop}>Employee</InputLabel>
                   <Select
                     label='Employee'
                     defaultValue=''
@@ -56,6 +60,7 @@ const TabForgotPassword = () => {
                     name='employeeName'
                     value={values.employeeName}
                     onChange={handleEmployeeName('employeeName')}
+                    sx={styles.inputFieldDrop}
                   >
                     {userPassword.length === 0 ? (
                       <MenuItem disabled>No Employee</MenuItem>
@@ -70,15 +75,16 @@ const TabForgotPassword = () => {
                 </FormControl>
               </Grid>
 
-              <Grid item xs={12} sx={{ marginTop: 6 }}>
-                <FormControl fullWidth>
-                  <InputLabel htmlFor='account-settings-new-password'>New Password</InputLabel>
-                  <OutlinedInput
+              <Grid item xs={12}>
+                <FormControl fullWidth variant="filled" size='small'>
+                  <InputLabel htmlFor='account-settings-new-password' sx={styles.inputLabelDrop}>New Password</InputLabel>
+                  <FilledInput
                     label='New Password'
                     value={values.newPassword}
                     id='account-settings-new-password'
                     onChange={handleNewPasswordChange('newPassword')}
                     type={values.showNewPassword ? 'text' : 'password'}
+                    sx={styles.inputFieldDrop}
                     endAdornment={
                       <InputAdornment position='end'>
                         <IconButton
@@ -96,14 +102,15 @@ const TabForgotPassword = () => {
               </Grid>
 
               <Grid item xs={12}>
-                <FormControl fullWidth>
-                  <InputLabel htmlFor='account-settings-confirm-new-password'>Confirm New Password</InputLabel>
-                  <OutlinedInput
+                <FormControl fullWidth variant="filled" size='small'>
+                  <InputLabel htmlFor='account-settings-confirm-new-password' sx={styles.inputLabelDrop}>Confirm New Password</InputLabel>
+                  <FilledInput
                     label='Confirm New Password'
                     value={values.confirmPassword}
                     id='account-settings-confirm-new-password'
                     type={values.showConfirmPassword ? 'text' : 'password'}
                     onChange={handleConfirmNewPasswordChange('confirmPassword')}
+                    sx={styles.inputFieldDrop}
                     endAdornment={
                       <InputAdornment position='end'>
                         <IconButton
@@ -128,7 +135,7 @@ const TabForgotPassword = () => {
             xs={12}
             sx={{ display: 'flex', marginTop: [7.5, 2.5], alignItems: 'center', justifyContent: 'center' }}
           >
-            <img alt='avatar' width={400} src='/images/pages/forgot_password.png' />
+            <img alt='avatar' src='/images/pages/secure.svg' width={330} />
           </Grid>
         </Grid>
       </CardContent>
@@ -136,19 +143,27 @@ const TabForgotPassword = () => {
       <Divider sx={{ margin: 0 }} />
 
       <CardContent>
-        <Box sx={{ mt: 11 }}>
-          <Button variant='contained' sx={{ marginRight: 3.5 }} onClick={handleChangePassword}>
-            Save Changes
-          </Button>
-          <Button
-            type='reset'
-            variant='outlined'
-            color='secondary'
-            onClick={() => setValues({ ...values, employeeId: '', newPassword: '', confirmPassword: '' })}
-          >
-            Reset
-          </Button>
-        </Box>
+        <Button
+          variant='contained'
+          sx={{
+            ...saveButton,
+            '&.MuiButton-root:hover': {
+              backgroundColor: theme.palette.primary.hover
+            }
+          }}
+          onClick={handleChangePassword}
+        >
+          Save Changes
+        </Button>
+        <Button
+          type='reset'
+          variant='outlined'
+          color='secondary'
+          onClick={() => setValues({ ...values, employeeId: '', newPassword: '', confirmPassword: '' })}
+          sx={cancelButton}
+        >
+          Reset
+        </Button>
       </CardContent>
     </motion.form>
   )

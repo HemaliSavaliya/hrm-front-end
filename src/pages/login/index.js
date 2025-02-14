@@ -8,137 +8,135 @@ import {
   IconButton,
   CardContent,
   FormControl,
-  OutlinedInput,
-  InputAdornment
+  InputAdornment,
+  Input,
+  Radio,
+  FormControlLabel,
+  RadioGroup
 } from '@mui/material'
-import { styled } from '@mui/material/styles'
+import { styled, useTheme } from '@mui/material/styles'
 import MuiCard from '@mui/material/Card'
 import EyeOutline from 'mdi-material-ui/EyeOutline'
 import EyeOffOutline from 'mdi-material-ui/EyeOffOutline'
-import themeConfig from 'src/configs/themeConfig'
-import BlankLayout from 'src/@core/layouts/BlankLayout'
 import FooterIllustrationsV1 from 'src/views/pages/auth/FooterIllustration'
-import { motion } from 'framer-motion'
-import { Toaster } from 'react-hot-toast'
 import useAuth from 'src/hooks/useAuth'
+import BlankLayout from 'src/@core/layouts/BlankLayout'
+import { Toaster } from 'react-hot-toast'
 
 // ** Styled Components
 const Card = styled(MuiCard)(({ theme }) => ({
   [theme.breakpoints.up('sm')]: { width: '28rem' }
 }))
 
-const LinkStyled = styled('a')(({ theme }) => ({
-  fontSize: '0.875rem',
-  textDecoration: 'none',
-  color: theme.palette.primary.main
-}))
+// const LinkStyled = styled('a')(({ theme }) => ({
+//   fontSize: '0.875rem',
+//   textDecoration: 'none',
+//   color: theme.palette.primary.main
+// }))
 
 const LoginPage = () => {
   const {
-    values,
     handleKeyDown,
+    values,
     handleChange,
     handleClickShowPassword,
     handleMouseDownPassword,
-    handleRadioChange,
     handleSubmit,
-    isSaving
+    isSaving,
+    handleRadioChange
   } = useAuth()
+  const theme = useTheme()
 
   return (
     <Box className='content-center'>
       <Toaster />
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2, duration: 0.5 }}
+
+      <Card
+        sx={{
+          zIndex: 1,
+          border: `1px solid ${theme.palette.divider}`,
+          backgroundColor: theme.palette.background.default,
+          borderRadius: 0
+        }}
       >
-        <Card sx={{ zIndex: 1 }}>
-          <CardContent sx={{ padding: theme => `${theme.spacing(7, 9, 7)} !important` }}>
-            <Box sx={{ mb: 2, display: 'flex', alignItems: 'start', justifyContent: 'start' }}>
-              <Typography
-                variant='h6'
-                sx={{
-                  lineHeight: 1,
-                  fontWeight: 600,
-                  textTransform: 'uppercase',
-                  fontSize: '1.5rem !important'
-                }}
-              >
-                {themeConfig.templateName}
-              </Typography>
-            </Box>
-            <Box sx={{ mb: 6 }}>
-              <Typography variant='caption'>Please sign-in to your account and start the adventure</Typography>
-            </Box>
-            <form noValidate autoComplete='off'>
-              <TextField
-                autoFocus
-                fullWidth
-                id='email'
-                label='Email'
-                sx={{ marginBottom: 4 }}
-                value={values.email}
-                onChange={handleChange('email')}
+        <CardContent>
+          <Box sx={{ mb: 4 }}>
+            <Typography variant='caption' sx={{ fontWeight: 600 }}>
+              Please sign-in to your account and start the adventure
+            </Typography>
+          </Box>
+          <form noValidate autoComplete='off'>
+            <TextField
+              variant='standard'
+              autoFocus
+              fullWidth
+              id='email'
+              label='Email'
+              value={values.email}
+              onChange={handleChange('email')}
+              sx={{
+                marginBottom: 5,
+                '& .MuiFormLabel-root': {
+                  fontSize: '14px'
+                }
+              }}
+            />
+            <FormControl
+              fullWidth
+              autoFocus
+              variant='standard'
+              sx={{
+                marginBottom: 5,
+                '& .MuiFormLabel-root': {
+                  fontSize: '14px'
+                }
+              }}
+            >
+              <InputLabel htmlFor='standard-adornment-password'>Password</InputLabel>
+              <Input
+                id='standard-adornment-password'
+                value={values.password}
+                onChange={handleChange('password')}
+                type={values.showPassword ? 'text' : 'password'}
+                onKeyDown={handleKeyDown}
+                endAdornment={
+                  <InputAdornment position='end'>
+                    <IconButton
+                      aria-label='toggle password visibility'
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                    >
+                      {values.showPassword ? <EyeOutline /> : <EyeOffOutline />}
+                    </IconButton>
+                  </InputAdornment>
+                }
               />
-              <FormControl fullWidth>
-                <InputLabel htmlFor='auth-login-password'>Password</InputLabel>
-                <OutlinedInput
-                  label='Password'
-                  value={values.password}
-                  id='auth-login-password'
-                  onChange={handleChange('password')}
-                  type={values.showPassword ? 'text' : 'password'}
-                  onKeyDown={handleKeyDown}
-                  endAdornment={
-                    <InputAdornment position='end'>
-                      <IconButton
-                        edge='end'
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
-                        aria-label='toggle password visibility'
-                      >
-                        {values.showPassword ? <EyeOutline /> : <EyeOffOutline />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                />
-              </FormControl>
-              {/* <FormControl sx={{ mt: 2 }}>
-                <RadioGroup
-                  row
-                  aria-labelledby='demo-row-radio-buttons-group-label'
-                  name='row-radio-buttons-group'
-                  value={values.role}
-                  onChange={handleRadioChange}
-                >
-                  <FormControlLabel value='Employee' control={<Radio />} label='Employee' />
-                  <FormControlLabel value='HR' control={<Radio />} label='HR' />
-                  <FormControlLabel value='Admin' control={<Radio />} label='Admin' />
-                </RadioGroup>
-              </FormControl> */}
-              <Button
-                fullWidth
-                size='large'
-                variant='contained'
-                sx={{ marginTop: 7 }}
-                onClick={handleSubmit}
-                disabled={isSaving}
-              >
-                {isSaving ? 'Login...' : 'Login'}
-              </Button>
-              {/* <Divider sx={{ my: 5 }} /> */}
-              {/* <Box
-                sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'flex-end' }}
-              >
-                <LinkStyled passHref href='/' onClick={(e) => e.preventDefault()}>
-                  Forgot Password?
-                </LinkStyled>
-              </Box> */}
-            </form>
-          </CardContent>
-        </Card>
-      </motion.div>
+            </FormControl>
+
+            <Button
+              fullWidth
+              size='large'
+              variant='contained'
+              sx={{
+                marginTop: 7,
+                '&.MuiButton-root:hover': {
+                  backgroundColor: theme.palette.primary.hover
+                }
+              }}
+              onClick={handleSubmit}
+              disabled={isSaving}
+            >
+              {isSaving ? 'Login...' : 'Login'}
+            </Button>
+            {/* <Divider sx={{ my: 5 }} />
+            <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
+              <Link href='/forgot-password' passHref>
+                <LinkStyled>Forgot Password?</LinkStyled>
+              </Link>
+            </Box> */}
+          </form>
+        </CardContent>
+      </Card>
       <FooterIllustrationsV1 />
     </Box>
   )

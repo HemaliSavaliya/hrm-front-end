@@ -1,23 +1,29 @@
-import { Box, TableCell, TableHead, TableRow, TableSortLabel } from '@mui/material'
-import PropTypes from 'prop-types'
+import { TableHead, TableRow, TableCell, TableSortLabel, Box } from '@mui/material'
 import { visuallyHidden } from '@mui/utils'
 
-export function EnhancedTableHead(props) {
-  const { order, orderBy, onRequestSort } = props
-
-  const createSortHandler = property => event => {
-    onRequestSort(event, property)
-  }
+export function EnhancedTableHead({ order, orderBy, onRequestSort, headCells }) {
+  const createSortHandler = (property) => (event) => {
+    onRequestSort(property); // Removed unnecessary `event`
+  };
 
   return (
     <TableHead>
       <TableRow>
-        {props.headCells.map(headCell => (
+        {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align='left'
-            padding='normal'
+            align="left"
+            padding="normal"
             sortDirection={orderBy === headCell.id ? order : false}
+            sx={
+              headCell.id === 'action'
+                ? {
+                  position: 'sticky',
+                  left: 0,
+                  zIndex: 6
+                }
+                : null
+            }
           >
             <TableSortLabel
               active={orderBy === headCell.id}
@@ -26,7 +32,7 @@ export function EnhancedTableHead(props) {
             >
               {headCell.label}
               {orderBy === headCell.id ? (
-                <Box component='span' sx={visuallyHidden}>
+                <Box component="span" sx={visuallyHidden}>
                   {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
                 </Box>
               ) : null}
@@ -35,11 +41,5 @@ export function EnhancedTableHead(props) {
         ))}
       </TableRow>
     </TableHead>
-  )
-}
-
-EnhancedTableHead.propTypes = {
-  onRequestSort: PropTypes.func.isRequired,
-  order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-  orderBy: PropTypes.string.isRequired
+  );
 }

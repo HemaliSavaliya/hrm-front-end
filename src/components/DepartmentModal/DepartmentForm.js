@@ -11,33 +11,19 @@ import {
   Select,
   MenuItem,
   Autocomplete,
-  Chip
+  Chip,
+  useTheme
 } from '@mui/material'
 import DepartmentFormLogic from './DepartmentFormLogic'
+import { useState } from 'react'
+import { cancelButton, formStyles, saveButton } from 'src/Styles'
 
 const DepartmentForm = ({ handleClose, editDepartId, setOpen, departmentData, addDepartments, editDepartments }) => {
   const { formData, handleInputChange, errors, validateForm, setFormData, handleTeamMembersChange, initialFormValue } =
     DepartmentFormLogic(departmentData, editDepartId)
-
-  // const [teamMemberData, setTeamMemberData] = useState([]);
-  // const authToken = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('login-details')) : null;
-
-  // useEffect(() => {
-  //   const fetchEmpList = async () => {
-  //     try {
-  //       const response = await axios.get("${process.env.NEXT_PUBLIC_URL}/empList", {
-  //         headers: {
-  //           Authorization: `Bearer ${authToken?.token}`,
-  //         },
-  //       });
-
-  //       setTeamMemberData(response.data.map((item) => item.name));
-  //     } catch (error) {
-  //       console.error("Error fetching user list", error);
-  //     }
-  //   }
-  //   fetchEmpList();
-  // }, [authToken?.token]);
+  const [loading, setLoading] = useState(false) // Add loading state
+  const theme = useTheme()
+  const styles = formStyles(theme);
 
   const handleFormSubmit = event => {
     event.preventDefault()
@@ -46,35 +32,34 @@ const DepartmentForm = ({ handleClose, editDepartId, setOpen, departmentData, ad
       return // If the form is not valid, don't submit
     }
 
-    // Convert the team members from an array of objects to an array of strings
-    const teamMembersArray = formData.teamMembers ? formData.teamMembers.map(member => member) : []
+    setLoading(true) // Set loading to true when starting submission
 
-    // Update the formData object to include the team members array
-    const updatedFormData = {
-      ...formData,
-      teamMembers: teamMembersArray
+    try {
+      // Convert the team members from an array of objects to an array of strings
+      const teamMembersArray = formData.teamMembers ? formData.teamMembers.map(member => member) : []
+
+      // Update the formData object to include the team members array
+      const updatedFormData = {
+        ...formData,
+        teamMembers: teamMembersArray
+      }
+
+      if (editDepartId) {
+        editDepartments(updatedFormData, editDepartId)
+      } else {
+        addDepartments(updatedFormData)
+      }
+
+      setFormData(initialFormValue)
+      setOpen(false)
+    } catch (error) {
+      console.error('Error submitting the form:', error)
+    } finally {
+      setLoading(false) // Set loading to false once submission is done
     }
-
-    if (editDepartId) {
-      editDepartments(updatedFormData, editDepartId)
-    } else {
-      addDepartments(updatedFormData)
-    }
-
-    setFormData(initialFormValue)
-    setOpen(false)
   }
 
   const isInEditMode = !!editDepartId
-
-  // const descriptionElementRef = useRef(null);
-
-  // useEffect(() => {
-  //   const { current: descriptionElement } = descriptionElementRef;
-  //   if (descriptionElement !== null) {
-  //     descriptionElement.focus();
-  //   }
-  // }, []);
 
   return (
     <>
@@ -85,11 +70,14 @@ const DepartmentForm = ({ handleClose, editDepartId, setOpen, departmentData, ad
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
+                  size='small'
+                  variant='filled'
                   label='Department Name'
                   id='departmentName'
                   name='departmentName'
                   value={formData.departmentName}
                   onChange={handleInputChange}
+                  sx={{ ...styles.inputLabel, ...styles.inputField }}
                 />
                 {errors.departmentName && (
                   <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.departmentName}</Typography>
@@ -99,11 +87,14 @@ const DepartmentForm = ({ handleClose, editDepartId, setOpen, departmentData, ad
             <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
+                size='small'
+                variant='filled'
                 label='Department Head'
                 id='departmentHead'
                 name='departmentHead'
                 value={formData.departmentHead}
                 onChange={handleInputChange}
+                sx={{ ...styles.inputLabel, ...styles.inputField }}
               />
               {errors.departmentHead && (
                 <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.departmentHead}</Typography>
@@ -112,19 +103,22 @@ const DepartmentForm = ({ handleClose, editDepartId, setOpen, departmentData, ad
             <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
+                size='small'
+                variant='filled'
                 label='Department Email'
                 id='departmentEmail'
                 name='departmentEmail'
                 value={formData.departmentEmail}
                 onChange={handleInputChange}
+                sx={{ ...styles.inputLabel, ...styles.inputField }}
               />
               {errors.departmentEmail && (
                 <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.departmentEmail}</Typography>
               )}
             </Grid>
             <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
-              <FormControl fullWidth>
-                <InputLabel>Status</InputLabel>
+              <FormControl fullWidth variant="filled" size='small'>
+                <InputLabel sx={styles.inputLabelDrop}>Status</InputLabel>
                 <Select
                   label='Status'
                   defaultValue='Active'
@@ -133,6 +127,7 @@ const DepartmentForm = ({ handleClose, editDepartId, setOpen, departmentData, ad
                   name='status'
                   value={formData.status}
                   onChange={handleInputChange}
+                  sx={styles.inputFieldDrop}
                 >
                   <MenuItem value='Active'>Active</MenuItem>
                   <MenuItem value='Inactive'>Inactive</MenuItem>
@@ -148,6 +143,7 @@ const DepartmentForm = ({ handleClose, editDepartId, setOpen, departmentData, ad
                   value={formData?.teamMembers || []}
                   onChange={handleTeamMembersChange}
                   disabled
+                  sx={styles.inputLabelDrop}
                   renderTags={(value, getTagProps) =>
                     value.map((option, index) => {
                       const { key, ...rest } = getTagProps({ index })
@@ -156,7 +152,7 @@ const DepartmentForm = ({ handleClose, editDepartId, setOpen, departmentData, ad
                     })
                   }
                   renderInput={params => (
-                    <TextField {...params} label='Team Members' id='teamMembers' name='teamMembers' />
+                    <TextField {...params} variant="filled" size='small' sx={styles.inputFieldDrop} label='Team Members' id='teamMembers' name='teamMembers' />
                   )}
                 />
               </Grid>
@@ -164,10 +160,28 @@ const DepartmentForm = ({ handleClose, editDepartId, setOpen, departmentData, ad
           </Grid>
           <Divider sx={{ margin: 0 }} />
           <CardActions sx={{ pl: 0, pb: 0 }}>
-            <Button size='large' type='submit' sx={{ mr: 2 }} variant='contained'>
-              {isInEditMode ? 'Update' : 'Save'}
+            <Button
+              size='large'
+              type='submit'
+              sx={{
+                ...saveButton,
+                '&.MuiButton-root:hover': {
+                  backgroundColor: theme.palette.primary.hover
+                }
+              }}
+              variant='contained'
+              disabled={loading} // Disable button while loading
+            >
+              {loading ? <>Saving...</> : !isInEditMode ? 'Save' : 'Update'}
             </Button>
-            <Button size='large' color='secondary' variant='outlined' onClick={handleClose}>
+            <Button
+              size='large'
+              color='secondary'
+              variant='outlined'
+              onClick={handleClose}
+              disabled={loading} // Disable button while loading
+              sx={cancelButton}
+            >
               Cancel
             </Button>
           </CardActions>

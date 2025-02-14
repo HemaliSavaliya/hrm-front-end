@@ -9,11 +9,13 @@ import {
   Typography,
   CardActions,
   FormControl,
-  Select
+  Select,
+  useTheme
 } from '@mui/material'
 import { DropFiles } from 'src/@core/DropFile/DropFiles'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import AnnouncementFormLogic from './AnnouncementFormLogic'
+import { cancelButton, formStyles, saveButton } from 'src/Styles'
 
 const AnnouncementForm = ({
   handleClose,
@@ -36,6 +38,8 @@ const AnnouncementForm = ({
   } = AnnouncementFormLogic(announcementData, editAnnoId)
 
   const [isSaving, setIsSaving] = useState(false)
+  const theme = useTheme()
+  const styles = formStyles(theme);
 
   const handleFormSubmit = async event => {
     event.preventDefault()
@@ -73,15 +77,6 @@ const AnnouncementForm = ({
 
   const isInEditMode = !!editAnnoId
 
-  // const descriptionElementRef = useRef(null);
-
-  // useEffect(() => {
-  //   const { current: descriptionElement } = descriptionElementRef;
-  //   if (descriptionElement !== null) {
-  //     descriptionElement.focus();
-  //   }
-  // }, []);
-
   useEffect(() => {
     fetchDepartment()
   }, [])
@@ -94,11 +89,14 @@ const AnnouncementForm = ({
             <Grid item xs={12} sm={12}>
               <TextField
                 fullWidth
+                variant="filled"
+                size='small'
                 label='Announcement Title'
                 id='announcementTitle'
                 name='announcementTitle'
                 value={formData.announcementTitle}
                 onChange={handleInputChange}
+                sx={{ ...styles.inputLabel, ...styles.inputField }}
               />
               {errors.announcementTitle && (
                 <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.announcementTitle}</Typography>
@@ -107,19 +105,22 @@ const AnnouncementForm = ({
             <Grid item xs={12} sm={12}>
               <TextField
                 fullWidth
+                variant="filled"
+                size='small'
                 label='Announcement Details'
                 id='announcementDetails'
                 name='announcementDetails'
                 value={formData.announcementDetails}
                 onChange={handleInputChange}
+                sx={{ ...styles.inputLabel, ...styles.inputField }}
               />
               {errors.announcementDetails && (
                 <Typography sx={{ color: '#FF4433', fontSize: '13px', pt: 1 }}>{errors.announcementDetails}</Typography>
               )}
             </Grid>
             <Grid item xs={12} sm={12}>
-              <FormControl fullWidth>
-                <InputLabel id='form-layouts-separator-select-label'>Department</InputLabel>
+              <FormControl fullWidth variant="filled" size='small'>
+                <InputLabel id='form-layouts-separator-select-label' sx={styles.inputLabelDrop}>Department</InputLabel>
                 <Select
                   label='Department'
                   labelId='form-layouts-separator-select-label'
@@ -127,6 +128,7 @@ const AnnouncementForm = ({
                   name='selectDepartment'
                   value={formData.selectDepartment}
                   onChange={handleInputChange}
+                  sx={styles.inputFieldDrop}
                 >
                   {departmentData.length === 0 ? (
                     <MenuItem disabled>No Department</MenuItem>
@@ -169,7 +171,12 @@ const AnnouncementForm = ({
             <Button
               size='large'
               type='submit'
-              sx={{ mr: 2, lineHeight: 0, padding: '20px 25px !important' }}
+              sx={{
+                ...saveButton,
+                '&.MuiButton-root:hover': {
+                  backgroundColor: theme.palette.primary.hover
+                }
+              }}
               variant='contained'
               disabled={isSaving} // Disable button while uploading or saving
             >
@@ -180,7 +187,7 @@ const AnnouncementForm = ({
               color='secondary'
               variant='outlined'
               onClick={handleClose}
-              sx={{ lineHeight: 0, padding: '20px 25px !important' }}
+              sx={cancelButton}
             >
               Cancel
             </Button>

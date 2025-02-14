@@ -1,26 +1,26 @@
-import { Box, Button, Dialog, DialogContent, DialogTitle, Typography } from '@mui/material'
+import { Button, Dialog, DialogContent, DialogTitle, Typography, useTheme } from '@mui/material'
 import React from 'react'
-import { motion } from 'framer-motion'
 import RoleForm from './RoleForm'
+import { saveButton } from 'src/Styles'
+import { PlusSignIcon } from 'hugeicons-react'
 
 const RoleModal = ({ editRoleId, roleData, open, setOpen, scroll, handleClickOpen, handleClose, addRole }) => {
+  const theme = useTheme()
+
   return (
     <>
       <Button
-        component={motion.div}
-        whileHover={{
-          scale: 0.9,
-          transition: { duration: 0.4 }
-        }}
-        initial={{ opacity: 0, y: 15 }}
-        animate={{ opacity: 1, y: 0 }}
-        exist={{ opacity: 0, y: 15 }}
-        transition={{ delay: 0.25 }}
         variant='contained'
         onClick={handleClickOpen('body')}
-        sx={{ lineHeight: 0, padding: '20px 25px' }}
+        sx={{
+          ...saveButton,
+          gap: 1,
+          '&.MuiButton-root:hover': {
+            backgroundColor: theme.palette.primary.hover
+          }
+        }}
       >
-        Add Role
+        Add Role <PlusSignIcon size={15} />
       </Button>
 
       <Dialog

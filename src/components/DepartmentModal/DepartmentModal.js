@@ -1,6 +1,7 @@
-import { Dialog, DialogContent, DialogTitle, Typography, Button, Box } from '@mui/material'
+import { Dialog, DialogContent, DialogTitle, Typography, Button, useTheme } from '@mui/material'
 import DepartmentForm from './DepartmentForm'
-import { motion } from 'framer-motion'
+import { PlusSignIcon } from 'hugeicons-react'
+import { saveButton } from 'src/Styles'
 
 const DepartmentModal = ({
   editDepartId,
@@ -13,26 +14,24 @@ const DepartmentModal = ({
   addDepartments,
   editDepartments
 }) => {
+  const theme = useTheme()
+
   return (
     <>
-      <Box sx={{ mt: 3, textAlign: 'end' }}>
-        <Button
-          component={motion.div}
-          whileHover={{
-            scale: 0.9,
-            transition: { duration: 0.4 }
-          }}
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          exist={{ opacity: 0, y: 15 }}
-          transition={{ delay: 0.25 }}
-          variant='contained'
-          onClick={handleClickOpen('body')}
-          sx={{ lineHeight: 0, padding: '20px 25px' }}
-        >
-          Add Departments
-        </Button>
-      </Box>
+      <Button
+        variant='contained'
+        onClick={handleClickOpen('body')}
+        sx={{
+          ...saveButton,
+          gap: 1,
+          '&.MuiButton-root:hover': {
+            backgroundColor: theme.palette.primary.hover
+          }
+        }}
+      >
+        Add Departments  <PlusSignIcon size={15} />
+      </Button>
+
       <Dialog
         open={open}
         onClose={handleClose}

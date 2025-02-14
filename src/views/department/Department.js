@@ -1,125 +1,15 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
   Card,
   Box,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TablePagination,
-  TableRow,
-  TableSortLabel,
-  Chip,
-  Typography,
-  Skeleton
+  TextField,
+  useTheme
 } from '@mui/material'
-import PropTypes from 'prop-types'
-import PencilOutline from 'mdi-material-ui/PencilOutline'
-import { visuallyHidden } from '@mui/utils'
 import useDepartmentData from 'src/hooks/useDepartmentData'
-import { motion } from 'framer-motion'
 import { Toaster } from 'react-hot-toast'
 import DepartmentModal from 'src/components/DepartmentModal/DepartmentModal'
-import { useTheme } from '@mui/material/styles'
-
-function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1
-  }
-
-  return 0
-}
-
-function getComparator(order, orderBy) {
-  return order === 'desc'
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy)
-}
-
-function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index])
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0])
-    if (order !== 0) {
-      return order
-    }
-
-    return a[1] - b[1]
-  })
-
-  return stabilizedThis.map(el => el[0])
-}
-
-const headCells = [
-  { id: 'action', label: 'Action' },
-  { id: 'no', label: 'No' },
-  { id: 'name', label: 'Department Name' },
-  { id: 'head', label: 'Department Head' },
-  { id: 'email', label: 'Department Email' },
-  { id: 'start', label: 'Starting Date' },
-  { id: 'team', label: 'Team Member' },
-  { id: 'status', label: 'Status' }
-]
-
-function EnhancedTableHead(props) {
-  const { order, orderBy, onRequestSort } = props
-
-  const createSortHandler = property => event => {
-    onRequestSort(event, property)
-  }
-
-  return (
-    <TableHead>
-      <TableRow>
-        {headCells.map(headCell => (
-          <TableCell
-            key={headCell.id}
-            align='left'
-            padding='normal'
-            sortDirection={orderBy === headCell.id ? order : false}
-            sx={
-              headCell.id === 'action'
-                ? {
-                    position: 'sticky',
-                    left: 0,
-                    zIndex: 6
-                  }
-                : null
-            }
-          >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
-              onClick={createSortHandler(headCell.id)}
-            >
-              {headCell.label}
-              {orderBy === headCell.id ? (
-                <Box component='span' sx={visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                </Box>
-              ) : null}
-            </TableSortLabel>
-          </TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
-  )
-}
-
-EnhancedTableHead.propTypes = {
-  onRequestSort: PropTypes.func.isRequired,
-  order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-  orderBy: PropTypes.string.isRequired
-}
-
-const statusObj = {
-  Active: 'success',
-  Inactive: 'error'
-}
+import { formStyles } from 'src/Styles'
+import DepartmentTable from './DepartmentTable'
 
 const Department = () => {
   const {
@@ -134,162 +24,50 @@ const Department = () => {
     addDepartments,
     editDepartments,
     updateDepartmentStatus,
-    loading
+    loading,
+    handleSearchChange,
+    searchQuery,
   } = useDepartmentData()
-
-  // for table
-  const [order, setOrder] = useState('asc')
-  const [orderBy, setOrderBy] = useState('name')
-  const [page, setPage] = useState(0)
-  const [rowsPerPage, setRowsPerPage] = useState(5)
   const theme = useTheme()
-
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc'
-    setOrder(isAsc ? 'desc' : 'asc')
-    setOrderBy(property)
-  }
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage)
-  }
-
-  const handleChangeRowsPerPage = event => {
-    setRowsPerPage(parseInt(event.target.value, 10))
-    setPage(0)
-  }
-
-  // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - departmentData.length) : 0
-
-  const visibleRows = stableSort(departmentData, getComparator(order, orderBy)).slice(
-    page * rowsPerPage,
-    page * rowsPerPage + rowsPerPage
-  )
-
-  // For toggle status
-  const handleStatusToggle = (id, currentStatus) => {
-    // Assume you have a function to update the status in your data
-    const newStatus = currentStatus === 'Active' ? 'Inactive' : 'Active'
-    updateDepartmentStatus(id, newStatus)
-  }
+  const styles = formStyles(theme);
 
   return (
     <>
       <Toaster />
 
-      <DepartmentModal
-        editDepartId={editDepartId}
-        departmentData={departmentData}
-        open={open}
-        setOpen={setOpen}
-        scroll={scroll}
-        handleClickOpen={handleClickOpen}
-        handleClose={handleClose}
-        addDepartments={addDepartments}
-        editDepartments={editDepartments}
-      />
+      <Card sx={{ mt: 4, p: 5, boxShadow: '0px 9px 20px rgba(46, 35, 94, 0.07)' }}>
+        <Box
+          sx={{
+            width: '100%',
+            display: { xs: 'grid', sm: 'flex', lg: 'flex' },
+            alignItems: 'center',
+            justifyContent: 'space-between'
+          }}
+          mb={4}
+        >
+          <DepartmentModal
+            editDepartId={editDepartId}
+            departmentData={departmentData}
+            open={open}
+            setOpen={setOpen}
+            scroll={scroll}
+            handleClickOpen={handleClickOpen}
+            handleClose={handleClose}
+            addDepartments={addDepartments}
+            editDepartments={editDepartments}
+          />
+          <TextField
+            sx={{ mt: { xs: 3, sm: 0, lg: 0 }, ...styles.inputLabel, ...styles.inputField }}
+            label='Search Department'
+            variant='filled'
+            size='small'
+            value={searchQuery}
+            onChange={handleSearchChange}
+          />
+        </Box>
 
-      <motion.div
-        initial={{ opacity: 0, y: 15 }}
-        animate={{ opacity: 1, y: 0 }}
-        exist={{ opacity: 0, y: 15 }}
-        transition={{ delay: 0.25 }}
-      >
-        <Card sx={{ mt: 3 }}>
-          <Box sx={{ width: '100%' }}>
-            {loading ? (
-              <TableContainer sx={{ height: '380px' }}>
-                <Table stickyHeader sx={{ minWidth: 1500 }} aria-labelledby='tableTitle'>
-                  <EnhancedTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
-                  <TableBody>
-                    {Array.from(new Array(rowsPerPage)).map((_, index) => (
-                      <TableRow key={index}>
-                        {headCells.map(cell => (
-                          <TableCell key={cell.id}>
-                            <Skeleton variant='text' />
-                          </TableCell>
-                        ))}
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            ) : visibleRows && visibleRows.length === 0 ? (
-              <Typography
-                textTransform={'uppercase'}
-                letterSpacing={1}
-                fontSize={15}
-                my={6}
-                textAlign={'center'}
-                fontWeight={600}
-              >
-                No Data Available Yet!
-              </Typography>
-            ) : (
-              <>
-                <TableContainer sx={{ height: '390px' }}>
-                  <Table stickyHeader sx={{ minWidth: 1300 }} aria-labelledby='tableTitle'>
-                    <EnhancedTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
-                    <TableBody>
-                      {visibleRows.map((row, index) => {
-                        return (
-                          <TableRow hover role='checkbox' tabIndex={-1} key={row.id} sx={{ cursor: 'pointer' }}>
-                            <TableCell
-                              align='left'
-                              sx={{
-                                position: 'sticky',
-                                background: theme.palette.background.paper,
-                                left: 0,
-                                zIndex: 1
-                              }}
-                            >
-                              <PencilOutline onClick={() => handleEdit(row.id)} sx={{ mr: 2, color: '#9155FD' }} />
-                            </TableCell>
-                            <TableCell align='left'>{index + 1 + page * rowsPerPage}</TableCell>
-                            <TableCell align='left'>{row.departmentName}</TableCell>
-                            <TableCell align='left'>{row.departmentHead}</TableCell>
-                            <TableCell align='left'>{row.departmentEmail}</TableCell>
-                            <TableCell align='left'>{row.startingDate}</TableCell>
-                            <TableCell align='left'>{row.teamMembers?.length || '-'}</TableCell>
-                            <TableCell align='left'>
-                              <Chip
-                                label={row.status}
-                                color={statusObj[row.status]}
-                                onClick={() => handleStatusToggle(row.id, row.status)}
-                                sx={{
-                                  height: 24,
-                                  fontSize: '0.75rem',
-                                  textTransform: 'capitalize',
-                                  '& .MuiChip-label': { fontWeight: 500 }
-                                }}
-                              />
-                            </TableCell>
-                          </TableRow>
-                        )
-                      })}
-                      {emptyRows > 0 && (
-                        <TableRow style={{ height: 53 * emptyRows }}>
-                          <TableCell colSpan={headCells.length} />
-                        </TableRow>
-                      )}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-                <TablePagination
-                  rowsPerPageOptions={[5, 10, 25]}
-                  component='div'
-                  count={departmentData.length}
-                  rowsPerPage={rowsPerPage}
-                  page={page}
-                  onPageChange={handleChangePage}
-                  onRowsPerPageChange={handleChangeRowsPerPage}
-                />
-              </>
-            )}
-          </Box>
-        </Card>
-      </motion.div>
+        <DepartmentTable searchQuery={searchQuery} departmentData={departmentData} loading={loading} updateDepartmentStatus={updateDepartmentStatus} handleEdit={handleEdit} />
+      </Card>
     </>
   )
 }

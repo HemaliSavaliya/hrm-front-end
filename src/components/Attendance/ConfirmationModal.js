@@ -10,10 +10,12 @@ import {
   DialogContent,
   Slide,
   DialogTitle,
-  Typography
+  Typography,
+  useTheme
 } from '@mui/material'
 import axios from 'axios'
 import { forwardRef, useEffect, useState } from 'react'
+import { formStyles } from 'src/Styles'
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction='up' ref={ref} {...props} />
@@ -32,7 +34,8 @@ const ConfirmationModal = ({
   isTimerRunning
 }) => {
   const authToken = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('login-details')) : null
-
+  const theme = useTheme()
+  const styles = formStyles(theme);
   const [projectData, setProjectData] = useState([])
 
   const fetchProjects = async () => {
@@ -71,10 +74,10 @@ const ConfirmationModal = ({
               <Typography fontWeight={600}>Project Details</Typography>
             </DialogTitle>
             {authToken?.role === 'HR' ? null : (
-              <FormControl fullWidth>
-                <InputLabel>Project Name</InputLabel>
+              <FormControl fullWidth variant="filled" size='small'>
+                <InputLabel sx={styles.inputLabelDrop}>Project Name</InputLabel>
                 <Select
-                  sx={{ mb: 5 }}
+                  sx={{ ...styles.inputFieldDrop, mb: 5 }}
                   label='Project Name'
                   labelId='form-layouts-separator-select-label'
                   id='name'
@@ -97,6 +100,8 @@ const ConfirmationModal = ({
 
             <TextField
               fullWidth
+              variant="filled"
+              size='small'
               multiline
               rows={4}
               label='Description'
@@ -105,6 +110,7 @@ const ConfirmationModal = ({
               value={description}
               onChange={e => setDescription(e.target.value)}
               onKeyPress={handleChange}
+              sx={{ ...styles.inputLabel, ...styles.inputField }}
             />
           </>
         )}

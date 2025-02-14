@@ -1,19 +1,41 @@
 import React, { useEffect, useState } from 'react'
-import Tracker from '../tracker'
-import AttendanceTable from 'src/components/Attendance/AttendanceTable'
 import { TabList, TabPanel, TabContext } from '@mui/lab'
 import { styled } from '@mui/material/styles'
 import MuiTab from '@mui/material/Tab'
-import { Box, Card } from '@mui/material'
-import Clock from 'mdi-material-ui/Clock'
-import WalletOutline from 'mdi-material-ui/WalletOutline'
-import RoleWiseAttendance from 'src/views/attendance/RoleWiseAttendance'
+import { Box, Tooltip, useTheme } from '@mui/material'
 import { motion } from 'framer-motion'
+import Tracker from '../tracker'
+import AttendanceTable from 'src/components/Attendance/AttendanceTable'
+import RoleWiseAttendance from 'src/views/attendance/RoleWiseAttendance'
+import { CoPresentIcon, TimeQuarterIcon } from 'hugeicons-react'
+
+const Tab = styled(MuiTab)(({ theme }) => ({
+  lineHeight: 1,
+  '&.Mui-selected': {
+    fontWeight: 800 // Font weight for selected tab
+  },
+  [theme.breakpoints.down('md')]: {
+    minWidth: 100
+  },
+  [theme.breakpoints.down('sm')]: {
+    minWidth: 67
+  }
+}))
+
+const TabName = styled('span')(({ theme }) => ({
+  // lineHeight: 1.71,
+  fontSize: '0.875rem',
+  marginLeft: theme.spacing(2.4),
+  [theme.breakpoints.down('md')]: {
+    display: 'none'
+  }
+}))
 
 const Attendance = () => {
   const [role, setRole] = useState(null)
   const [loading, setLoading] = useState(true)
-  
+  const theme = useTheme()
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const authToken = JSON.parse(localStorage.getItem('login-details'))
@@ -23,26 +45,8 @@ const Attendance = () => {
     }
   }, [])
 
-  const Tab = styled(MuiTab)(({ theme }) => ({
-    [theme.breakpoints.down('md')]: {
-      minWidth: 100
-    },
-    [theme.breakpoints.down('sm')]: {
-      minWidth: 67
-    }
-  }))
-
-  const TabName = styled('span')(({ theme }) => ({
-    lineHeight: 1.71,
-    fontSize: '0.875rem',
-    marginLeft: theme.spacing(2.4),
-    [theme.breakpoints.down('md')]: {
-      display: 'none'
-    }
-  }))
-
   // ** State
-  const [value, setValue] = useState('')
+  const [value, setValue] = useState('tracker')
 
   useEffect(() => {
     if (role) {
@@ -80,56 +84,64 @@ const Attendance = () => {
   }
 
   return (
-    <>
-      <TabContext value={value}>
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          exist={{ opacity: 0, y: 15 }}
-          transition={{ delay: 0.25 }}
+    <TabContext value={value}>
+      <motion.div
+        initial={{ opacity: 0, y: 15 }}
+        animate={{ opacity: 1, y: 0 }}
+        exist={{ opacity: 0, y: 15 }}
+        transition={{ delay: 0.25 }}
+      >
+        <Box
+          sx={{
+            borderTop: `1px solid ${theme.palette.customColors.borderPrimary}`,
+            borderBottom: `1px solid ${theme.palette.customColors.borderPrimary}`,
+            borderRadius: '12px'
+          }}
         >
-          <Card sx={{ borderRadius: 0 }}>
-            <TabList onChange={handleChange} aria-label='account-settings tabs'>
-              {(role === 'HR' || role === 'Employee') && (
-                <Tab
-                  value='tracker'
-                  label={
+          <TabList onChange={handleChange} aria-label='account-settings tabs' indicatorColor='none'>
+            {(role === 'HR' || role === 'Employee') && (
+              <Tab
+                value='tracker'
+                label={
+                  <Tooltip title='Tracker'>
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                      <Clock />
+                      <TimeQuarterIcon />
                       <TabName>Tracker</TabName>
                     </Box>
-                  }
-                />
-              )}
-              {role !== 'Employee' && (
-                <Tab
-                  value='role-attendance'
-                  label={
+                  </Tooltip>
+                }
+              />
+            )}
+            {role !== 'Employee' && (
+              <Tab
+                value='role-attendance'
+                label={
+                  <Tooltip title='Role Wise Attendance'>
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                      <WalletOutline />
+                      <CoPresentIcon />
                       <TabName>Role Wise Attendance</TabName>
                     </Box>
-                  }
-                />
-              )}
-            </TabList>
-          </Card>
-        </motion.div>
+                  </Tooltip>
+                }
+              />
+            )}
+          </TabList>
+        </Box>
+      </motion.div>
 
-        {(role === 'HR' || role === 'Employee') && (
-          <TabPanel sx={{ p: 0 }} value='tracker'>
-            <Tracker />
-            <AttendanceTable />
-          </TabPanel>
-        )}
+      {(role === 'HR' || role === 'Employee') && (
+        <TabPanel sx={{ p: 0 }} value='tracker'>
+          <Tracker />
+          <AttendanceTable />
+        </TabPanel>
+      )}
 
-        {role !== 'Employee' && (
-          <TabPanel sx={{ p: 0 }} value='role-attendance'>
-            <RoleWiseAttendance />
-          </TabPanel>
-        )}
-      </TabContext>
-    </>
+      {role !== 'Employee' && (
+        <TabPanel sx={{ p: 0 }} value='role-attendance'>
+          <RoleWiseAttendance />
+        </TabPanel>
+      )}
+    </TabContext >
   )
 }
 

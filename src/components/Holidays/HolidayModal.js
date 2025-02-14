@@ -1,6 +1,7 @@
-import { Dialog, DialogContent, DialogTitle, Typography, Button, Box } from '@mui/material'
-import { motion } from 'framer-motion'
+import { Dialog, DialogContent, DialogTitle, Typography, Button, useTheme } from '@mui/material'
 import HolidayForm from './HolidayForm'
+import { PlusSignIcon } from 'hugeicons-react'
+import { saveButton } from 'src/Styles'
 
 const HolidayModal = ({
   editHolidayId,
@@ -13,23 +14,22 @@ const HolidayModal = ({
   addHoliday,
   editHoliday
 }) => {
+  const theme = useTheme()
+
   return (
     <>
       <Button
-        component={motion.div}
-        whileHover={{
-          scale: 0.9,
-          transition: { duration: 0.4 }
-        }}
-        initial={{ opacity: 0, y: 15 }}
-        animate={{ opacity: 1, y: 0 }}
-        exist={{ opacity: 0, y: 15 }}
-        transition={{ delay: 0.25 }}
         variant='contained'
         onClick={handleClickOpen('body')}
-        sx={{ lineHeight: 0, padding: '20px 25px' }}
+        sx={{
+          ...saveButton,
+          gap: 1,
+          '&.MuiButton-root:hover': {
+            backgroundColor: theme.palette.primary.hover
+          }
+        }}
       >
-        Add Holiday
+        Add Holiday <PlusSignIcon size={15} />
       </Button>
 
       <Dialog

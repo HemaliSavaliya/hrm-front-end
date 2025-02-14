@@ -1,5 +1,5 @@
 // ** MUI Imports
-import { styled } from '@mui/material/styles'
+import { styled, useTheme } from '@mui/material/styles'
 import MuiAppBar from '@mui/material/AppBar'
 import MuiToolbar from '@mui/material/Toolbar'
 import { motion } from 'framer-motion'
@@ -9,13 +9,14 @@ const AppBar = styled(MuiAppBar)(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'center',
   padding: theme.spacing(0, 6),
-  backgroundColor: theme.palette.background.default,
+  backgroundColor: theme.palette.background.paper,
   position: 'fixed',
   zIndex: 20,
   width: '-webkit-fill-available',
   color: theme.palette.text.primary,
   minHeight: theme.mixins.toolbar.minHeight,
-  borderBottom: `1px solid ${theme.palette.action.focus}`,
+  boxShadow: '0 4px 40px rgba(39,32,120,.1)',
+  // borderBottom: `1px solid ${theme.palette.action.focus}`,
   [theme.breakpoints.down('sm')]: {
     paddingLeft: theme.spacing(4),
     paddingRight: theme.spacing(4)

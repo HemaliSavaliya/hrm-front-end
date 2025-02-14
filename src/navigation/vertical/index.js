@@ -1,82 +1,71 @@
 // ** Icon imports
-import HomeOutline from 'mdi-material-ui/HomeOutline'
-import Account from 'mdi-material-ui/Account'
-import Project from 'mdi-material-ui/Briefcase'
-import Attendance from 'mdi-material-ui/Calendar'
-import Leave from 'mdi-material-ui/Clipboard'
-import Layers from 'mdi-material-ui/Layers'
-import AppleKeyboardCommand from 'mdi-material-ui/AppleKeyboardCommand'
-import Microphone from 'mdi-material-ui/Microphone'
-import CalendarMonthOutline from 'mdi-material-ui/CalendarMonthOutline'
-import TrophyAward from 'mdi-material-ui/TrophyAward'
-import AccountCogOutline from 'mdi-material-ui/AccountCogOutline'
-import FormatListBulleted from 'mdi-material-ui/FormatListBulleted'
+import { AccessIcon, AssignmentsIcon, Award01Icon, Calendar03Icon, CalendarLove02Icon, DashboardCircleEditIcon, DepartementIcon, DocumentValidationIcon, JobSearchIcon, MarketingIcon, MentoringIcon, Projector01Icon, UserIcon } from 'hugeicons-react'
 
 const navigation = () => {
   return [
     {
       title: 'Dashboard',
-      icon: HomeOutline,
+      icon: DashboardCircleEditIcon,
       path: '/'
     },
     {
+      title: 'Role',
+      icon: MentoringIcon,
+      path: '/role'
+    },
+    {
+      title: 'Departments',
+      icon: DepartementIcon,
+      path: '/departments'
+    },
+    {
       title: 'Employees',
-      icon: Account,
+      icon: UserIcon,
       path: '/employee'
     },
     {
       title: 'Projects',
-      icon: Project,
+      icon: Projector01Icon,
       path: '/projects'
     },
     {
-      title: 'Role',
-      icon: AccountCogOutline,
-      path: '/role'
-    },
-    {
       title: 'Permission',
-      icon: FormatListBulleted,
+      icon: AccessIcon,
       path: '/permission'
     },
     {
       title: 'Holidays',
-      icon: AccountCogOutline,
+      icon: CalendarLove02Icon,
       path: '/holiday'
     },
     {
       title: 'Attendance',
-      icon: Attendance,
+      icon: AssignmentsIcon,
       path: '/attendance'
     },
     {
       title: 'Leave Management',
-      icon: Leave,
+      icon: DocumentValidationIcon,
       path: '/leave-management'
     },
     {
-      title: 'Departments',
-      icon: Layers,
-      path: '/departments'
-    },
-    {
       title: 'Job',
-      icon: AppleKeyboardCommand,
+      icon: JobSearchIcon,
       path: '/jobs'
     },
     {
       title: 'Calendar',
-      icon: CalendarMonthOutline,
+      icon: Calendar03Icon,
       path: '/calendar'
     },
     {
       title: 'Announcement',
-      icon: Microphone,
+      icon: MarketingIcon,
       path: '/announcement'
     },
     {
       title: 'Awards',
-      icon: TrophyAward,
+      icon: Award01Icon,
       path: '/awards'
     }
   ]

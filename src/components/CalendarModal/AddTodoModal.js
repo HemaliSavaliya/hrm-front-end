@@ -22,6 +22,7 @@ import { HexColorPicker } from 'react-colorful'
 import axios from 'axios'
 import { toast } from 'react-hot-toast'
 import { useTheme } from '@mui/material/styles'
+import { cancelButton, formStyles, saveButton } from 'src/Styles'
 
 const AddTodoModal = ({ open, handleClose, todos, setTodos }) => {
   const [color, setColor] = useState('#b32aa9')
@@ -29,6 +30,7 @@ const AddTodoModal = ({ open, handleClose, todos, setTodos }) => {
   const [editingTodo, setEditingTodo] = useState(null)
   const authToken = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('login-details')) : null
   const theme = useTheme()
+  const styles = formStyles(theme);
 
   const fetchTodos = async () => {
     try {
@@ -223,13 +225,13 @@ const AddTodoModal = ({ open, handleClose, todos, setTodos }) => {
             label='Name'
             type='text'
             fullWidth
-            sx={{ mb: 6 }}
-            required
-            variant='outlined'
+            variant='filled'
+            size="small"
             onChange={e => {
               setName(e.target.value)
             }}
             value={name}
+            sx={{ ...styles.inputLabel, ...styles.inputField, mb: 6 }}
           />
           <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
             <HexColorPicker color={color} onChange={setColor} style={{ width: 270, height: 200 }} />
@@ -268,13 +270,17 @@ const AddTodoModal = ({ open, handleClose, todos, setTodos }) => {
       </DialogContent>
       <Divider sx={{ margin: 0 }} />
       <DialogActions>
-        <Button size='large' color='secondary' variant='outlined' onClick={onClose}>
+        <Button color='secondary' variant='outlined' onClick={onClose} sx={cancelButton}>
           Cancel
         </Button>
         <Button
-          size='large'
           type='submit'
-          sx={{ mr: 2 }}
+          sx={{
+            ...saveButton,
+            '&.MuiButton-root:hover': {
+              backgroundColor: theme.palette.primary.hover
+            }
+          }}
           variant='contained'
           disabled={name === '' || color === ''}
           onClick={() => onAddTodo()}
