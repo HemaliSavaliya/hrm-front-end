@@ -32,7 +32,7 @@ const LeaveReqTable = ({
     // Filter data based on search query
     const filteredData = leaveReqData.filter((leave) => {
         return (
-            leave.leaveName.toLowerCase().includes(searchQuery.toLowerCase())
+            leave.leaveName?.toLowerCase().includes(searchQuery.toLowerCase())
         );
     });
 
@@ -143,7 +143,18 @@ const LeaveReqTable = ({
                                                 <TableCell align='left'>{row.startDate}</TableCell>
                                                 <TableCell align='left'>{row.endDate || '-'}</TableCell>
                                                 <TableCell align='left'>{row.leaveType}</TableCell>
-                                                <TableCell align='left'>{row.description}</TableCell>
+                                                <TableCell align='left'
+                                                    sx={{
+                                                        whiteSpace: 'normal',
+                                                        WebkitLineClamp: 1,
+                                                        WebkitBoxOrient: 'vertical',
+                                                        display: '-webkit-box',
+                                                        overflow: 'hidden',
+                                                        textOverflow: 'ellipsis',
+                                                    }}
+                                                >
+                                                    {row.description}
+                                                </TableCell>
                                                 <TableCell align='left' style={{ ...getStatusStyle(row.status) }}>
                                                     {row.status}
                                                 </TableCell>
@@ -169,7 +180,7 @@ const LeaveReqTable = ({
                         </>
                     )}
                 </Box>
-            </motion.div>
+            </motion.div >
         </>
     );
 };

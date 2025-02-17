@@ -51,7 +51,7 @@ const useTabInfoData = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/profile/${authToken.id}`, {
+        const response = await axios.get(`http://localhost:9000/api/profile/${authToken.id}`, {
           headers: {
             Authorization: `Bearer ${authToken?.token}`
           }
@@ -79,7 +79,7 @@ const useTabInfoData = () => {
   // Function for update user data
   const updateUserData = async updatedUserData => {
     try {
-      await axios.put(`${process.env.NEXT_PUBLIC_URL}/update-emp/${authToken?.id}`, updatedUserData, {
+      await axios.put(`http://localhost:9000/api/update-emp/${authToken?.id}`, updatedUserData, {
         headers: {
           Authorization: `Bearer ${authToken?.token}`
         }
@@ -93,7 +93,7 @@ const useTabInfoData = () => {
   const updateProfileImage = async profileImage => {
     try {
       await axios.post(
-        `${process.env.NEXT_PUBLIC_URL}/add-profile-image`,
+        `http://localhost:9000/api/add-profile-image`,
         {
           profileImage: profileImage,
           id: authToken?.id,
@@ -160,7 +160,7 @@ const useTabInfoData = () => {
   // Handle the reset image
   const resetProfileImage = async () => {
     try {
-      await axios.post(`${process.env.NEXT_PUBLIC_URL}/reset-profile-image`, {
+      await axios.post(`http://localhost:9000/api/reset-profile-image`, {
         profileImage: null,
         id: authToken?.id,
         role: authToken?.role
@@ -201,7 +201,7 @@ const useTabInfoData = () => {
     try {
       // Make a request to the backend endpoint to fetch the profile image data
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_URL}/get-profile-image/${authToken.id}/${authToken.role}`,
+        `http://localhost:9000/api/get-profile-image/${authToken.id}/${authToken.role}`,
         {
           responseType: 'arraybuffer'
         }

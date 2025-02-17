@@ -36,7 +36,7 @@ const useRoleData = () => {
     const companyId = authToken?.companyId
 
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/role-list`, {
+      const response = await axios.get(`http://localhost:9000/api/role-list`, {
         headers: {
           Authorization: `Bearer ${authToken?.token}`
         },
@@ -63,7 +63,7 @@ const useRoleData = () => {
   const addRole = async newRole => {
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_URL}/add-role`,
+        `http://localhost:9000/api/add-role`,
         {
           ...newRole,
           companyId: authToken.companyId
@@ -118,7 +118,7 @@ const useRoleData = () => {
   const updateRoleStatus = async (id, newStatus) => {
     try {
       const response = await axios.put(
-        `${process.env.NEXT_PUBLIC_URL}/update-role-status/${id}`,
+        `http://localhost:9000/api/update-role-status/${id}`,
         { status: newStatus },
         {
           headers: {

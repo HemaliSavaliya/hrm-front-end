@@ -10,7 +10,7 @@ const useLeaveReqData = () => {
   const updateLeaveRequestStatus = async (leaveRequestId, newStatus) => {
     try {
       const response = await axios.put(
-        `${process.env.NEXT_PUBLIC_URL}/update-leave-status`,
+        `http://localhost:9000/api/update-leave-status`,
         {
           leaveRequestId,
           newStatus
@@ -40,7 +40,7 @@ const useLeaveReqData = () => {
   const fetchAllLeaveRequest = async () => {
     setLoading(true)
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/leaveRequestListRoleWise`, {
+      const response = await axios.get(`http://localhost:9000/api/leaveRequestListRoleWise`, {
         headers: {
           Authorization: `Bearer ${authToken?.token}`
         }

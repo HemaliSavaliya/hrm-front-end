@@ -222,7 +222,7 @@ const EmployeeModalLogic = (employeeData, editEmployeeId) => {
   // Fetch department data
   const fetchDepartment = async () => {
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/department-list`, {
+      const response = await axios.get(`http://localhost:9000/api/department-list`, {
         headers: {
           Authorization: `Bearer ${authToken?.token}`
         }
@@ -239,7 +239,7 @@ const EmployeeModalLogic = (employeeData, editEmployeeId) => {
   // Fetch designation data
   const fetchDesignation = async () => {
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/designation-list`, {
+      const response = await axios.get(`http://localhost:9000/api/designation-list`, {
         headers: {
           Authorization: `Bearer ${authToken?.token}`
         }
@@ -256,7 +256,7 @@ const EmployeeModalLogic = (employeeData, editEmployeeId) => {
   // Fetch role data
   const fetchRole = async () => {
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/role-list`, {
+      const response = await axios.get(`http://localhost:9000/api/role-list`, {
         headers: {
           Authorization: `Bearer ${authToken?.token}`
         },

@@ -59,7 +59,7 @@ const JobForm = ({ handleClose, editJobId, setOpen, jobData, addJobs, editJobs }
 
   const fetchDepartment = async () => {
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/department-list`, {
+      const response = await axios.get(`http://localhost:9000/api/department-list`, {
         headers: {
           Authorization: `Bearer ${authToken?.token}`
         }

@@ -30,7 +30,7 @@ const AwardsForm = ({ handleClose, editAwardId, awardsData, setOpen, addAwards, 
 
   const fetchUserList = async () => {
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/empList`, {
+      const response = await axios.get(`http://localhost:9000/api/empList`, {
         headers: {
           Authorization: `Bearer ${authToken?.token}`
         }

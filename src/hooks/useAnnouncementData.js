@@ -41,7 +41,7 @@ const useAnnouncementData = () => {
   const fetchAnnouncement = async () => {
     setLoading(true)
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/announcementList`, {
+      const response = await axios.get(`http://localhost:9000/api/announcementList`, {
         headers: {
           Authorization: `Bearer ${authToken?.token}`
         }
@@ -66,7 +66,7 @@ const useAnnouncementData = () => {
   const addAnnouncement = async newAnno => {
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_URL}/add-announcement`,
+        `http://localhost:9000/api/add-announcement`,
         {
           ...newAnno,
           companyId: authToken.companyId
@@ -120,7 +120,7 @@ const useAnnouncementData = () => {
   // Function to edit form data to localStorage
   const editAnnouncement = async (updatedData, annoId) => {
     try {
-      const response = await axios.put(`${process.env.NEXT_PUBLIC_URL}/update-announcement/${annoId}`, updatedData, {
+      const response = await axios.put(`http://localhost:9000/api/update-announcement/${annoId}`, updatedData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${authToken?.token}`
@@ -182,7 +182,7 @@ const useAnnouncementData = () => {
   // Function to delete form data to localStorage
   const deleteAnnouncement = async id => {
     try {
-      const response = await axios.delete(`${process.env.NEXT_PUBLIC_URL}/delete-announcement/${id}`, {
+      const response = await axios.delete(`http://localhost:9000/api/delete-announcement/${id}`, {
         headers: {
           Authorization: `Bearer ${authToken?.token}`
         }
@@ -226,7 +226,7 @@ const useAnnouncementData = () => {
   // Function to delete specified announcement document data from database
   const deleteDocumentData = async (fileName, announcementId) => {
     try {
-      const response = await axios.delete(`${process.env.NEXT_PUBLIC_URL}/delete-document/${announcementId}`, {
+      const response = await axios.delete(`http://localhost:9000/api/delete-document/${announcementId}`, {
         headers: {
           Authorization: `Bearer ${authToken?.token}`
         },

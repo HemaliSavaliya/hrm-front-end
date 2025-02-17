@@ -82,7 +82,7 @@ const Announcement = () => {
       }
 
       // Fetch the document from the API
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/anno-document/${documentName}`, {
+      const response = await axios.get(`http://localhost:9000/api/anno-document/${documentName}`, {
         headers: {
           'Content-Type': contentType,
           Authorization: `Bearer ${authToken?.token}`

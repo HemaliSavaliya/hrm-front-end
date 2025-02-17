@@ -40,7 +40,7 @@ const useEmployeeData = () => {
   const fetchData = async () => {
     setLoading(true)
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/empList`, {
+      const response = await axios.get(`http://localhost:9000/api/empList`, {
         headers: {
           Authorization: `Bearer ${authToken?.token}`
         }
@@ -65,7 +65,7 @@ const useEmployeeData = () => {
   const addEmployee = async newEmployee => {
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_URL}/add-emp`,
+        `http://localhost:9000/api/add-emp`,
         {
           ...newEmployee,
           addedBy: authToken.name,
@@ -119,7 +119,7 @@ const useEmployeeData = () => {
 
   const editEmployee = async (updatedData, empId) => {
     try {
-      const response = await axios.put(`${process.env.NEXT_PUBLIC_URL}/update-emp/${empId}`, updatedData, {
+      const response = await axios.put(`http://localhost:9000/api/update-emp/${empId}`, updatedData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${authToken?.token}`
@@ -180,7 +180,7 @@ const useEmployeeData = () => {
 
   const deleteEmployee = async id => {
     try {
-      const response = await axios.delete(`${process.env.NEXT_PUBLIC_URL}/delete-emp/${id}`, {
+      const response = await axios.delete(`http://localhost:9000/api/delete-emp/${id}`, {
         headers: {
           Authorization: `Bearer ${authToken?.token}`
         }
@@ -225,7 +225,7 @@ const useEmployeeData = () => {
   // Function to delete specified employee document data from database
   const deleteDocumentData = async (fileName, empId) => {
     try {
-      const response = await axios.delete(`${process.env.NEXT_PUBLIC_URL}/delete-emp-document/${empId}`, {
+      const response = await axios.delete(`http://localhost:9000/api/delete-emp-document/${empId}`, {
         headers: {
           Authorization: `Bearer ${authToken?.token}`
         },

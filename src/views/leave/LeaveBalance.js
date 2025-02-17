@@ -33,7 +33,7 @@ const LeaveBalance = () => {
     const fetchLeaveBalance = async () => {
       setLoading(true)
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/leaveBalance`, {
+        const response = await axios.get(`http://localhost:9000/api/leaveBalance`, {
           headers: {
             Authorization: `Bearer ${authToken?.token}`
           }

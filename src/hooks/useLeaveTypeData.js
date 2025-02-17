@@ -42,7 +42,7 @@ const useLeaveTypeData = () => {
   const updateLeaveTypeStatus = async (id, newStatus) => {
     try {
       const response = await axios.put(
-        `${process.env.NEXT_PUBLIC_URL}/leave-update-status/${id}`,
+        `http://localhost:9000/api/leave-update-status/${id}`,
         { leaveStatus: newStatus },
         {
           headers: {
@@ -92,7 +92,7 @@ const useLeaveTypeData = () => {
   const fetchLeaveType = async () => {
     setLoading(true)
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/leaveTypeList`, {
+      const response = await axios.get(`http://localhost:9000/api/leaveTypeList`, {
         headers: {
           Authorization: `Bearer ${authToken?.token}`
         }
@@ -117,7 +117,7 @@ const useLeaveTypeData = () => {
   const addLeaveType = async newLeaveType => {
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_URL}/add-leaveType`,
+        `http://localhost:9000/api/add-leaveType`,
         {
           ...newLeaveType,
           companyId: authToken.companyId
@@ -171,7 +171,7 @@ const useLeaveTypeData = () => {
   // Function to edit form data to localStorage
   const editLeaveType = async (updatedData, leaveId) => {
     try {
-      const response = await axios.put(`${process.env.NEXT_PUBLIC_URL}/update-leaveType/${leaveId}`, updatedData, {
+      const response = await axios.put(`http://localhost:9000/api/update-leaveType/${leaveId}`, updatedData, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${authToken?.token}`
@@ -233,7 +233,7 @@ const useLeaveTypeData = () => {
   // Function to delete form data to localStorage
   const deleteLeaveType = async id => {
     try {
-      const response = await axios.delete(`${process.env.NEXT_PUBLIC_URL}/delete-leaveType/${id}`, {
+      const response = await axios.delete(`http://localhost:9000/api/delete-leaveType/${id}`, {
         headers: {
           Authorization: `Bearer ${authToken?.token}`
         }

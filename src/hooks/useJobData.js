@@ -41,7 +41,7 @@ const useJobData = () => {
   const fetchJobs = async () => {
     setLoading(true)
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/jobsList`, {
+      const response = await axios.get(`http://localhost:9000/api/jobsList`, {
         headers: {
           Authorization: `Bearer ${authToken?.token}`
         }
@@ -66,7 +66,7 @@ const useJobData = () => {
   const addJobs = async newJobs => {
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_URL}/add-job`,
+        `http://localhost:9000/api/add-job`,
         {
           ...newJobs,
           companyId: authToken.companyId
@@ -120,7 +120,7 @@ const useJobData = () => {
   // Function to edit form data to localStorage
   const editJobs = async (updatedData, jobId) => {
     try {
-      const response = await axios.put(`${process.env.NEXT_PUBLIC_URL}/update-job/${jobId}`, updatedData, {
+      const response = await axios.put(`http://localhost:9000/api/update-job/${jobId}`, updatedData, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${authToken?.token}`
@@ -182,7 +182,7 @@ const useJobData = () => {
   // Function to delete form data to localStorage
   const deleteJobs = async id => {
     try {
-      const response = await axios.delete(`${process.env.NEXT_PUBLIC_URL}/delete-job/${id}`, {
+      const response = await axios.delete(`http://localhost:9000/api/delete-job/${id}`, {
         headers: {
           Authorization: `Bearer ${authToken?.token}`
         }

@@ -28,7 +28,7 @@ const LeaveRequestForm = ({ handleClose, setOpen, addLeaveRequest }) => {
 
   const fetchLeaveRequest = async () => {
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/leaveTypeList`, {
+      const response = await axios.get(`http://localhost:9000/api/leaveTypeList`, {
         headers: {
           Authorization: `Bearer ${authToken?.token}`
         }

@@ -41,7 +41,7 @@ const useAwardsData = () => {
   const fetchAwards = async () => {
     setLoading(true)
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/awardsList`, {
+      const response = await axios.get(`http://localhost:9000/api/awardsList`, {
         headers: {
           Authorization: `Bearer ${authToken?.token}`
         }
@@ -66,7 +66,7 @@ const useAwardsData = () => {
   const addAwards = async newAward => {
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_URL}/add-awards`,
+        `http://localhost:9000/api/add-awards`,
         {
           ...newAward,
           companyId: authToken.companyId
@@ -120,7 +120,7 @@ const useAwardsData = () => {
   // Function to edit form data to localStorage
   const editAwards = async (updatedData, awardId) => {
     try {
-      const response = await axios.put(`${process.env.NEXT_PUBLIC_URL}/update-awards/${awardId}`, updatedData, {
+      const response = await axios.put(`http://localhost:9000/api/update-awards/${awardId}`, updatedData, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${authToken?.token}`
@@ -182,7 +182,7 @@ const useAwardsData = () => {
   // Function to delete form data to localStorage
   const deleteAwards = async id => {
     try {
-      const response = await axios.delete(`${process.env.NEXT_PUBLIC_URL}/delete-awards/${id}`, {
+      const response = await axios.delete(`http://localhost:9000/api/delete-awards/${id}`, {
         headers: {
           Authorization: `Bearer ${authToken?.token}`
         }

@@ -33,7 +33,7 @@ const useDesignationData = () => {
   const fetchDesignation = async () => {
     setLoading(true)
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/designation-list`, {
+      const response = await axios.get(`http://localhost:9000/api/designation-list`, {
         headers: {
           Authorization: `Bearer ${authToken?.token}`
         }
@@ -55,7 +55,7 @@ const useDesignationData = () => {
   const addDesignation = async newDepartment => {
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_URL}/add-designation`,
+        `http://localhost:9000/api/add-designation`,
         {
           ...newDepartment,
           companyId: authToken.companyId
@@ -110,7 +110,7 @@ const useDesignationData = () => {
   const updateDesignationStatus = async (id, newStatus) => {
     try {
       const response = await axios.put(
-        `${process.env.NEXT_PUBLIC_URL}/designation-update-status/${id}`,
+        `http://localhost:9000/api/designation-update-status/${id}`,
         { status: newStatus },
         {
           headers: {

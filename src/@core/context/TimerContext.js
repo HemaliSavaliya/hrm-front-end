@@ -31,7 +31,7 @@ export function TimerProvider({ children }) {
   const fetchTimer = async () => {
     setLoading(true)
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/timer-list`, {
+      const response = await axios.get(`http://localhost:9000/api/timer-list`, {
         headers: {
           Authorization: `Bearer ${authToken?.token}`
         }
@@ -160,7 +160,7 @@ export function TimerProvider({ children }) {
 
       try {
         // Make the API call to save the project and timer data
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_URL}/add-timer`, newProject, {
+        const response = await axios.post(`http://localhost:9000/api/add-timer`, newProject, {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${authToken?.token}`

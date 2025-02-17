@@ -43,7 +43,7 @@ const useAuth = () => {
     const { email, password } = values
 
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_URL}/login`, {
+      const response = await axios.post(`http://localhost:9000/api/login`, {
         email,
         password
       })
@@ -67,17 +67,11 @@ const useAuth = () => {
           // Store the token in localStorage or secure storage for future API requests
           localStorage.setItem('login-details', JSON.stringify({ token, role, email, userId, name, id, companyId }))
 
-          if (role === 'Employee') {
-            setTimeout(() => {
-              router.push('/account-settings')
-            }, 1000) // 1000 milliseconds = 1 seconds
-          } else {
-            // Redirect after 1 seconds
-            setTimeout(() => {
-              const returnUrl = router.query.returnUrl || '/'
-              router.push(returnUrl)
-            }, 1000) // 1000 milliseconds = 1 seconds
-          }
+          // Redirect after 1 seconds
+          setTimeout(() => {
+            const returnUrl = router.query.returnUrl || '/'
+            router.push(returnUrl)
+          }, 1000) // 1000 milliseconds = 1 seconds
         } else {
           // Display an error toast if the role is not allowed
           toast.error('Login failed. Your role is not allowed to access this system.', {
@@ -108,10 +102,10 @@ const useAuth = () => {
         }
       })
 
-      // Redirect to 500 error page
-      setTimeout(() => {
-        router.push('/500')
-      }, 2000)
+      // // Redirect to 500 error page
+      // setTimeout(() => {
+      //   router.push('/500')
+      // }, 2000)
     } finally {
       // Ensure to re-enable the save button even if an error occurs
       setIsSaving(false)

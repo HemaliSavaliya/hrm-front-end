@@ -41,7 +41,7 @@ const ApplicantList = () => {
   const fetchApplicant = async () => {
     setLoading(true)
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/applicant-list`)
+      const response = await axios.get(`http://localhost:9000/api/applicant-list`)
 
       setApplicant(response.data)
     } catch (error) {

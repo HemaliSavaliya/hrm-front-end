@@ -42,7 +42,7 @@ const useProjectData = () => {
   const updateProjectStatus = async (id, newStatus) => {
     try {
       const response = await axios.put(
-        `${process.env.NEXT_PUBLIC_URL}/update-status/${id}`,
+        `http://localhost:9000/api/update-status/${id}`,
         { status: newStatus },
         {
           headers: {
@@ -92,7 +92,7 @@ const useProjectData = () => {
   const fetchProjects = async () => {
     setLoading(true)
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/projects-list`, {
+      const response = await axios.get(`http://localhost:9000/api/projects-list`, {
         headers: {
           Authorization: `Bearer ${authToken?.token}`
         }
@@ -117,7 +117,7 @@ const useProjectData = () => {
   const addProjects = async newProject => {
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_URL}/add-projects`,
+        `http://localhost:9000/api/add-projects`,
         {
           ...newProject,
           companyId: authToken.companyId
@@ -171,7 +171,7 @@ const useProjectData = () => {
   // Function to edit form data to localStorage
   const editProjects = async (updatedData, projectId) => {
     try {
-      const response = await axios.put(`${process.env.NEXT_PUBLIC_URL}/update-project/${projectId}`, updatedData, {
+      const response = await axios.put(`http://localhost:9000/api/update-project/${projectId}`, updatedData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${authToken?.token}`
@@ -233,7 +233,7 @@ const useProjectData = () => {
   // Function to delete form data to localStorage
   const deleteProjects = async id => {
     try {
-      const response = await axios.delete(`${process.env.NEXT_PUBLIC_URL}/delete-project/${id}`, {
+      const response = await axios.delete(`http://localhost:9000/api/delete-project/${id}`, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${authToken?.token}`
@@ -278,7 +278,7 @@ const useProjectData = () => {
   // Function to delete specified project document data from database
   const deleteDocumentData = async (fileName, projectId) => {
     try {
-      const response = await axios.delete(`${process.env.NEXT_PUBLIC_URL}/delete-project-document/${projectId}`, {
+      const response = await axios.delete(`http://localhost:9000/api/delete-project-document/${projectId}`, {
         headers: {
           Authorization: `Bearer ${authToken?.token}`
         },

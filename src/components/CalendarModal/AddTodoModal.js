@@ -34,7 +34,7 @@ const AddTodoModal = ({ open, handleClose, todos, setTodos }) => {
 
   const fetchTodos = async () => {
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/todosList`, {
+      const response = await axios.get(`http://localhost:9000/api/todosList`, {
         headers: {
           Authorization: `Bearer ${authToken?.token}`
         }
@@ -58,7 +58,7 @@ const AddTodoModal = ({ open, handleClose, todos, setTodos }) => {
       // If editingTodo is set, update the existing todo
       if (editingTodo) {
         const response = await axios.put(
-          `${process.env.NEXT_PUBLIC_URL}/update-todos/${editingTodo.id}`,
+          `http://localhost:9000/api/update-todos/${editingTodo.id}`,
           { name, color },
           {
             headers: {
@@ -94,7 +94,7 @@ const AddTodoModal = ({ open, handleClose, todos, setTodos }) => {
       } else {
         // If not editing, add a new todos
         const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_URL}/todos`,
+          `http://localhost:9000/api/todos`,
           { companyId: authToken.companyId, name, color },
           {
             headers: {
@@ -153,7 +153,7 @@ const AddTodoModal = ({ open, handleClose, todos, setTodos }) => {
 
   const onDeleteTodo = async _id => {
     try {
-      await axios.delete(`${process.env.NEXT_PUBLIC_URL}/delete-todos/${_id}`, {
+      await axios.delete(`http://localhost:9000/api/delete-todos/${_id}`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${authToken?.token}`
