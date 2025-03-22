@@ -15,7 +15,6 @@ import {
 } from '@mui/material'
 import EyeOutline from 'mdi-material-ui/EyeOutline'
 import EyeOffOutline from 'mdi-material-ui/EyeOffOutline'
-import { motion } from 'framer-motion'
 import { Toaster } from 'react-hot-toast'
 import useForgotPasswordData from 'src/hooks/useForgotPasswordData'
 import { cancelButton, formStyles, saveButton } from 'src/Styles'
@@ -38,12 +37,7 @@ const TabForgotPassword = () => {
   const styles = formStyles(theme);
 
   return (
-    <motion.form
-      initial={{ opacity: 0, y: 15 }}
-      animate={{ opacity: 1, y: 0 }}
-      exist={{ opacity: 0, y: 15 }}
-      transition={{ delay: 0.25 }}
-    >
+    <>
       <Toaster />
       <CardContent sx={{ paddingBottom: 0 }}>
         <Grid container spacing={5}>
@@ -165,7 +159,7 @@ const TabForgotPassword = () => {
           Reset
         </Button>
       </CardContent>
-    </motion.form>
+    </>
   )
 }
 

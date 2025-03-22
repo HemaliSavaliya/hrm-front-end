@@ -75,16 +75,49 @@ const LeaveBalance = () => {
 
   return (
     <Card sx={{ mt: 4, p: 5, boxShadow: '0px 9px 20px rgba(46, 35, 94, 0.07)' }}>
-      <motion.div
-        initial={{ opacity: 0, y: 15 }}
-        animate={{ opacity: 1, y: 0 }}
-        exist={{ opacity: 0, y: 15 }}
-        transition={{ delay: 0.25 }}
-      >
-        <Box sx={{ width: '100%' }}>
-          {loading ? (
+      <Box sx={{ width: '100%' }}>
+        {loading ? (
+          <TableContainer sx={{ height: '235px', border: `1px solid ${theme.palette.action.focus}` }}>
+            <Table stickyHeader sx={{ minWidth: { xs: 800, sm: 800, lg: 800 } }} aria-labelledby='tableTitle'>
+              <EnhancedTableHead
+                headCells={leaveBalanceCells}
+                order={order}
+                orderBy={orderBy}
+                onRequestSort={handleRequestSort}
+              />
+              <TableBody>
+                {Array.from(new Array(rowsPerPage)).map((_, index) => (
+                  <TableRow key={index}>
+                    {leaveBalanceCells.map(cell => (
+                      <TableCell key={cell.id}>
+                        <Skeleton variant='text' height={25} />
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        ) : visibleRows && visibleRows.length === 0 ? (
+          <Typography
+            textTransform={'uppercase'}
+            letterSpacing={1}
+            fontSize={15}
+            my={6}
+            textAlign={'center'}
+            fontWeight={600}
+          >
+            No Data Available Yet!
+          </Typography>
+        ) : (
+          <>
             <TableContainer sx={{ height: '235px', border: `1px solid ${theme.palette.action.focus}` }}>
-              <Table stickyHeader sx={{ minWidth: { xs: 800, sm: 800, lg: 800 } }} aria-labelledby='tableTitle'>
+              <Table
+                stickyHeader
+                sx={{ minWidth: { xs: 900, sm: 900, lg: 900 } }}
+                size='small'
+                aria-label='a dense table'
+              >
                 <EnhancedTableHead
                   headCells={leaveBalanceCells}
                   order={order}
@@ -92,78 +125,38 @@ const LeaveBalance = () => {
                   onRequestSort={handleRequestSort}
                 />
                 <TableBody>
-                  {Array.from(new Array(rowsPerPage)).map((_, index) => (
-                    <TableRow key={index}>
-                      {leaveBalanceCells.map(cell => (
-                        <TableCell key={cell.id}>
-                          <Skeleton variant='text' height={25} />
-                        </TableCell>
-                      ))}
+                  {visibleRows.map((row, index) => {
+                    return (
+                      <TableRow hover role='checkbox' tabIndex={-1} key={index} sx={{ cursor: 'pointer' }}>
+                        {/* <TableCell align="left">{row.emp_name}</TableCell> */}
+                        <TableCell align='left'>{row.leaveName}</TableCell>
+                        <TableCell align='left'>{row.leaveBalance}</TableCell>
+                        <TableCell align='left'>{row.totalUtilized}</TableCell>
+                        <TableCell align='left'>{row.totalBalanced}</TableCell>
+                        <TableCell align='left'>{row.totalCarriedForward}</TableCell>
+                      </TableRow>
+                    )
+                  })}
+                  {emptyRows > 0 && (
+                    <TableRow style={{ height: 53 * emptyRows }}>
+                      <TableCell colSpan={headCells.length} />
                     </TableRow>
-                  ))}
+                  )}
                 </TableBody>
               </Table>
             </TableContainer>
-          ) : visibleRows && visibleRows.length === 0 ? (
-            <Typography
-              textTransform={'uppercase'}
-              letterSpacing={1}
-              fontSize={15}
-              my={6}
-              textAlign={'center'}
-              fontWeight={600}
-            >
-              No Data Available Yet!
-            </Typography>
-          ) : (
-            <>
-              <TableContainer sx={{ height: '235px', border: `1px solid ${theme.palette.action.focus}` }}>
-                <Table
-                  stickyHeader
-                  sx={{ minWidth: { xs: 900, sm: 900, lg: 900 } }}
-                  size='small'
-                  aria-label='a dense table'
-                >
-                  <EnhancedTableHead
-                    headCells={leaveBalanceCells}
-                    order={order}
-                    orderBy={orderBy}
-                    onRequestSort={handleRequestSort}
-                  />
-                  <TableBody>
-                    {visibleRows.map((row, index) => {
-                      return (
-                        <TableRow hover role='checkbox' tabIndex={-1} key={index} sx={{ cursor: 'pointer' }}>
-                          {/* <TableCell align="left">{row.emp_name}</TableCell> */}
-                          <TableCell align='left'>{row.leaveName}</TableCell>
-                          <TableCell align='left'>{row.leaveBalance}</TableCell>
-                          <TableCell align='left'>{row.totalUtilized}</TableCell>
-                          <TableCell align='left'>{row.totalBalanced}</TableCell>
-                          <TableCell align='left'>{row.totalCarriedForward}</TableCell>
-                        </TableRow>
-                      )
-                    })}
-                    {emptyRows > 0 && (
-                      <TableRow style={{ height: 53 * emptyRows }}>
-                        <TableCell colSpan={headCells.length} />
-                      </TableRow>
-                    )}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-              <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
-                component='div'
-                count={leaveBal.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
-            </>
-          )}
-        </Box>
-      </motion.div>
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 25]}
+              component='div'
+              count={leaveBal.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </>
+        )}
+      </Box>
     </Card>
   )
 }

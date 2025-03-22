@@ -11,8 +11,6 @@ import {
     useTheme
 } from '@mui/material';
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Toaster } from 'react-hot-toast';
 import { EnhancedTableHead } from 'src/common/EnhancedTableHead';
 import { leaveReqCells } from 'src/TableHeader/TableHeader';
 import { getComparator, stableSort } from 'src/common/CommonLogic';
@@ -76,112 +74,101 @@ const LeaveReqTable = ({
     }
 
     return (
-        <>
-            <Toaster />
-
-            <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                exist={{ opacity: 0, y: 15 }}
-                transition={{ delay: 0.25 }}
-            >
-                <Box sx={{ width: '100%' }}>
-                    {loading ? (
-                        <TableContainer sx={{ height: '180px', border: `1px solid ${theme.palette.action.focus}` }}>
-                            <Table stickyHeader sx={{ minWidth: { xs: 800, sm: 800, lg: 800 } }} aria-labelledby="tableTitle">
-                                <EnhancedTableHead
-                                    headCells={leaveReqCells}
-                                    order={order}
-                                    orderBy={orderBy}
-                                    onRequestSort={handleRequestSort}
-                                />
-                                <TableBody>
-                                    {Array.from(new Array(rowsPerPage)).map((_, index) => (
-                                        <TableRow key={index}>
-                                            {leaveReqCells.map((cell) => (
-                                                <TableCell key={cell.id}>
-                                                    <Skeleton variant="text" height={25} />
-                                                </TableCell>
-                                            ))}
-                                        </TableRow>
+        <Box sx={{ width: '100%' }}>
+            {loading ? (
+                <TableContainer sx={{ height: '180px', border: `1px solid ${theme.palette.action.focus}` }}>
+                    <Table stickyHeader sx={{ minWidth: { xs: 800, sm: 800, lg: 800 } }} aria-labelledby="tableTitle">
+                        <EnhancedTableHead
+                            headCells={leaveReqCells}
+                            order={order}
+                            orderBy={orderBy}
+                            onRequestSort={handleRequestSort}
+                        />
+                        <TableBody>
+                            {Array.from(new Array(rowsPerPage)).map((_, index) => (
+                                <TableRow key={index}>
+                                    {leaveReqCells.map((cell) => (
+                                        <TableCell key={cell.id}>
+                                            <Skeleton variant="text" height={25} />
+                                        </TableCell>
                                     ))}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                    ) : visibleRows.length === 0 ? (
-                        <Typography
-                            textTransform={'uppercase'}
-                            letterSpacing={1}
-                            fontSize={15}
-                            my={6}
-                            textAlign={'center'}
-                            fontWeight={600}
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            ) : visibleRows.length === 0 ? (
+                <Typography
+                    textTransform={'uppercase'}
+                    letterSpacing={1}
+                    fontSize={15}
+                    my={6}
+                    textAlign={'center'}
+                    fontWeight={600}
+                >
+                    No Data Available Yet!
+                </Typography>
+            ) : (
+                <>
+                    <TableContainer sx={{ height: '180px', border: `1px solid ${theme.palette.action.focus}` }}>
+                        <Table
+                            stickyHeader
+                            sx={{ minWidth: { xs: 1400, sm: 1400, lg: 1400 } }}
+                            size='small'
+                            aria-label='a dense table'
                         >
-                            No Data Available Yet!
-                        </Typography>
-                    ) : (
-                        <>
-                            <TableContainer sx={{ height: '180px', border: `1px solid ${theme.palette.action.focus}` }}>
-                                <Table
-                                    stickyHeader
-                                    sx={{ minWidth: { xs: 1400, sm: 1400, lg: 1400 } }}
-                                    size='small'
-                                    aria-label='a dense table'
-                                >
-                                    <EnhancedTableHead
-                                        headCells={leaveReqCells}
-                                        order={order}
-                                        orderBy={orderBy}
-                                        onRequestSort={handleRequestSort}
-                                    />
-                                    <TableBody>
-                                        {visibleRows.map((row, index) => (
-                                            <TableRow key={row.id} sx={{ cursor: 'pointer' }}>
-                                                <TableCell align='left'>{index + 1 + page * rowsPerPage}</TableCell>
-                                                <TableCell align='left'>{row.applyingDate}</TableCell>
-                                                <TableCell align='left'>{row.leaveName}</TableCell>
-                                                <TableCell align='left'>{row.startDate}</TableCell>
-                                                <TableCell align='left'>{row.endDate || '-'}</TableCell>
-                                                <TableCell align='left'>{row.leaveType}</TableCell>
-                                                <TableCell align='left'
-                                                    sx={{
-                                                        whiteSpace: 'normal',
-                                                        WebkitLineClamp: 1,
-                                                        WebkitBoxOrient: 'vertical',
-                                                        display: '-webkit-box',
-                                                        overflow: 'hidden',
-                                                        textOverflow: 'ellipsis',
-                                                    }}
-                                                >
-                                                    {row.description}
-                                                </TableCell>
-                                                <TableCell align='left' style={{ ...getStatusStyle(row.status) }}>
-                                                    {row.status}
-                                                </TableCell>
-                                            </TableRow>
-                                        ))}
-                                        {emptyRows > 0 && (
-                                            <TableRow style={{ height: 53 * emptyRows }}>
-                                                <TableCell colSpan={leaveReqCells.length} />
-                                            </TableRow>
-                                        )}
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-                            <TablePagination
-                                rowsPerPageOptions={[5, 10, 25]}
-                                component="div"
-                                count={filteredData.length} // Update count based on filtered data
-                                rowsPerPage={rowsPerPage}
-                                page={page}
-                                onPageChange={handleChangePage}
-                                onRowsPerPageChange={handleChangeRowsPerPage}
+                            <EnhancedTableHead
+                                headCells={leaveReqCells}
+                                order={order}
+                                orderBy={orderBy}
+                                onRequestSort={handleRequestSort}
                             />
-                        </>
-                    )}
-                </Box>
-            </motion.div >
-        </>
+                            <TableBody>
+                                {visibleRows.map((row, index) => (
+                                    <TableRow key={row.id} sx={{ cursor: 'pointer' }}>
+                                        <TableCell align='left'>{index + 1 + page * rowsPerPage}</TableCell>
+                                        <TableCell align='left'>{row.applyingDate}</TableCell>
+                                        <TableCell align='left'>{row.leaveName}</TableCell>
+                                        <TableCell align='left'>{row.startDate}</TableCell>
+                                        <TableCell align='left'>{row.endDate || '-'}</TableCell>
+                                        <TableCell align='left'>{row.leaveType}</TableCell>
+                                        <TableCell align='left'
+                                            sx={{
+                                                whiteSpace: 'normal',
+                                                WebkitLineClamp: 1,
+                                                WebkitBoxOrient: 'vertical',
+                                                display: '-webkit-box',
+                                                overflow: 'hidden',
+                                                textOverflow: 'ellipsis',
+                                            }}
+                                        >
+                                            {row.description}
+                                        </TableCell>
+                                        <TableCell align='left' style={{ ...getStatusStyle(row.status) }}>
+                                            {row.status}
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                                {emptyRows > 0 && (
+                                    <TableRow style={{ height: 53 * emptyRows }}>
+                                        <TableCell colSpan={leaveReqCells.length} />
+                                    </TableRow>
+                                )}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                    <TablePagination
+                        rowsPerPageOptions={[5, 10, 25]}
+                        component="div"
+                        count={filteredData.length} // Update count based on filtered data
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
+                </>
+            )}
+        </Box>
     );
 };
 

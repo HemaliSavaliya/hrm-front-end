@@ -37,12 +37,7 @@ const TabSecurity = () => {
   const styles = formStyles(theme);
 
   return (
-    <motion.form
-      initial={{ opacity: 0, y: 15 }}
-      animate={{ opacity: 1, y: 0 }}
-      exist={{ opacity: 0, y: 15 }}
-      transition={{ delay: 0.25 }}
-    >
+    <>
       <Toaster />
       <CardContent sx={{ paddingBottom: 0 }}>
         <Grid container spacing={5}>
@@ -166,7 +161,7 @@ const TabSecurity = () => {
           </Button>
         </Box>
       </CardContent>
-    </motion.form>
+    </>
   )
 }
 

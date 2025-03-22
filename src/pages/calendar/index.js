@@ -9,7 +9,6 @@ import EventInfoModal from 'src/components/CalendarModal/EventInfoModal'
 import enIN from 'date-fns/locale/en-IN'
 import AddDatePickerEventModal from 'src/components/CalendarModal/AddDatePickerEventModal'
 import CustomToolbar from 'src/components/CalendarModal/CustomToolbar'
-import { motion } from 'framer-motion'
 import useCalendarData from 'src/hooks/useCalendarData'
 import { Toaster } from 'react-hot-toast'
 import { useEffect, useState } from 'react'
@@ -88,103 +87,96 @@ const EventCalendar = () => {
     <Box component='main' sx={{ flexGrow: 1 }}>
       <Toaster />
       <Container maxWidth={false} sx={{ pl: 0, pr: 0 }}>
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 15 }}
-          transition={{ delay: 0.25 }}
-        >
-          <Card sx={{ pt: 0 }}>
-            <CardContent>
-              <Box sx={{ display: 'flex' }}>
-                <Button
-                  sx={{
-                    ...saveButton,
-                    gap: 1,
-                    '&.MuiButton-root:hover': {
-                      backgroundColor: theme.palette.primary.hover
-                    }
-                  }}
-                  variant='contained'
-                  onClick={() => setOpenDatepickerModal(true)}
-                >
-                  Add Event <PlusSignIcon size={15} />
-                </Button>
-                <Button
-                  variant='contained'
-                  onClick={() => setOpenTodoModal(true)}
-                  sx={{
-                    ...saveButton,
-                    gap: 1,
-                    '&.MuiButton-root:hover': {
-                      backgroundColor: theme.palette.primary.hover
-                    }
-                  }}
-                >
-                  Create todo <PlusSignIcon size={15} />
-                </Button>
-              </Box>
-              <Divider style={{ margin: 10 }} />
-              <AddEventModal
-                open={openSlot}
-                handleClose={handleClose}
-                eventFormData={eventFormData}
-                setEventFormData={setEventFormData}
-                onAddEvent={onAddEvent}
-                editedEvent={currentEvent}
-                todos={todos}
-                scroll={scroll}
-                editedEventData={editedEventData}
-              />
-              <AddDatePickerEventModal
-                open={openDatepickerModal}
-                handleClose={handleDatePickerClose}
-                datePickerEventFormData={datePickerEventFormData}
-                setDatePickerEventFormData={setDatePickerEventFormData}
-                onAddEvent={onAddEventFromDatePicker}
-                todos={todos}
-              />
-              <AddTodoModal
-                open={openTodoModal}
-                handleClose={() => setOpenTodoModal(false)}
-                todos={todos}
-                setTodos={setTodos}
-                generateId={generateId}
-              />
-              <EventInfoModal
-                open={eventInfoModal}
-                handleClose={() => setEventInfoModal(false)}
-                onDeleteEvent={onDeleteEvent}
-                currentEvent={currentEvent}
-                onEditEvent={onEditEvent}
-              />
-              <Calendar
-                localizer={localizer}
-                events={events}
-                onSelectEvent={handleSelectEvent}
-                onSelectSlot={handleSelectSlot}
-                selectable
-                startAccessor='start'
-                endAccessor='end'
-                defaultView='month'
-                components={{ event: EventInfo, toolbar: CustomToolbar }}
-                dayPropGetter={dayPropGetter}
-                onNavigate={handleNavigate}
-                eventPropGetter={event => {
-                  const hasTodo = todos.find(todo => todo.id === event.todoId)
-
-                  return {
-                    style: {
-                      backgroundColor: hasTodo ? hasTodo.color : '#b64fc8',
-                      borderColor: hasTodo ? hasTodo.color : '#b64fc8'
-                    }
+        <Card sx={{ pt: 0 }}>
+          <CardContent>
+            <Box sx={{ display: 'flex' }}>
+              <Button
+                sx={{
+                  ...saveButton,
+                  gap: 1,
+                  '&.MuiButton-root:hover': {
+                    backgroundColor: theme.palette.primary.hover
                   }
                 }}
-                style={{ height: 600, width: '100%' }}
-              />
-            </CardContent>
-          </Card>
-        </motion.div>
+                variant='contained'
+                onClick={() => setOpenDatepickerModal(true)}
+              >
+                Add Event <PlusSignIcon size={15} />
+              </Button>
+              <Button
+                variant='contained'
+                onClick={() => setOpenTodoModal(true)}
+                sx={{
+                  ...saveButton,
+                  gap: 1,
+                  '&.MuiButton-root:hover': {
+                    backgroundColor: theme.palette.primary.hover
+                  }
+                }}
+              >
+                Create todo <PlusSignIcon size={15} />
+              </Button>
+            </Box>
+            <Divider style={{ margin: 10 }} />
+            <AddEventModal
+              open={openSlot}
+              handleClose={handleClose}
+              eventFormData={eventFormData}
+              setEventFormData={setEventFormData}
+              onAddEvent={onAddEvent}
+              editedEvent={currentEvent}
+              todos={todos}
+              scroll={scroll}
+              editedEventData={editedEventData}
+            />
+            <AddDatePickerEventModal
+              open={openDatepickerModal}
+              handleClose={handleDatePickerClose}
+              datePickerEventFormData={datePickerEventFormData}
+              setDatePickerEventFormData={setDatePickerEventFormData}
+              onAddEvent={onAddEventFromDatePicker}
+              todos={todos}
+            />
+            <AddTodoModal
+              open={openTodoModal}
+              handleClose={() => setOpenTodoModal(false)}
+              todos={todos}
+              setTodos={setTodos}
+              generateId={generateId}
+            />
+            <EventInfoModal
+              open={eventInfoModal}
+              handleClose={() => setEventInfoModal(false)}
+              onDeleteEvent={onDeleteEvent}
+              currentEvent={currentEvent}
+              onEditEvent={onEditEvent}
+            />
+            <Calendar
+              localizer={localizer}
+              events={events}
+              onSelectEvent={handleSelectEvent}
+              onSelectSlot={handleSelectSlot}
+              selectable
+              startAccessor='start'
+              endAccessor='end'
+              defaultView='month'
+              components={{ event: EventInfo, toolbar: CustomToolbar }}
+              dayPropGetter={dayPropGetter}
+              onNavigate={handleNavigate}
+              eventPropGetter={event => {
+                const hasTodo = todos.find(todo => todo.id === event.todoId)
+
+                return {
+                  style: {
+                    backgroundColor: hasTodo ? hasTodo.color : '#b64fc8',
+                    borderColor: hasTodo ? hasTodo.color : '#b64fc8'
+                  }
+                }
+              }}
+              style={{ height: 600, width: '100%' }}
+            />
+          </CardContent>
+        </Card>
       </Container>
     </Box>
   )

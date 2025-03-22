@@ -3,7 +3,6 @@ import { TabList, TabPanel, TabContext } from '@mui/lab'
 import { styled } from '@mui/material/styles'
 import MuiTab from '@mui/material/Tab'
 import { Box, Tooltip, useTheme } from '@mui/material'
-import { motion } from 'framer-motion'
 import Tracker from '../tracker'
 import AttendanceTable from 'src/components/Attendance/AttendanceTable'
 import RoleWiseAttendance from 'src/views/attendance/RoleWiseAttendance'
@@ -85,49 +84,42 @@ const Attendance = () => {
 
   return (
     <TabContext value={value}>
-      <motion.div
-        initial={{ opacity: 0, y: 15 }}
-        animate={{ opacity: 1, y: 0 }}
-        exist={{ opacity: 0, y: 15 }}
-        transition={{ delay: 0.25 }}
+      <Box
+        sx={{
+          borderTop: `1px solid ${theme.palette.customColors.borderPrimary}`,
+          borderBottom: `1px solid ${theme.palette.customColors.borderPrimary}`,
+          borderRadius: '12px'
+        }}
       >
-        <Box
-          sx={{
-            borderTop: `1px solid ${theme.palette.customColors.borderPrimary}`,
-            borderBottom: `1px solid ${theme.palette.customColors.borderPrimary}`,
-            borderRadius: '12px'
-          }}
-        >
-          <TabList onChange={handleChange} aria-label='account-settings tabs' indicatorColor='none'>
-            {(role === 'HR' || role === 'Employee') && (
-              <Tab
-                value='tracker'
-                label={
-                  <Tooltip title='Tracker'>
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                      <TimeQuarterIcon />
-                      <TabName>Tracker</TabName>
-                    </Box>
-                  </Tooltip>
-                }
-              />
-            )}
-            {role !== 'Employee' && (
-              <Tab
-                value='role-attendance'
-                label={
-                  <Tooltip title='Role Wise Attendance'>
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                      <CoPresentIcon />
-                      <TabName>Role Wise Attendance</TabName>
-                    </Box>
-                  </Tooltip>
-                }
-              />
-            )}
-          </TabList>
-        </Box>
-      </motion.div>
+        <TabList onChange={handleChange} aria-label='account-settings tabs' indicatorColor='none'>
+          {(role === 'HR' || role === 'Employee') && (
+            <Tab
+              value='tracker'
+              label={
+                <Tooltip title='Tracker'>
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <TimeQuarterIcon />
+                    <TabName>Tracker</TabName>
+                  </Box>
+                </Tooltip>
+              }
+            />
+          )}
+          {role !== 'Employee' && (
+            <Tab
+              value='role-attendance'
+              label={
+                <Tooltip title='Role Wise Attendance'>
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <CoPresentIcon />
+                    <TabName>Role Wise Attendance</TabName>
+                  </Box>
+                </Tooltip>
+              }
+            />
+          )}
+        </TabList>
+      </Box>
 
       {(role === 'HR' || role === 'Employee') && (
         <TabPanel sx={{ p: 0 }} value='tracker'>

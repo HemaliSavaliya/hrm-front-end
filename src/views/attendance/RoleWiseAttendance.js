@@ -14,7 +14,6 @@ import {
   Skeleton,
   useTheme
 } from '@mui/material'
-import { motion } from 'framer-motion'
 import axios from 'axios'
 import { formStyles } from 'src/Styles'
 import { roleWiseCells } from 'src/TableHeader/TableHeader'
@@ -117,16 +116,49 @@ const RoleWiseAttendance = () => {
         />
       </Box>
 
-      <motion.div
-        initial={{ opacity: 0, y: 15 }}
-        animate={{ opacity: 1, y: 0 }}
-        exist={{ opacity: 0, y: 15 }}
-        transition={{ delay: 0.25 }}
-      >
-        <Box sx={{ width: '100%' }}>
-          {loading ? (
+      <Box sx={{ width: '100%' }}>
+        {loading ? (
+          <TableContainer sx={{ height: '180px', border: `1px solid ${theme.palette.action.focus}` }}>
+            <Table stickyHeader sx={{ minWidth: 1500 }} aria-labelledby='tableTitle'>
+              <EnhancedTableHead
+                headCells={roleWiseCells}
+                order={order}
+                orderBy={orderBy}
+                onRequestSort={handleRequestSort}
+              />
+              <TableBody>
+                {Array.from(new Array(rowsPerPage)).map((_, index) => (
+                  <TableRow key={index}>
+                    {roleWiseCells.map(cell => (
+                      <TableCell key={cell.id}>
+                        <Skeleton variant='text' />
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        ) : visibleRows && visibleRows.length === 0 ? (
+          <Typography
+            textTransform={'uppercase'}
+            letterSpacing={1}
+            fontSize={15}
+            my={6}
+            textAlign={'center'}
+            fontWeight={600}
+          >
+            No Data Available Yet!
+          </Typography>
+        ) : (
+          <>
             <TableContainer sx={{ height: '180px', border: `1px solid ${theme.palette.action.focus}` }}>
-              <Table stickyHeader sx={{ minWidth: 1500 }} aria-labelledby='tableTitle'>
+              <Table
+                stickyHeader
+                sx={{ minWidth: { xs: 1000, sm: 1000, lg: 1000 } }}
+                size='small'
+                aria-label='a dense table'
+              >
                 <EnhancedTableHead
                   headCells={roleWiseCells}
                   order={order}
@@ -134,81 +166,41 @@ const RoleWiseAttendance = () => {
                   onRequestSort={handleRequestSort}
                 />
                 <TableBody>
-                  {Array.from(new Array(rowsPerPage)).map((_, index) => (
-                    <TableRow key={index}>
-                      {roleWiseCells.map(cell => (
-                        <TableCell key={cell.id}>
-                          <Skeleton variant='text' />
-                        </TableCell>
-                      ))}
+                  {visibleRows.map((row, index) => {
+                    return (
+                      <TableRow key={row.id} sx={{ cursor: 'pointer' }}>
+                        <TableCell align='left'>{index + 1 + page * rowsPerPage}</TableCell>
+                        <TableCell align='left'>{row.userName}</TableCell>
+                        <TableCell align='left'>{row.date}</TableCell>
+                        <TableCell align='left'>{row.role}</TableCell>
+                        <TableCell align='left'>{row.startTime}</TableCell>
+                        <TableCell align='left'>{row.stopTime}</TableCell>
+                        <TableCell align='left'>{row.totalHours}</TableCell>
+                        <TableCell align='left'>{row.status}</TableCell>
+                      </TableRow>
+                    )
+                  })}
+
+                  {emptyRows > 0 && (
+                    <TableRow style={{ height: 53 * emptyRows }}>
+                      <TableCell colSpan={headCells.length} />
                     </TableRow>
-                  ))}
+                  )}
                 </TableBody>
               </Table>
             </TableContainer>
-          ) : visibleRows && visibleRows.length === 0 ? (
-            <Typography
-              textTransform={'uppercase'}
-              letterSpacing={1}
-              fontSize={15}
-              my={6}
-              textAlign={'center'}
-              fontWeight={600}
-            >
-              No Data Available Yet!
-            </Typography>
-          ) : (
-            <>
-              <TableContainer sx={{ height: '180px', border: `1px solid ${theme.palette.action.focus}` }}>
-                <Table
-                  stickyHeader
-                  sx={{ minWidth: { xs: 1000, sm: 1000, lg: 1000 } }}
-                  size='small'
-                  aria-label='a dense table'
-                >
-                  <EnhancedTableHead
-                    headCells={roleWiseCells}
-                    order={order}
-                    orderBy={orderBy}
-                    onRequestSort={handleRequestSort}
-                  />
-                  <TableBody>
-                    {visibleRows.map((row, index) => {
-                      return (
-                        <TableRow key={row.id} sx={{ cursor: 'pointer' }}>
-                          <TableCell align='left'>{index + 1 + page * rowsPerPage}</TableCell>
-                          <TableCell align='left'>{row.userName}</TableCell>
-                          <TableCell align='left'>{row.date}</TableCell>
-                          <TableCell align='left'>{row.role}</TableCell>
-                          <TableCell align='left'>{row.startTime}</TableCell>
-                          <TableCell align='left'>{row.stopTime}</TableCell>
-                          <TableCell align='left'>{row.totalHours}</TableCell>
-                          <TableCell align='left'>{row.status}</TableCell>
-                        </TableRow>
-                      )
-                    })}
-
-                    {emptyRows > 0 && (
-                      <TableRow style={{ height: 53 * emptyRows }}>
-                        <TableCell colSpan={headCells.length} />
-                      </TableRow>
-                    )}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-              <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
-                component='div'
-                count={roleAttendance.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
-            </>
-          )}
-        </Box>
-      </motion.div>
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 25]}
+              component='div'
+              count={roleAttendance.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </>
+        )}
+      </Box>
     </Card>
   )
 }

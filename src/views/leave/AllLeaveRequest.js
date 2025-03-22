@@ -6,19 +6,14 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableHead,
   TablePagination,
   TableRow,
-  TableSortLabel,
   Button,
   Typography,
   Skeleton,
   useTheme
 } from '@mui/material'
-import PropTypes from 'prop-types'
-import { visuallyHidden } from '@mui/utils'
 import useAllLeaveReqData from 'src/hooks/useAllLeaveReqData'
-import { motion } from 'framer-motion'
 import { getComparator, stableSort } from 'src/common/CommonLogic'
 import { EnhancedTableHead } from 'src/common/EnhancedTableHead'
 import { allLeaveCells } from 'src/TableHeader/TableHeader'
@@ -69,16 +64,50 @@ const LeaveRequest = () => {
 
   return (
     <Card sx={{ mt: 4, p: 5, boxShadow: '0px 9px 20px rgba(46, 35, 94, 0.07)' }}>
-      <motion.div
-        initial={{ opacity: 0, y: 15 }}
-        animate={{ opacity: 1, y: 0 }}
-        exist={{ opacity: 0, y: 15 }}
-        transition={{ delay: 0.25 }}
-      >
-        <Box sx={{ width: '100%' }}>
-          {loading ? (
+      <Box sx={{ width: '100%' }}>
+        {loading ? (
+          <TableContainer sx={{ height: '235px', border: `1px solid ${theme.palette.action.focus}` }}>
+            <Table stickyHeader sx={{ minWidth: { xs: 1500, sm: 1500, lg: 1500 } }} aria-labelledby='tableTitle'>
+              <EnhancedTableHead
+                headCells={allLeaveCells}
+                order={order}
+                orderBy={orderBy}
+                onRequestSort={handleRequestSort}
+              />
+              <TableBody>
+                {Array.from(new Array(rowsPerPage)).map((_, index) => (
+                  <TableRow key={index}>
+                    {allLeaveCells.map(cell => (
+                      <TableCell key={cell.id}>
+                        <Skeleton variant='text' height={25} />
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        ) : visibleRows && visibleRows.length === 0 ? (
+          <Typography
+            textTransform={'uppercase'}
+            letterSpacing={1}
+            fontSize={15}
+            my={6}
+            textAlign={'center'}
+            fontWeight={600}
+          >
+            No Data Available Yet!
+          </Typography>
+        ) : (
+          <>
+
             <TableContainer sx={{ height: '235px', border: `1px solid ${theme.palette.action.focus}` }}>
-              <Table stickyHeader sx={{ minWidth: { xs: 1500, sm: 1500, lg: 1500 } }} aria-labelledby='tableTitle'>
+              <Table
+                stickyHeader
+                sx={{ minWidth: { xs: 1800, sm: 1800, lg: 1800 } }}
+                size='small'
+                aria-label='a dense table'
+              >
                 <EnhancedTableHead
                   headCells={allLeaveCells}
                   order={order}
@@ -86,127 +115,86 @@ const LeaveRequest = () => {
                   onRequestSort={handleRequestSort}
                 />
                 <TableBody>
-                  {Array.from(new Array(rowsPerPage)).map((_, index) => (
-                    <TableRow key={index}>
-                      {allLeaveCells.map(cell => (
-                        <TableCell key={cell.id}>
-                          <Skeleton variant='text' height={25} />
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          ) : visibleRows && visibleRows.length === 0 ? (
-            <Typography
-              textTransform={'uppercase'}
-              letterSpacing={1}
-              fontSize={15}
-              my={6}
-              textAlign={'center'}
-              fontWeight={600}
-            >
-              No Data Available Yet!
-            </Typography>
-          ) : (
-            <>
-
-              <TableContainer sx={{ height: '235px', border: `1px solid ${theme.palette.action.focus}` }}>
-                <Table
-                  stickyHeader
-                  sx={{ minWidth: { xs: 1800, sm: 1800, lg: 1800 } }}
-                  size='small'
-                  aria-label='a dense table'
-                >
-                  <EnhancedTableHead
-                    headCells={allLeaveCells}
-                    order={order}
-                    orderBy={orderBy}
-                    onRequestSort={handleRequestSort}
-                  />
-                  <TableBody>
-                    {visibleRows.map((row, index) => {
-                      return (
-                        <TableRow hover role='checkbox' tabIndex={-1} key={row.id} sx={{ cursor: 'pointer' }}>
-                          <TableCell align='left'>{index + 1 + page * rowsPerPage}</TableCell>
-                          <TableCell align='left'>{row.userName}</TableCell>
-                          <TableCell align='left'>{row.applyingDate}</TableCell>
-                          <TableCell align='left'>{row.leaveName}</TableCell>
-                          <TableCell align='left'>{row.startDate}</TableCell>
-                          <TableCell align='left'>{row.endDate || '-'}</TableCell>
-                          <TableCell align='left'>{row.leaveType}</TableCell>
-                          <TableCell align='left'>{row.description}</TableCell>
-                          <TableCell align='left'>
-                            {(row.status === 'Pending' || !row.status) && (
-                              <>
-                                <Button
-                                  size='small'
-                                  variant='contained'
-                                  color='success'
-                                  sx={{ color: '#FFF !important', mr: 3 }}
-                                  onClick={() => handleApprove(row.id)}
-                                >
-                                  Approved
-                                </Button>
-                                <Button
-                                  size='small'
-                                  variant='contained'
-                                  color='error'
-                                  sx={{ color: '#FFF !important' }}
-                                  onClick={() => handleReject(row.id)}
-                                >
-                                  Rejected
-                                </Button>
-                              </>
-                            )}
-                            {row.status === 'Approved' && (
+                  {visibleRows.map((row, index) => {
+                    return (
+                      <TableRow hover role='checkbox' tabIndex={-1} key={row.id} sx={{ cursor: 'pointer' }}>
+                        <TableCell align='left'>{index + 1 + page * rowsPerPage}</TableCell>
+                        <TableCell align='left'>{row.userName}</TableCell>
+                        <TableCell align='left'>{row.applyingDate}</TableCell>
+                        <TableCell align='left'>{row.leaveName}</TableCell>
+                        <TableCell align='left'>{row.startDate}</TableCell>
+                        <TableCell align='left'>{row.endDate || '-'}</TableCell>
+                        <TableCell align='left'>{row.leaveType}</TableCell>
+                        <TableCell align='left'>{row.description}</TableCell>
+                        <TableCell align='left'>
+                          {(row.status === 'Pending' || !row.status) && (
+                            <>
                               <Button
                                 size='small'
                                 variant='contained'
                                 color='success'
-                                sx={{ color: '#FFF !important' }}
+                                sx={{ color: '#FFF !important', mr: 3 }}
+                                onClick={() => handleApprove(row.id)}
                               >
                                 Approved
                               </Button>
-                            )}
-                            {row.status === 'Rejected' && (
                               <Button
                                 size='small'
                                 variant='contained'
                                 color='error'
                                 sx={{ color: '#FFF !important' }}
-                                disabled
+                                onClick={() => handleReject(row.id)}
                               >
                                 Rejected
                               </Button>
-                            )}
-                          </TableCell>
-                        </TableRow>
-                      )
-                    })}
-
-                    {emptyRows > 0 && (
-                      <TableRow style={{ height: 53 * emptyRows }}>
-                        <TableCell colSpan={headCells.length} />
+                            </>
+                          )}
+                          {row.status === 'Approved' && (
+                            <Button
+                              size='small'
+                              variant='contained'
+                              color='success'
+                              sx={{ color: '#FFF !important' }}
+                            >
+                              Approved
+                            </Button>
+                          )}
+                          {row.status === 'Rejected' && (
+                            <Button
+                              size='small'
+                              variant='contained'
+                              color='error'
+                              sx={{ color: '#FFF !important' }}
+                              disabled
+                            >
+                              Rejected
+                            </Button>
+                          )}
+                        </TableCell>
                       </TableRow>
-                    )}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-              <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
-                component='div'
-                count={leaveReqData.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
-            </>
-          )}
-        </Box>
-      </motion.div>
+                    )
+                  })}
+
+                  {emptyRows > 0 && (
+                    <TableRow style={{ height: 53 * emptyRows }}>
+                      <TableCell colSpan={headCells.length} />
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 25]}
+              component='div'
+              count={leaveReqData.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </>
+        )}
+      </Box>
     </Card>
   )
 }

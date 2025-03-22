@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { Box, useTheme, Tooltip } from '@mui/material'
-import { motion } from 'framer-motion'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { styled } from '@mui/material/styles'
 import MuiTab from '@mui/material/Tab'
@@ -62,49 +61,42 @@ const Departments = () => {
 
     return (
         <TabContext value={value}>
-            <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                exist={{ opacity: 0, y: 15 }}
-                transition={{ delay: 0.25 }}
+            <Box
+                sx={{
+                    borderTop: `1px solid ${theme.palette.customColors.borderPrimary}`,
+                    borderBottom: `1px solid ${theme.palette.customColors.borderPrimary}`,
+                    borderRadius: '12px'
+                }}
             >
-                <Box
-                    sx={{
-                        borderTop: `1px solid ${theme.palette.customColors.borderPrimary}`,
-                        borderBottom: `1px solid ${theme.palette.customColors.borderPrimary}`,
-                        borderRadius: '12px'
-                    }}
+                <TabList
+                    onChange={handleChange}
+                    aria-label='account-settings tabs'
+                    indicatorColor='none'
                 >
-                    <TabList
-                        onChange={handleChange}
-                        aria-label='account-settings tabs'
-                        indicatorColor='none'
-                    >
-                        <Tab
-                            value='department'
-                            label={
-                                <Tooltip title='Department'>
-                                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                        <PackageSearchIcon />
-                                        <TabName>Department</TabName>
-                                    </Box>
-                                </Tooltip>
-                            }
-                        />
-                        <Tab
-                            value='designation'
-                            label={
-                                <Tooltip title='Designation'>
-                                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                        <IdVerifiedIcon />
-                                        <TabName>Designation</TabName>
-                                    </Box>
-                                </Tooltip>
-                            }
-                        />
-                    </TabList>
-                </Box>
-            </motion.div>
+                    <Tab
+                        value='department'
+                        label={
+                            <Tooltip title='Department'>
+                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                    <PackageSearchIcon />
+                                    <TabName>Department</TabName>
+                                </Box>
+                            </Tooltip>
+                        }
+                    />
+                    <Tab
+                        value='designation'
+                        label={
+                            <Tooltip title='Designation'>
+                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                    <IdVerifiedIcon />
+                                    <TabName>Designation</TabName>
+                                </Box>
+                            </Tooltip>
+                        }
+                    />
+                </TabList>
+            </Box>
 
             <TabPanel sx={{ p: 0 }} value='department'>
                 <Department />

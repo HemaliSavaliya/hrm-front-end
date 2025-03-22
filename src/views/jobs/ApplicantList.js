@@ -13,7 +13,6 @@ import {
   TextField,
   useTheme
 } from '@mui/material'
-import { motion } from 'framer-motion'
 import axios from 'axios'
 import { formStyles } from 'src/Styles'
 import { EnhancedTableHead } from 'src/common/EnhancedTableHead'
@@ -98,16 +97,49 @@ const ApplicantList = () => {
           onChange={handleSearchChange}
         />
       </Box>
-      <motion.div
-        initial={{ opacity: 0, y: 15 }}
-        animate={{ opacity: 1, y: 0 }}
-        exist={{ opacity: 0, y: 15 }}
-        transition={{ delay: 0.25 }}
-      >
-        <Box sx={{ width: '100%' }}>
-          {loading ? (
+      <Box sx={{ width: '100%' }}>
+        {loading ? (
+          <TableContainer sx={{ height: '180px', border: `1px solid ${theme.palette.action.focus}` }}>
+            <Table stickyHeader sx={{ minWidth: { xs: 1500, sm: 1500, lg: 1500 } }} aria-labelledby='tableTitle'>
+              <EnhancedTableHead
+                headCells={applicantCells}
+                order={order}
+                orderBy={orderBy}
+                onRequestSort={handleRequestSort}
+              />
+              <TableBody>
+                {Array.from(new Array(rowsPerPage)).map((_, index) => (
+                  <TableRow key={index}>
+                    {applicantCells.map(cell => (
+                      <TableCell key={cell.id}>
+                        <Skeleton variant='text' />
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        ) : visibleRows && visibleRows.length === 0 ? (
+          <Typography
+            textTransform={'uppercase'}
+            letterSpacing={1}
+            fontSize={15}
+            my={6}
+            textAlign={'center'}
+            fontWeight={600}
+          >
+            No Data Available Yet!
+          </Typography>
+        ) : (
+          <>
             <TableContainer sx={{ height: '180px', border: `1px solid ${theme.palette.action.focus}` }}>
-              <Table stickyHeader sx={{ minWidth: { xs: 1500, sm: 1500, lg: 1500 } }} aria-labelledby='tableTitle'>
+              <Table
+                stickyHeader
+                sx={{ minWidth: { xs: 1000, sm: 1000, lg: 1000 } }}
+                size='small'
+                aria-label='a dense table'
+              >
                 <EnhancedTableHead
                   headCells={applicantCells}
                   order={order}
@@ -115,82 +147,42 @@ const ApplicantList = () => {
                   onRequestSort={handleRequestSort}
                 />
                 <TableBody>
-                  {Array.from(new Array(rowsPerPage)).map((_, index) => (
-                    <TableRow key={index}>
-                      {applicantCells.map(cell => (
-                        <TableCell key={cell.id}>
-                          <Skeleton variant='text' />
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          ) : visibleRows && visibleRows.length === 0 ? (
-            <Typography
-              textTransform={'uppercase'}
-              letterSpacing={1}
-              fontSize={15}
-              my={6}
-              textAlign={'center'}
-              fontWeight={600}
-            >
-              No Data Available Yet!
-            </Typography>
-          ) : (
-            <>
-              <TableContainer sx={{ height: '180px', border: `1px solid ${theme.palette.action.focus}` }}>
-                <Table
-                  stickyHeader
-                  sx={{ minWidth: { xs: 1000, sm: 1000, lg: 1000 } }}
-                  size='small'
-                  aria-label='a dense table'
-                >
-                  <EnhancedTableHead
-                    headCells={applicantCells}
-                    order={order}
-                    orderBy={orderBy}
-                    onRequestSort={handleRequestSort}
-                  />
-                  <TableBody>
-                    {visibleRows.map((row, index) => {
-                      return (
-                        <TableRow hover role='checkbox' tabIndex={-1} key={row.id} sx={{ cursor: 'pointer' }}>
-                          <TableCell align='left'>{index + 1 + page * rowsPerPage}</TableCell>
-                          <TableCell align='left'>{row.applicantName}</TableCell>
-                          <TableCell align='left'>{row.applicantEmail}</TableCell>
-                          <TableCell align='left'>{row.jobTitle}</TableCell>
-                          <TableCell align='left'>{row.phoneNumber}</TableCell>
-                          <TableCell align='left'>{row.cv || '-'}</TableCell>
-                          {/* <TableCell align="center">
+                  {visibleRows.map((row, index) => {
+                    return (
+                      <TableRow hover role='checkbox' tabIndex={-1} key={row.id} sx={{ cursor: 'pointer' }}>
+                        <TableCell align='left'>{index + 1 + page * rowsPerPage}</TableCell>
+                        <TableCell align='left'>{row.applicantName}</TableCell>
+                        <TableCell align='left'>{row.applicantEmail}</TableCell>
+                        <TableCell align='left'>{row.jobTitle}</TableCell>
+                        <TableCell align='left'>{row.phoneNumber}</TableCell>
+                        <TableCell align='left'>{row.cv || '-'}</TableCell>
+                        {/* <TableCell align="center">
                         <PencilOutline onClick={() => handleEditButtonClick(row.id)} />
                         <DeleteOutline onClick={() => deleteEmployee(row.id)} />
                       </TableCell> */}
-                        </TableRow>
-                      )
-                    })}
-                    {emptyRows > 0 && (
-                      <TableRow style={{ height: 53 * emptyRows }}>
-                        <TableCell colSpan={headCells.length} />
                       </TableRow>
-                    )}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-              <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
-                component='div'
-                count={applicant.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
-            </>
-          )}
-        </Box>
-      </motion.div>
+                    )
+                  })}
+                  {emptyRows > 0 && (
+                    <TableRow style={{ height: 53 * emptyRows }}>
+                      <TableCell colSpan={headCells.length} />
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 25]}
+              component='div'
+              count={applicant.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </>
+        )}
+      </Box>
     </Card>
   )
 }
