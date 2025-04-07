@@ -214,7 +214,7 @@ const ProjectForm = ({ handleClose, editProjectId, setOpen, projectData, addProj
                 <InputLabel id='form-layouts-separator-select-label' sx={styles.inputLabelDrop}>Status</InputLabel>
                 <Select
                   label='Status'
-                  defaultValue='Active'
+                  defaultValue='Upcoming'
                   labelId='form-layouts-separator-select-label'
                   id='status'
                   name='status'
@@ -222,8 +222,9 @@ const ProjectForm = ({ handleClose, editProjectId, setOpen, projectData, addProj
                   onChange={handleInputChange}
                   sx={styles.inputFieldDrop}
                 >
-                  <MenuItem value='Active'>Active</MenuItem>
-                  <MenuItem value='Inactive'>Inactive</MenuItem>
+                  <MenuItem value='Upcoming'>Upcoming</MenuItem>
+                  <MenuItem value='Inprogress'>Inprogress</MenuItem>
+                  <MenuItem value='Completed'>Completed</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
