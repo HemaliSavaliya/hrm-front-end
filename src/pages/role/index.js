@@ -1,10 +1,5 @@
-import {
-  Box,
-  Card,
-  TextField,
-  useTheme,
-} from '@mui/material'
-import React from 'react'
+import { Box, Card, TextField, useTheme } from '@mui/material'
+import React, { useEffect, useState } from 'react'
 import useRoleData from 'src/hooks/useRoleData'
 import { Toaster } from 'react-hot-toast'
 import RoleModal from 'src/components/RoleModal/RoleModal'
@@ -35,37 +30,46 @@ const Role = () => {
     setSortOrder
   } = useRoleData()
   const theme = useTheme()
-  const styles = formStyles(theme);
+  const styles = formStyles(theme)
+  const [debounceTimeout, setDebounceTimeout] = useState(null)
 
   const handleInputChange = event => {
     const value = event.target.value
     setSearch(value)
 
-    if (value === '') {
+    // Clear the previous timeout
+    if (debounceTimeout) {
+      clearTimeout(debounceTimeout)
+    }
+
+    // Set a new timeout
+    setDebounceTimeout(
+      setTimeout(() => {
+        fetchRole(value) // Call fetchRole after a delay
+      }, 300)
+    ) // 300 milliseconds delay
+  }
+
+  useEffect(() => {
+    if (search === '') {
       fetchRole() // Fetch original data when search box is cleared
     }
-  }
+  }, [search])
 
-  const handleSearchChange = event => {
-    if (event.key === 'Enter') {
-      fetchRole() // Trigger the search when Enter is pressed
-    }
-  }
-
-  if (loading) {
-    return (
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '80vh'
-        }}
-      >
-        <img src='/images/loader.svg' alt='loader' />
-      </div>
-    )
-  }
+  // if (loading) {
+  //   return (
+  //     <div
+  //       style={{
+  //         display: 'flex',
+  //         justifyContent: 'center',
+  //         alignItems: 'center',
+  //         height: '80vh'
+  //       }}
+  //     >
+  //       <img src='/images/loader.svg' alt='loader' />
+  //     </div>
+  //   )
+  // }
 
   return (
     <>
@@ -97,7 +101,7 @@ const Role = () => {
             size='small'
             value={search}
             onChange={handleInputChange} // Update the input value as the user types
-            onKeyDown={handleSearchChange} // Trigger the search when Enter is pressed
+            // onKeyDown={handleSearchChange} // Trigger the search when Enter is pressed
             sx={{ mt: { xs: 3, sm: 0, lg: 0 }, ...styles.inputLabel, ...styles.inputField }}
           />
         </Box>

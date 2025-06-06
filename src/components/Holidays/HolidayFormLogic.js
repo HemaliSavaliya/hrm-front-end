@@ -59,6 +59,7 @@ const HolidayFormLogic = (holidayData, editHolidayId) => {
     if (!dateStr) return ''
 
     const [day, month, year] = dateStr.split(' ')
+    
     const monthIndex = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'].indexOf(
       month
     )

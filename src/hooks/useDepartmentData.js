@@ -10,14 +10,16 @@ const useDepartmentData = () => {
   const [open, setOpen] = useState(false)
   const [scroll, setScroll] = useState('body')
   const [loading, setLoading] = useState(true)
-  const [searchQuery, setSearchQuery] = useState('')
+  // const [searchQuery, setSearchQuery] = useState('')
+  const [totalItems, setTotalItems] = useState(0)
+  const [totalPages, setTotalPages] = useState(0)
+  const [page, setPage] = useState(0) // Material-UI pagination starts from 0
+  const [rowsPerPage, setRowsPerPage] = useState(5)
+  const [search, setSearch] = useState('')
+  const [sortBy, setSortBy] = useState('departmentName')
+  const [sortOrder, setSortOrder] = useState('asc')
   const authToken = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('login-details')) : null
   const theme = useTheme()
-
-  // Handle search input
-  const handleSearchChange = (event) => {
-    setSearchQuery(event.target.value)
-  }
 
   const handleClose = () => {
     setOpen(false)
@@ -87,16 +89,23 @@ const useDepartmentData = () => {
     }
   }
 
-  const fetchDepartment = async () => {
+  const fetchDepartment = async (searchValue = '') => {
     setLoading(true)
+    const companyId = authToken?.companyId
+
     try {
       const response = await axios.get(`http://localhost:9000/api/department-list`, {
         headers: {
           Authorization: `Bearer ${authToken?.token}`
-        }
+        },
+        params: { page: page + 1, limit: rowsPerPage, companyId, search: searchValue, sortBy, sortOrder }
       })
 
-      setDepartmentData(response.data)
+      const { data, totalItems, totalPages } = response.data
+
+      setDepartmentData(data)
+      setTotalItems(totalItems)
+      setTotalPages(totalPages)
     } catch (error) {
       console.error('Error fetching department:', error)
     } finally {
@@ -106,7 +115,7 @@ const useDepartmentData = () => {
 
   useEffect(() => {
     fetchDepartment()
-  }, [authToken?.token])
+  }, [authToken?.token, authToken?.companyId, page, rowsPerPage, sortBy, sortOrder])
 
   // Function to add from data to localStorage
   const addDepartments = async newDepartment => {
@@ -224,15 +233,24 @@ const useDepartmentData = () => {
     editDepartId,
     open,
     handleEdit,
-    handleSearchChange,
-    searchQuery,
     setOpen,
     scroll,
     handleClickOpen,
     handleClose,
     addDepartments,
     editDepartments,
-    updateDepartmentStatus
+    updateDepartmentStatus,
+    totalItems,
+    totalPages,
+    page,
+    rowsPerPage,
+    search,
+    fetchDepartment,
+    setPage,
+    setRowsPerPage,
+    setSearch,
+    setSortBy,
+    setSortOrder
   }
 }
 

@@ -31,7 +31,7 @@ const useRoleData = () => {
     setScroll(scrollType)
   }
 
-  const fetchRole = async () => {
+  const fetchRole = async (searchValue = '') => {
     setLoading(true)
     const companyId = authToken?.companyId
 
@@ -40,7 +40,7 @@ const useRoleData = () => {
         headers: {
           Authorization: `Bearer ${authToken?.token}`
         },
-        params: { page: page + 1, limit: rowsPerPage, companyId, search, sortBy, sortOrder }
+        params: { page: page + 1, limit: rowsPerPage, companyId, search: searchValue, sortBy, sortOrder }
       })
 
       const { data, totalItems, totalPages } = response.data
@@ -49,7 +49,7 @@ const useRoleData = () => {
       setTotalItems(totalItems)
       setTotalPages(totalPages)
     } catch (error) {
-      console.error('Error fetching department:', error)
+      console.error('Error fetching roles:', error)
     } finally {
       setLoading(false)
     }

@@ -225,7 +225,9 @@ const EmployeeModalLogic = (employeeData, editEmployeeId) => {
       const response = await axios.get(`http://localhost:9000/api/department-list`, {
         headers: {
           Authorization: `Bearer ${authToken?.token}`
-        }
+        },
+        
+        // params: { companyId: authToken?.companyId }
       })
 
       const filterData = response.data.filter(data => data.status === 'Active')
@@ -242,7 +244,9 @@ const EmployeeModalLogic = (employeeData, editEmployeeId) => {
       const response = await axios.get(`http://localhost:9000/api/designation-list`, {
         headers: {
           Authorization: `Bearer ${authToken?.token}`
-        }
+        },
+
+        // params: { companyId: authToken?.companyId }
       })
 
       const filterData = response.data.filter(data => data.status === 'Active')
